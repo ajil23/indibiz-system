@@ -61,7 +61,7 @@
                                 <li><a href="{{ route('lokasi.index') }}">Kategori Lokasi</a></li>
                                 <li><a href="{{ route('bbm.index') }}">Jenis BBM</a></li>
                                 <li><a href="{{route('tnkb.index')}}">TNKB</a></li>
-                                <li><a href="./user-listing.html">Jenis Produk</a></li>
+                                <li><a href="{{route('jenis-produk.index')}}">Jenis Produk</a></li>
                             </ul>
                         </div>
                     </li>
