@@ -47,7 +47,7 @@
                             <span class="menu-link">Setting Indibiz</span></a>
                         <div class="collapse" id="collapseMenuItemSetting">
                             <ul class="submenu">
-                                <li><a href="./user-listing.html">Kategori Lokasi</a></li>
+                                <li><a href="{{route('lokasi.index')}}">Kategori Lokasi</a></li>
                                 <li><a href="./user-listing.html">Jenis BBM</a></li>
                                 <li><a href="./user-listing.html">TNKB</a></li>
                                 <li><a href="./user-listing.html">Jenis Produk</a></li>

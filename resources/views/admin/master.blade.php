@@ -13,10 +13,10 @@
     <meta name="keywords" content="">
 
     <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="./assets/images/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./assets/images/favicon/favicon-16x16.png">
-    <link rel="mask-icon" href="./assets/images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{asset('assets/images/favicon/apple-touch-icon.png')}}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('assets/images/favicon/favicon-32x32.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/images/favicon/favicon-16x16.png')}}">
+    <link rel="mask-icon" href="{{asset('assets/images/favicon/safari-pinned-tab.svg')}}" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
@@ -27,10 +27,10 @@
         rel="stylesheet">
 
     <!-- Vendor CSS -->
-    <link rel="stylesheet" href="./assets/css/libs.bundle.css" />
+    <link rel="stylesheet" href="{{asset('assets/css/libs.bundle.css')}}" />
 
     <!-- Main CSS -->
-    <link rel="stylesheet" href="./assets/css/theme.bundle.css" />
+    <link rel="stylesheet" href="{{asset('assets/css/theme.bundle.css')}}" />
 
     <!-- Fix for custom scrollbar if JS is disabled-->
     <noscript>
@@ -85,10 +85,13 @@
         </div>
     </div>
     <!-- Vendor JS -->
-    <script src="./assets/js/vendor.bundle.js"></script>
+    <script src="{{asset('assets/js/vendor.bundle.js')}}"></script>
 
     <!-- Theme JS -->
-    <script src="./assets/js/theme.bundle.js"></script>
+    <script src="{{asset('assets/js/theme.bundle.js')}}"></script>
+
+    {{-- sweetalert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {{-- Add JS --}}
     @yield('js')
