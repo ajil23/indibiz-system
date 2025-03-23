@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BahanBakarController;
 use App\Http\Controllers\Admin\LokasiController;
 use App\Http\Controllers\Users\AdminController;
 use App\Http\Controllers\Users\PimpinanController;
@@ -20,12 +21,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
         // Kategori lokasi
-        Route::group(['prefix' => 'kategori-lokasi'], function () {
-            Route::get('/view', [LokasiController::class, 'index'])->name('lokasi.index');
-            Route::post('/store', [LokasiController::class, 'store'])->name('lokasi.store');
-            Route::put('/lokasi/{id}', [LokasiController::class, 'update'])->name('lokasi.update');
-            Route::delete('/lokasi/{id}', [LokasiController::class, 'destroy'])->name('lokasi.destroy');
-        });
+        Route::get('/view/kategori-lokasi', [LokasiController::class, 'index'])->name('lokasi.index');
+        Route::post('/store/kategori-lokasi', [LokasiController::class, 'store'])->name('lokasi.store');
+        Route::put('/lokasi/{id}/kategori-lokasi', [LokasiController::class, 'update'])->name('lokasi.update');
+        Route::delete('/lokasi/{id}/kategori-lokasi', [LokasiController::class, 'destroy'])->name('lokasi.destroy');
+
+        // Jenis BBM
+        Route::get('/view/jenis-bbm', [BahanBakarController::class, 'index'])->name('bbm.index');
+        Route::post('/store/jenis-bbm', [BahanBakarController::class, 'store'])->name('bbm.store');
+        Route::put('/bbm/{id}/jenis-bbm', [BahanBakarController::class, 'update'])->name('bbm.update');
+        Route::delete('/bbm/{id}/jenis-bbm', [BahanBakarController::class, 'destroy'])->name('bbm.destroy');
     });
     Route::group(['middleware' => ['loginCheck:admin']], function () {
         Route::resource('pimpinan', PimpinanController::class);
