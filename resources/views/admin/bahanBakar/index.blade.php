@@ -7,7 +7,7 @@
     <section class="container-fluid">
 
         <!-- Page Title-->
-        <h2 class="fs-3 fw-bold mb-2">Kategori Lokasi</h2>
+        <h2 class="fs-3 fw-bold mb-2">Jenis BBM</h2>
         <!-- / Page Title-->
 
         <!-- Top Row Widgets-->
@@ -16,7 +16,7 @@
             <div class="col-12">
                 <div class="card mb-4 h-100">
                     <div class="card-header justify-content-between align-items-center d-flex">
-                        <h6 class="card-title m-0">Tabel Kategori Lokasi</h6>
+                        <h6 class="card-title m-0">Tabel Jenis BBM</h6>
                         <!-- Tombol Tambah -->
                         <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahModal">
                             Tambah Data
@@ -28,23 +28,25 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Nama Sektor</th>
-                                        <th>Sub Sektor</th>
+                                        <th>Nama</th>
+                                        <th>Deskripsi</th>
+                                        <th>Harga</th>
                                         <th colspan="2">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($lokasi as $item)
+                                    @foreach ($bbm as $item)
                                         <tr>
                                             <td><span class="fw-bolder">{{ $loop->iteration }}</span></td>
-                                            <td>{{ $item->nama_sektor }}</td>
-                                            <td>{{ $item->sub_sektor }}</td>
+                                            <td>{{ $item->nama_bbm }}</td>
+                                            <td>{{ $item->deskripsi }}</td>
+                                            <td>{{ $item->harga }}</td>
                                             <td>
                                                 <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                                     data-bs-target="#editModal{{ $item->id }}">
                                                     Edit
                                                 </button>
-                                                <form action="{{ route('lokasi.destroy', $item->id) }}" method="POST"
+                                                <form action="{{ route('bbm.destroy', $item->id) }}" method="POST"
                                                     class="d-inline delete-form">
                                                     @csrf
                                                     @method('DELETE')
@@ -58,30 +60,37 @@
                                         <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1"
                                             aria-labelledby="editModalLabel{{ $item->id }}" aria-hidden="true">
                                             <div class="modal-dialog">
-                                                <form action="{{ route('lokasi.update', $item->id) }}" method="POST">
+                                                <form action="{{ route('bbm.update', $item->id) }}" method="POST">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="editModalLabel{{ $item->id }}">
-                                                                Edit Kategori Lokasi</h5>
+                                                                Edit Jenis BBM</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="mb-3">
-                                                                <label for="nama_sektor{{ $item->id }}"
-                                                                    class="form-label">Nama Sektor</label>
+                                                                <label for="nama_bbm{{ $item->id }}"
+                                                                    class="form-label">Nama BBM</label>
                                                                 <input type="text" class="form-control"
-                                                                    id="nama_sektor{{ $item->id }}" name="nama_sektor"
-                                                                    value="{{ $item->nama_sektor }}" required>
+                                                                    id="nama_bbm{{ $item->id }}" name="nama_bbm"
+                                                                    value="{{ $item->nama_bbm }}" required>
                                                             </div>
                                                             <div class="mb-3">
-                                                                <label for="sub_sektor{{ $item->id }}"
-                                                                    class="form-label">Sub Sektor</label>
+                                                                <label for="harga{{ $item->id }}"
+                                                                    class="form-label">Harga</label>
                                                                 <input type="text" class="form-control"
-                                                                    id="sub_sektor{{ $item->id }}" name="sub_sektor"
-                                                                    value="{{ $item->sub_sektor }}" required>
+                                                                    id="harga{{ $item->id }}" name="harga"
+                                                                    value="{{ $item->harga }}" required>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="deskripsi{{ $item->id }}"
+                                                                    class="form-label">Deskripsi</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="deskripsi{{ $item->id }}" name="deskripsi"
+                                                                    value="{{ $item->deskripsi }}" required>
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
@@ -98,7 +107,7 @@
                             </table>
                         </div>
                         <div class="mt-3 d-flex justify-content-end">
-                            {{ $lokasi->links('pagination::bootstrap-5') }}
+                            {{ $bbm->links('pagination::bootstrap-5') }}
                         </div>
 
                     </div>
@@ -109,21 +118,25 @@
         <!-- Modal Tambah Data -->
         <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <form action="{{ route('lokasi.store') }}" method="POST">
+                <form action="{{ route('bbm.store') }}" method="POST">
                     @csrf
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="tambahModalLabel">Tambah Kategori Lokasi</h5>
+                            <h5 class="modal-title" id="tambahModalLabel">Tambah Jenis BBM</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="nama_sektor" class="form-label">Nama Sektor</label>
-                                <input type="text" class="form-control" id="nama_sektor" name="nama_sektor" required>
+                                <label for="nama_bbm" class="form-label">Nama BBM</label>
+                                <input type="text" class="form-control" id="nama_bbm" name="nama_bbm" required>
                             </div>
                             <div class="mb-3">
-                                <label for="sub_sektor" class="form-label">Sub Sektor</label>
-                                <input type="text" class="form-control" id="sub_sektor" name="sub_sektor" required>
+                                <label for="harga" class="form-label">Harga</label>
+                                <input type="text" class="form-control" id="harga" name="harga" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="deskripsi" class="form-label">Deskripsi</label>
+                                <input type="text" class="form-control" id="deskripsi" name="deskripsi" required>
                             </div>
                         </div>
                         <div class="modal-footer">
