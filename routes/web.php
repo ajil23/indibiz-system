@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BahanBakarController;
 use App\Http\Controllers\Admin\JenisProdukController;
 use App\Http\Controllers\Admin\LokasiController;
+use App\Http\Controllers\Admin\PenawaranController;
 use App\Http\Controllers\Admin\TnkbController;
 use App\Http\Controllers\Users\AdminController;
 use App\Http\Controllers\Users\PimpinanController;
@@ -37,12 +38,18 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store/tnkb', [TnkbController::class, 'store'])->name('tnkb.store');
         Route::put('/tnkb/{id}/tnkb', [TnkbController::class, 'update'])->name('tnkb.update');
         Route::delete('/tnkb/{id}/tnkb', [TnkbController::class, 'destroy'])->name('tnkb.destroy');
-
+        
         // Jenis Produk
         Route::get('/view/jenis-produk', [JenisProdukController::class, 'index'])->name('jenis-produk.index');
         Route::post('/store/jenis-produk', [JenisProdukController::class, 'store'])->name('jenis-produk.store');
         Route::put('/jenis-produk/{id}/jenis-produk', [JenisProdukController::class, 'update'])->name('jenis-produk.update');
         Route::delete('/jenis-produk/{id}/jenis-produk', [JenisProdukController::class, 'destroy'])->name('jenis-produk.destroy');
+        
+        // Penawaran
+        Route::get('/view/penawaran', [PenawaranController::class, 'index'])->name('penawaran.index');
+        Route::post('/store/penawaran', [PenawaranController::class, 'store'])->name('penawaran.store');
+        Route::put('/penawaran/{id}/penawaran', [PenawaranController::class, 'update'])->name('penawaran.update');
+        Route::delete('/penawaran/{id}/penawaran', [PenawaranController::class, 'destroy'])->name('penawaran.destroy');
     });
     Route::group(['middleware' => ['loginCheck:admin']], function () {
         Route::resource('pimpinan', PimpinanController::class);
