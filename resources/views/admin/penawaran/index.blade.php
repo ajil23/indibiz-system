@@ -112,7 +112,7 @@
                         <h5 class="modal-title" id="exportModalLabel">Export Data</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form id="exportForm" action="{{route('export.data')}}" method="POST">
+                    <form id="exportForm" action="{{route('penawaran.exportData')}}" method="POST">
                         @csrf
                         <div class="modal-body">
                             <p>Pilih format untuk mengekspor data:</p>
