@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BahanBakarController;
 use App\Http\Controllers\Admin\JenisProdukController;
 use App\Http\Controllers\Admin\LokasiController;
 use App\Http\Controllers\Admin\PenawaranController;
+use App\Http\Controllers\Admin\PenjualanController;
 use App\Http\Controllers\Admin\TnkbController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\Users\AdminController;
@@ -51,6 +52,13 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store/penawaran', [PenawaranController::class, 'store'])->name('penawaran.store');
         Route::put('/penawaran/{id}/penawaran', [PenawaranController::class, 'update'])->name('penawaran.update');
         Route::delete('/penawaran/{id}/penawaran', [PenawaranController::class, 'destroy'])->name('penawaran.destroy');
+        
+        // Penjualan
+        Route::get('/view/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
+        Route::post('/store/penjualan', [PenjualanController::class, 'store'])->name('penjualan.store');
+        Route::put('/penjualan/{id}/penjualan', [PenjualanController::class, 'update'])->name('penjualan.update');
+        Route::delete('/penjualan/{id}/penjualan', [PenjualanController::class, 'destroy'])->name('penjualan.destroy');
+        Route::post('/export/penjualan', [PenjualanController::class, 'exportData'])->name('penjualan.exportData');
     });
     Route::group(['middleware' => ['loginCheck:admin']], function () {
         Route::resource('pimpinan', PimpinanController::class);
