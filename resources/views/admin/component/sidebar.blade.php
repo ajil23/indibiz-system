@@ -116,7 +116,7 @@
                             <span class="menu-link">Pelaporan BBM</span></a>
                         <div class="collapse" id="collapseMenuItemPelaporan">
                             <ul class="submenu">
-                                <li><a href="./user-listing.html">Pelaporan</a></li>
+                                <li><a href="{{route('pelaporan.index')}}">Pelaporan</a></li>
                                 <li><a href="./user-listing.html">Pembelian BBM</a></li>
                             </ul>
                         </div>

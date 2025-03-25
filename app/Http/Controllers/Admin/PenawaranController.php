@@ -7,6 +7,9 @@ use App\Models\Lokasi;
 use App\Models\Penawaran;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\DataExport;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PenawaranController extends Controller
 {
@@ -63,5 +66,19 @@ class PenawaranController extends Controller
             'feedback' => $request->feedback,
         ]);
         return back()->with('success', 'Feedback berhasil disimpan!');
+    }
+
+    public function exportData(Request $request)
+    {
+        $exportType = $request->input('exportType');
+
+        if ($exportType === 'excel') {
+            return Excel::download(new DataExport, 'data.xlsx');
+        } elseif ($exportType === 'pdf') {
+            $pdf = Pdf::loadView('exports.pdf', ['data' => Penawaran::all()]);
+            return $pdf->download('data.pdf');
+        }
+
+        return back()->with('error', 'Format tidak valid');
     }
 }
