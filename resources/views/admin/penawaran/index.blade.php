@@ -17,10 +17,12 @@
                 <div class="card mb-4 h-100">
                     <div class="card-header justify-content-between align-items-center d-flex">
                         <h6 class="card-title m-0">Tabel Penawaran</h6>
-                        <!-- Tombol Tambah -->
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahModal">
-                            Tambah Data
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exportModal">
+                            Export
                         </button>
+                        {{-- <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahModal">
+                            Tambah Data
+                        </button> --}}
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -103,7 +105,35 @@
             </div>
         </div>
 
-        <!-- Modal Tambah Data -->
+        <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exportModalLabel">Export Data</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="exportForm" action="{{route('export.data')}}" method="POST">
+                        @csrf
+                        <div class="modal-body">
+                            <p>Pilih format untuk mengekspor data:</p>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exportType" id="exportExcel" value="excel" checked>
+                                <label class="form-check-label" for="exportExcel">Export as Excel</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exportType" id="exportPDF" value="pdf">
+                                <label class="form-check-label" for="exportPDF">Export as PDF</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {{-- <!-- Modal Tambah Data -->
         <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <form action="{{ route('penawaran.store') }}" method="POST" enctype="multipart/form-data">
@@ -185,7 +215,7 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div> --}}
 
 
         <!-- Footer -->

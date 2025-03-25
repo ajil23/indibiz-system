@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\JenisProdukController;
 use App\Http\Controllers\Admin\LokasiController;
 use App\Http\Controllers\Admin\PenawaranController;
 use App\Http\Controllers\Admin\TnkbController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\Users\AdminController;
 use App\Http\Controllers\Users\PimpinanController;
 use App\Http\Controllers\Users\SalesController;
@@ -58,3 +59,5 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('sales', SalesController::class);
     });
 });
+
+Route::post('/export', [ExportController::class, 'exportData'])->name('export.data');
