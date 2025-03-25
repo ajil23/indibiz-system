@@ -58,7 +58,6 @@ class PenawaranController extends Controller
         $request->validate([
             'feedback' => 'required',
         ]);
-        // dd($request);
         $penawaran = Penawaran::findOrFail($id);
         $penawaran->update([
             'feedback' => $request->feedback,
