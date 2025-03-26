@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\PembelianBBMController;
 use App\Http\Controllers\Admin\PenawaranController;
 use App\Http\Controllers\Admin\PenjualanController;
 use App\Http\Controllers\Admin\TnkbController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\Users\AdminController;
 use App\Http\Controllers\Users\PimpinanController;
@@ -72,6 +73,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/view/pembelian_bbm', [PembelianBBMController::class, 'index'])->name('pembelian.index');
         Route::post('/store/pembelian_bbm', [PembelianBBMController::class, 'store'])->name('pembelian.store');
         Route::post('/export/pembelian_bbm', [PembelianBBMController::class, 'exportData'])->name('pembelian.exportData');
+
+        // User
+        Route::get('/view/user', [UserController::class, 'index'])->name('user.index');
+        Route::post('/store/user', [UserController::class, 'store'])->name('user.store');
+        Route::put('/user/{id}/user', [UserController::class, 'update'])->name('user.update');
+        Route::delete('/user/{id}/user', [UserController::class, 'destroy'])->name('user.destroy');
     });
     Route::group(['middleware' => ['loginCheck:admin']], function () {
         Route::resource('pimpinan', PimpinanController::class);
