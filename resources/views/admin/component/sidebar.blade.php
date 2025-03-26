@@ -136,7 +136,7 @@
                             <span class="menu-link">User Management</span></a>
                         <div class="collapse" id="collapseMenuItemManagement">
                             <ul class="submenu">
-                                <li><a href="./user-listing.html">Sales Indibiz</a></li>
+                                <li><a href="{{route('user.index')}}">Sales Indibiz</a></li>
                             </ul>
                         </div>
                     </li>
