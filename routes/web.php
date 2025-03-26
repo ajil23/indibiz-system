@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BahanBakarController;
 use App\Http\Controllers\Admin\JenisProdukController;
 use App\Http\Controllers\Admin\LokasiController;
 use App\Http\Controllers\Admin\PelaporanKendaraanController;
+use App\Http\Controllers\Admin\PembelianBBMController;
 use App\Http\Controllers\Admin\PenawaranController;
 use App\Http\Controllers\Admin\PenjualanController;
 use App\Http\Controllers\Admin\TnkbController;
@@ -66,6 +67,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/view/pelaporan_kendaraan', [PelaporanKendaraanController::class, 'index'])->name('pelaporan.index');
         Route::post('/store/pelaporan_kendaraan', [PelaporanKendaraanController::class, 'store'])->name('pelaporan.store');
         Route::post('/export/pelaporan_kendaraan', [PelaporanKendaraanController::class, 'exportData'])->name('pelaporan.exportData');
+
+        // Pembelian BBM
+        Route::get('/view/pembelian_bbm', [PembelianBBMController::class, 'index'])->name('pembelian.index');
+        Route::post('/store/pembelian_bbm', [PembelianBBMController::class, 'store'])->name('pembelian.store');
+        Route::post('/export/pembelian_bbm', [PembelianBBMController::class, 'exportData'])->name('pembelian.exportData');
     });
     Route::group(['middleware' => ['loginCheck:admin']], function () {
         Route::resource('pimpinan', PimpinanController::class);

@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('pembelian_bbm', function (Blueprint $table) {
             $table->id();
+            $table->string('pengemudi');
+            $table->string('tanggal_pembelian');
+            $table->string('lokasi_tujuan');
+            $table->string('harga');
+            $table->string('lokasi_pembelian');
+            $table->string('foto_nota');
+            $table->string('keterangan')->nullable();
+            $table->unsignedBigInteger('bbm_id');
+            $table->unsignedBigInteger('tnkb_id');
+            $table->foreign('bbm_id')->references('id')->on('bbm')->onDelete('cascade');
+            $table->foreign('tnkb_id')->references('id')->on('tnkb')->onDelete('cascade');
             $table->timestamps();
         });
     }
