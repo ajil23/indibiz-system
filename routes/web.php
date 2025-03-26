@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\PenjualanController;
 use App\Http\Controllers\Admin\TnkbController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\Sales\PenawaranController as SalesPenawaranController;
 use App\Http\Controllers\Users\AdminController;
 use App\Http\Controllers\Users\PimpinanController;
 use App\Http\Controllers\Users\SalesController;
@@ -80,10 +81,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/user/{id}/user', [UserController::class, 'update'])->name('user.update');
         Route::delete('/user/{id}/user', [UserController::class, 'destroy'])->name('user.destroy');
     });
-    Route::group(['middleware' => ['loginCheck:admin']], function () {
+    Route::group(['middleware' => ['loginCheck:pimpinan']], function () {
         Route::resource('pimpinan', PimpinanController::class);
     });
-    Route::group(['middleware' => ['loginCheck:admin']], function () {
+    Route::group(['middleware' => ['loginCheck:sales']], function () {
         Route::resource('sales', SalesController::class);
+
+        // Penawaran
+        Route::get('/view/sales_penawaran', [SalesPenawaranController::class, 'index'])->name('sales_penawaran.index');
+        Route::post('/store/sales_penawaran', [SalesPenawaranController::class, 'store'])->name('sales_penawaran.store');
+        Route::put('/sales_penawaran/{id}/sales_penawaran', [SalesPenawaranController::class, 'update'])->name('sales_penawaran.update');
+        Route::delete('/sales_penawaran/{id}/sales_penawaran', [SalesPenawaranController::class, 'destroy'])->name('sales_penawaran.destroy');
     });
 });

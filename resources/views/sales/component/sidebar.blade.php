@@ -57,7 +57,7 @@
                             <span class="menu-link">Penawaran Indibiz</span></a>
                         <div class="collapse" id="collapseMenuItemPenawaran">
                             <ul class="submenu">
-                                <li><a href="./user-listing.html">Penawaran</a></li>
+                                <li><a href="{{route('sales_penawaran.index')}}">Penawaran</a></li>
                                 <li><a href="./user-listing.html">Penolakan</a></li>
                             </ul>
                         </div>
