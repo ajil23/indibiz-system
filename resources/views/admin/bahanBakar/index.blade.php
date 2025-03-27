@@ -18,9 +18,11 @@
                     <div class="card-header justify-content-between align-items-center d-flex">
                         <h6 class="card-title m-0">Tabel Jenis BBM</h6>
                         <!-- Tombol Tambah -->
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahModal">
-                            Tambah Data
-                        </button>
+                        @if (Auth::user()->role == 'admin')
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahModal">
+                                Tambah Data
+                            </button>
+                        @endif
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -31,7 +33,9 @@
                                         <th>Nama</th>
                                         <th>Deskripsi</th>
                                         <th>Harga</th>
-                                        <th colspan="2">Aksi</th>
+                                        @if (Auth::user()->role == 'admin')
+                                            <th colspan="2">Aksi</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -41,67 +45,72 @@
                                             <td>{{ $item->nama_bbm }}</td>
                                             <td>{{ $item->deskripsi }}</td>
                                             <td>{{ $item->harga }}</td>
-                                            <td>
-                                                <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#editModal{{ $item->id }}">
-                                                    Edit
-                                                </button>
-                                                <form action="{{ route('bbm.destroy', $item->id) }}" method="POST"
-                                                    class="d-inline delete-form">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="button"
-                                                        class="btn btn-danger btn-sm btn-delete">Delete</button>
-                                                </form>
-                                            </td>
+                                            @if (Auth::user()->role == 'admin')
+                                                <td>
+                                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                                        data-bs-target="#editModal{{ $item->id }}">
+                                                        Edit
+                                                    </button>
+                                                    <form action="{{ route('bbm.destroy', $item->id) }}" method="POST"
+                                                        class="d-inline delete-form">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button"
+                                                            class="btn btn-danger btn-sm btn-delete">Delete</button>
+                                                    </form>
+                                                </td>
+                                            @endif
                                         </tr>
-
-                                        <!-- Modal Edit per row -->
-                                        <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1"
-                                            aria-labelledby="editModalLabel{{ $item->id }}" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <form action="{{ route('bbm.update', $item->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="editModalLabel{{ $item->id }}">
-                                                                Edit Jenis BBM</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="mb-3">
-                                                                <label for="nama_bbm{{ $item->id }}"
-                                                                    class="form-label">Nama BBM</label>
-                                                                <input type="text" class="form-control"
-                                                                    id="nama_bbm{{ $item->id }}" name="nama_bbm"
-                                                                    value="{{ $item->nama_bbm }}" required>
+                                        @if (Auth::user()->role == 'admin')
+                                            <!-- Modal Edit per row -->
+                                            <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1"
+                                                aria-labelledby="editModalLabel{{ $item->id }}" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <form action="{{ route('bbm.update', $item->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title"
+                                                                    id="editModalLabel{{ $item->id }}">
+                                                                    Edit Jenis BBM</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="harga{{ $item->id }}"
-                                                                    class="form-label">Harga</label>
-                                                                <input type="text" class="form-control"
-                                                                    id="harga{{ $item->id }}" name="harga"
-                                                                    value="{{ $item->harga }}" required>
+                                                            <div class="modal-body">
+                                                                <div class="mb-3">
+                                                                    <label for="nama_bbm{{ $item->id }}"
+                                                                        class="form-label">Nama BBM</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="nama_bbm{{ $item->id }}" name="nama_bbm"
+                                                                        value="{{ $item->nama_bbm }}" required>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="harga{{ $item->id }}"
+                                                                        class="form-label">Harga</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="harga{{ $item->id }}" name="harga"
+                                                                        value="{{ $item->harga }}" required>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="deskripsi{{ $item->id }}"
+                                                                        class="form-label">Deskripsi</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="deskripsi{{ $item->id }}" name="deskripsi"
+                                                                        value="{{ $item->deskripsi }}" required>
+                                                                </div>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="deskripsi{{ $item->id }}"
-                                                                    class="form-label">Deskripsi</label>
-                                                                <input type="text" class="form-control"
-                                                                    id="deskripsi{{ $item->id }}" name="deskripsi"
-                                                                    value="{{ $item->deskripsi }}" required>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Batal</button>
+                                                                <button type="submit"
+                                                                    class="btn btn-primary">Update</button>
                                                             </div>
                                                         </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Batal</button>
-                                                            <button type="submit" class="btn btn-primary">Update</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
+                                                    </form>
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     @endforeach
                                 </tbody>
                             </table>
@@ -114,39 +123,41 @@
                 </div>
             </div>
         </div>
-
-        <!-- Modal Tambah Data -->
-        <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <form action="{{ route('bbm.store') }}" method="POST">
-                    @csrf
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="tambahModalLabel">Tambah Jenis BBM</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="nama_bbm" class="form-label">Nama BBM</label>
-                                <input type="text" class="form-control" id="nama_bbm" name="nama_bbm" required>
+        @if (Auth::user()->role == 'admin')
+            <!-- Modal Tambah Data -->
+            <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <form action="{{ route('bbm.store') }}" method="POST">
+                        @csrf
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="tambahModalLabel">Tambah Jenis BBM</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
-                            <div class="mb-3">
-                                <label for="harga" class="form-label">Harga</label>
-                                <input type="text" class="form-control" id="harga" name="harga" required>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="nama_bbm" class="form-label">Nama BBM</label>
+                                    <input type="text" class="form-control" id="nama_bbm" name="nama_bbm" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="harga" class="form-label">Harga</label>
+                                    <input type="text" class="form-control" id="harga" name="harga" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="deskripsi" class="form-label">Deskripsi</label>
+                                    <input type="text" class="form-control" id="deskripsi" name="deskripsi" required>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="deskripsi" class="form-label">Deskripsi</label>
-                                <input type="text" class="form-control" id="deskripsi" name="deskripsi" required>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
+        @endif
 
         <!-- Footer -->
         @include('admin.component.footer')

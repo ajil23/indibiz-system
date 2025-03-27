@@ -17,10 +17,12 @@
                 <div class="card mb-4 h-100">
                     <div class="card-header justify-content-between align-items-center d-flex">
                         <h6 class="card-title m-0">Tabel TNKB</h6>
-                        <!-- Tombol Tambah -->
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahModal">
-                            Tambah Data
-                        </button>
+                        @if (Auth::user()->role == 'admin')
+                            <!-- Tombol Tambah -->
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahModal">
+                                Tambah Data
+                            </button>
+                        @endif
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -31,7 +33,9 @@
                                         <th>Nomor Polisi</th>
                                         <th>Merk Kendaranan</th>
                                         <th>Jenis Kendaranan</th>
-                                        <th colspan="2">Aksi</th>
+                                        @if (Auth::user()->role == 'admin')
+                                            <th colspan="2">Aksi</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -41,67 +45,74 @@
                                             <td>{{ $item->nomor_polisi }}</td>
                                             <td>{{ $item->kendaraan }}</td>
                                             <td>{{ $item->jenis }}</td>
-                                            <td>
-                                                <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#editModal{{ $item->id }}">
-                                                    Edit
-                                                </button>
-                                                <form action="{{ route('tnkb.destroy', $item->id) }}" method="POST"
-                                                    class="d-inline delete-form">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="button"
-                                                        class="btn btn-danger btn-sm btn-delete">Delete</button>
-                                                </form>
-                                            </td>
+                                            @if (Auth::user()->role == 'admin')
+                                                <td>
+                                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                                        data-bs-target="#editModal{{ $item->id }}">
+                                                        Edit
+                                                    </button>
+                                                    <form action="{{ route('tnkb.destroy', $item->id) }}" method="POST"
+                                                        class="d-inline delete-form">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button"
+                                                            class="btn btn-danger btn-sm btn-delete">Delete</button>
+                                                    </form>
+                                                </td>
+                                            @endif
                                         </tr>
 
-                                        <!-- Modal Edit per row -->
-                                        <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1"
-                                            aria-labelledby="editModalLabel{{ $item->id }}" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <form action="{{ route('tnkb.update', $item->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="editModalLabel{{ $item->id }}">
-                                                                Edit TNKB</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="mb-3">
-                                                                <label for="nomor_polisi{{ $item->id }}"
-                                                                    class="form-label">Nomor Polisi</label>
-                                                                <input type="text" class="form-control"
-                                                                    id="nomor_polisi{{ $item->id }}" name="nomor_polisi"
-                                                                    value="{{ $item->nomor_polisi }}" required>
+                                        @if (Auth::user()->role == 'admin')
+                                            <!-- Modal Edit per row -->
+                                            <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1"
+                                                aria-labelledby="editModalLabel{{ $item->id }}" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <form action="{{ route('tnkb.update', $item->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title"
+                                                                    id="editModalLabel{{ $item->id }}">
+                                                                    Edit TNKB</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="kendaraan{{ $item->id }}"
-                                                                    class="form-label">Kendaranan</label>
-                                                                <input type="text" class="form-control"
-                                                                    id="kendaraan{{ $item->id }}" name="kendaraan"
-                                                                    value="{{ $item->kendaraan }}" required>
+                                                            <div class="modal-body">
+                                                                <div class="mb-3">
+                                                                    <label for="nomor_polisi{{ $item->id }}"
+                                                                        class="form-label">Nomor Polisi</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="nomor_polisi{{ $item->id }}"
+                                                                        name="nomor_polisi"
+                                                                        value="{{ $item->nomor_polisi }}" required>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="kendaraan{{ $item->id }}"
+                                                                        class="form-label">Kendaranan</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="kendaraan{{ $item->id }}" name="kendaraan"
+                                                                        value="{{ $item->kendaraan }}" required>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="jenis{{ $item->id }}"
+                                                                        class="form-label">Jenis Kendaranan</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="jenis{{ $item->id }}" name="jenis"
+                                                                        value="{{ $item->jenis }}" required>
+                                                                </div>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="jenis{{ $item->id }}"
-                                                                    class="form-label">Jenis Kendaranan</label>
-                                                                <input type="text" class="form-control"
-                                                                    id="jenis{{ $item->id }}" name="jenis"
-                                                                    value="{{ $item->jenis }}" required>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Batal</button>
+                                                                <button type="submit"
+                                                                    class="btn btn-primary">Update</button>
                                                             </div>
                                                         </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Batal</button>
-                                                            <button type="submit" class="btn btn-primary">Update</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
+                                                    </form>
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     @endforeach
                                 </tbody>
                             </table>
@@ -114,39 +125,42 @@
                 </div>
             </div>
         </div>
-
-        <!-- Modal Tambah Data -->
-        <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <form action="{{ route('tnkb.store') }}" method="POST">
-                    @csrf
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="tambahModalLabel">Tambah TNKB</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="nomor_polisi" class="form-label">Nomor Polisi</label>
-                                <input type="text" class="form-control" id="nomor_polisi" name="nomor_polisi" required>
+        @if (Auth::user()->role == 'admin')
+            <!-- Modal Tambah Data -->
+            <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <form action="{{ route('tnkb.store') }}" method="POST">
+                        @csrf
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="tambahModalLabel">Tambah TNKB</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
-                            <div class="mb-3">
-                                <label for="kendaraan" class="form-label">Merk Kendaranan</label>
-                                <input type="text" class="form-control" id="kendaraan" name="kendaraan" required>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="nomor_polisi" class="form-label">Nomor Polisi</label>
+                                    <input type="text" class="form-control" id="nomor_polisi" name="nomor_polisi"
+                                        required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="kendaraan" class="form-label">Merk Kendaranan</label>
+                                    <input type="text" class="form-control" id="kendaraan" name="kendaraan" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="jenis" class="form-label">Jenis Kendaranan</label>
+                                    <input type="text" class="form-control" id="jenis" name="jenis" required>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="jenis" class="form-label">Jenis Kendaranan</label>
-                                <input type="text" class="form-control" id="jenis" name="jenis" required>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
+        @endif
 
         <!-- Footer -->
         @include('admin.component.footer')

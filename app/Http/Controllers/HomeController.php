@@ -28,7 +28,7 @@ class HomeController extends Controller
         if ($user->role == 'admin') {
             return view('admin.index');
         } elseif ($user->role == 'pimpinan') {
-            return view('pimpinan.index');
+            return view('admin.index');
         } elseif ($user->role == 'sales') {
             return view('sales.index');
         }

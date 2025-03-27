@@ -14,7 +14,7 @@ class LoginCheck
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, ...$roles)
     {
         if (!Auth::check()) {
             return redirect('login');
@@ -22,7 +22,8 @@ class LoginCheck
 
         $user = Auth::user();
 
-        if ($user->role === $role) {
+        // Cek apakah role user ada di dalam daftar role yang diperbolehkan
+        if (in_array($user->role, $roles)) {
             return $next($request);
         }
 

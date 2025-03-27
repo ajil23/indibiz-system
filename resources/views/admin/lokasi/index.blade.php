@@ -18,9 +18,11 @@
                     <div class="card-header justify-content-between align-items-center d-flex">
                         <h6 class="card-title m-0">Tabel Kategori Lokasi</h6>
                         <!-- Tombol Tambah -->
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahModal">
-                            Tambah Data
-                        </button>
+                        @if (Auth::user()->role == 'admin')
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahModal">
+                                Tambah Data
+                            </button>
+                        @endif
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -30,7 +32,9 @@
                                         <th>#</th>
                                         <th>Nama Sektor</th>
                                         <th>Sub Sektor</th>
-                                        <th colspan="2">Aksi</th>
+                                        @if (Auth::user()->role == 'admin')
+                                            <th colspan="2">Aksi</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -39,60 +43,68 @@
                                             <td><span class="fw-bolder">{{ $loop->iteration }}</span></td>
                                             <td>{{ $item->nama_sektor }}</td>
                                             <td>{{ $item->sub_sektor }}</td>
-                                            <td>
-                                                <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#editModal{{ $item->id }}">
-                                                    Edit
-                                                </button>
-                                                <form action="{{ route('lokasi.destroy', $item->id) }}" method="POST"
-                                                    class="d-inline delete-form">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="button"
-                                                        class="btn btn-danger btn-sm btn-delete">Delete</button>
-                                                </form>
-                                            </td>
+                                            @if (Auth::user()->role == 'admin')
+                                                <td>
+                                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                                        data-bs-target="#editModal{{ $item->id }}">
+                                                        Edit
+                                                    </button>
+                                                    <form action="{{ route('lokasi.destroy', $item->id) }}" method="POST"
+                                                        class="d-inline delete-form">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button"
+                                                            class="btn btn-danger btn-sm btn-delete">Delete</button>
+                                                    </form>
+                                                </td>
+                                            @endif
                                         </tr>
 
-                                        <!-- Modal Edit per row -->
-                                        <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1"
-                                            aria-labelledby="editModalLabel{{ $item->id }}" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <form action="{{ route('lokasi.update', $item->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="editModalLabel{{ $item->id }}">
-                                                                Edit Kategori Lokasi</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="mb-3">
-                                                                <label for="nama_sektor{{ $item->id }}"
-                                                                    class="form-label">Nama Sektor</label>
-                                                                <input type="text" class="form-control"
-                                                                    id="nama_sektor{{ $item->id }}" name="nama_sektor"
-                                                                    value="{{ $item->nama_sektor }}" required>
+                                        @if (Auth::user()->role == 'admin')
+                                            <!-- Modal Edit per row -->
+                                            <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1"
+                                                aria-labelledby="editModalLabel{{ $item->id }}" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <form action="{{ route('lokasi.update', $item->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title"
+                                                                    id="editModalLabel{{ $item->id }}">
+                                                                    Edit Kategori Lokasi</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="sub_sektor{{ $item->id }}"
-                                                                    class="form-label">Sub Sektor</label>
-                                                                <input type="text" class="form-control"
-                                                                    id="sub_sektor{{ $item->id }}" name="sub_sektor"
-                                                                    value="{{ $item->sub_sektor }}" required>
+                                                            <div class="modal-body">
+                                                                <div class="mb-3">
+                                                                    <label for="nama_sektor{{ $item->id }}"
+                                                                        class="form-label">Nama Sektor</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="nama_sektor{{ $item->id }}"
+                                                                        name="nama_sektor" value="{{ $item->nama_sektor }}"
+                                                                        required>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="sub_sektor{{ $item->id }}"
+                                                                        class="form-label">Sub Sektor</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="sub_sektor{{ $item->id }}"
+                                                                        name="sub_sektor" value="{{ $item->sub_sektor }}"
+                                                                        required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Batal</button>
+                                                                <button type="submit"
+                                                                    class="btn btn-primary">Update</button>
                                                             </div>
                                                         </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Batal</button>
-                                                            <button type="submit" class="btn btn-primary">Update</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
+                                                    </form>
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     @endforeach
                                 </tbody>
                             </table>
@@ -106,34 +118,37 @@
             </div>
         </div>
 
-        <!-- Modal Tambah Data -->
-        <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <form action="{{ route('lokasi.store') }}" method="POST">
-                    @csrf
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="tambahModalLabel">Tambah Kategori Lokasi</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="nama_sektor" class="form-label">Nama Sektor</label>
-                                <input type="text" class="form-control" id="nama_sektor" name="nama_sektor" required>
+        @if (Auth::user()->role == 'admin')
+            <!-- Modal Tambah Data -->
+            <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <form action="{{ route('lokasi.store') }}" method="POST">
+                        @csrf
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="tambahModalLabel">Tambah Kategori Lokasi</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
-                            <div class="mb-3">
-                                <label for="sub_sektor" class="form-label">Sub Sektor</label>
-                                <input type="text" class="form-control" id="sub_sektor" name="sub_sektor" required>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="nama_sektor" class="form-label">Nama Sektor</label>
+                                    <input type="text" class="form-control" id="nama_sektor" name="nama_sektor" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="sub_sektor" class="form-label">Sub Sektor</label>
+                                    <input type="text" class="form-control" id="sub_sektor" name="sub_sektor" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
+        @endif
 
         <!-- Footer -->
         @include('admin.component.footer')
