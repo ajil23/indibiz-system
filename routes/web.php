@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\TnkbController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\Sales\PenawaranController as SalesPenawaranController;
+use App\Http\Controllers\Sales\PenolakanController;
 use App\Http\Controllers\Users\AdminController;
 use App\Http\Controllers\Users\PimpinanController;
 use App\Http\Controllers\Users\SalesController;
@@ -92,5 +93,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store/sales_penawaran', [SalesPenawaranController::class, 'store'])->name('sales_penawaran.store');
         Route::put('/sales_penawaran/{id}/sales_penawaran', [SalesPenawaranController::class, 'update'])->name('sales_penawaran.update');
         Route::delete('/sales_penawaran/{id}/sales_penawaran', [SalesPenawaranController::class, 'destroy'])->name('sales_penawaran.destroy');
+       
+        // Penolakan
+        Route::get('/view/sales_penolakan', [PenolakanController::class, 'index'])->name('sales_penolakan.index');
+        Route::post('/store/sales_penolakan', [PenolakanController::class, 'store'])->name('sales_penolakan.store');
+        Route::put('/sales_penolakan/{id}/sales_penolakan', [PenolakanController::class, 'update'])->name('sales_penolakan.update');
+        Route::delete('/sales_penolakan/{id}/sales_penolakan', [PenolakanController::class, 'destroy'])->name('sales_penolakan.destroy');
     });
 });
