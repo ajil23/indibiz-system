@@ -95,7 +95,7 @@
                             <span class="menu-link">Pelaporan BBM</span></a>
                         <div class="collapse" id="collapseMenuItemPelaporan">
                             <ul class="submenu">
-                                <li><a href="./user-listing.html">Pembelian BBM</a></li>
+                                <li><a href="{{route('sales_pembelian.index')}}">Pembelian BBM</a></li>
                             </ul>
                         </div>
                     </li>
