@@ -17,12 +17,11 @@
                 <div class="card mb-4 h-100">
                     <div class="card-header justify-content-between align-items-center d-flex">
                         <h6 class="card-title m-0">Tabel Penawaran</h6>
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exportModal">
-                            Export
-                        </button>
-                        {{-- <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahModal">
-                            Tambah Data
-                        </button> --}}
+                        @if (Auth::user()->role == 'admin')
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exportModal">
+                                Export
+                            </button>
+                        @endif
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -36,7 +35,9 @@
                                         <th>Alamat</th>
                                         <th>Tanggal Kunjungan</th>
                                         <th>Feedback</th>
-                                        <th colspan="2">Aksi</th>
+                                        @if (Auth::user()->role == 'admin')
+                                            <th>Aksi</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -55,43 +56,51 @@
                                                     Selesai
                                                 @endif
                                             </td>
-                                            <td>
-                                                <button class="btn btn-info btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#viewModal{{ $item->id }}">
-                                                    view
-                                                </button>
-                                            </td>
+                                            @if (Auth::user()->role == 'admin')
+                                                <td>
+                                                    <button class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                                        data-bs-target="#viewModal{{ $item->id }}">
+                                                        view
+                                                    </button>
+                                                </td>
+                                            @endif
                                         </tr>
-
-                                        <!-- Modal Edit per row -->
-                                        <div class="modal fade" id="viewModal{{ $item->id }}" tabindex="-1"
-                                            aria-labelledby="viewModalLabel{{ $item->id }}" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <form action="{{ route('penawaran.update', $item->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="viewModalLabel{{ $item->id }}">
-                                                                View Feedback</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="mb-3">
-                                                                <label for="nama_sektor" class="form-label">Feedback / Umpan Balik</label>
-                                                                <textarea class="form-control" name="feedback" id="feedback" cols="5" rows="10"></textarea>
+                                        @if (Auth::user()->role == 'admin')
+                                            <!-- Modal Edit per row -->
+                                            <div class="modal fade" id="viewModal{{ $item->id }}" tabindex="-1"
+                                                aria-labelledby="viewModalLabel{{ $item->id }}" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <form action="{{ route('penawaran.update', $item->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title"
+                                                                    id="viewModalLabel{{ $item->id }}">
+                                                                    View Feedback</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="mb-3">
+                                                                    <label for="nama_sektor" class="form-label">Feedback /
+                                                                        Umpan
+                                                                        Balik</label>
+                                                                    <textarea class="form-control" name="feedback" id="feedback" cols="5" rows="10"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Batal</button>
+                                                                <button type="submit"
+                                                                    class="btn btn-primary">Simpan</button>
                                                             </div>
                                                         </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Batal</button>
-                                                            <button type="submit" class="btn btn-primary">Simpan</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
+                                                    </form>
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     @endforeach
                                 </tbody>
                             </table>
@@ -105,118 +114,38 @@
             </div>
         </div>
 
-        <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exportModalLabel">Export Data</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form id="exportForm" action="{{route('penawaran.exportData')}}" method="POST">
-                        @csrf
-                        <div class="modal-body">
-                            <p>Pilih format untuk mengekspor data:</p>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exportType" id="exportExcel" value="excel" checked>
-                                <label class="form-check-label" for="exportExcel">Export as Excel</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exportType" id="exportPDF" value="pdf">
-                                <label class="form-check-label" for="exportPDF">Export as PDF</label>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        {{-- <!-- Modal Tambah Data -->
-        <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <form action="{{ route('penawaran.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
+        @if (Auth::user()->role == 'admin')
+            <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="tambahModalLabel">Tambah Penawaran</h5>
+                            <h5 class="modal-title" id="exportModalLabel">Export Data</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <!-- Kolom Kiri -->
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="sales_id" class="form-label">Nama Sales</label>
-                                        <select class="form-control" name="sales_id" id="sales_id">
-                                            <option> -- Pilih Sales --</option>
-                                            @foreach ($sales as $item)
-                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="kategori_id" class="form-label">Kategori Lokasi</label>
-                                        <select class="form-control" name="kategori_id" id="kategori_id">
-                                            <option> -- Pilih kategori Lokasi --</option>
-                                            @foreach ($lokasi as $item)
-                                                <option value="{{ $item->id }}">{{ $item->nama_sektor }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="tanggal_kunjungan" class="form-label">Tanggal Kunjungan</label>
-                                        <input type="date" class="form-control" id="tanggal_kunjungan"
-                                            name="tanggal_kunjungan" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="nomor_hp" class="form-label">Nomor HP</label>
-                                        <input type="text" class="form-control" id="nomor_hp" name="nomor_hp" required
-                                            pattern="[0-9]*" inputmode="numeric"
-                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="bukti_kunjungan" class="form-label">Foto Bukti Kunjungan</label>
-                                        <input type="file" class="form-control" id="bukti_kunjungan"
-                                            name="bukti_kunjungan" required>
-                                    </div>
+                        <form id="exportForm" action="{{ route('penawaran.exportData') }}" method="POST">
+                            @csrf
+                            <div class="modal-body">
+                                <p>Pilih format untuk mengekspor data:</p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exportType" id="exportExcel"
+                                        value="excel" checked>
+                                    <label class="form-check-label" for="exportExcel">Export as Excel</label>
                                 </div>
-
-                                <!-- Kolom Kanan -->
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="nama_lokasi" class="form-label">Nama Lokasi</label>
-                                        <input type="text" class="form-control" id="nama_lokasi" name="nama_lokasi"
-                                            required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="alamat" class="form-label">Alamat</label>
-                                        <input type="text" class="form-control" id="alamat" name="alamat"
-                                            required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="pic" class="form-label">Nama Penanggung Jawab</label>
-                                        <input type="text" class="form-control" id="pic" name="pic"
-                                            required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="keterangan" class="form-label">Keterangan Hasil Visit</label>
-                                        <textarea name="keterangan" id="keterangan" class="form-control" rows="5"></textarea>
-                                    </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exportType" id="exportPDF"
+                                        value="pdf">
+                                    <label class="form-check-label" for="exportPDF">Export as PDF</label>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
-        </div> --}}
-
+        @endif
 
         <!-- Footer -->
         @include('admin.component.footer')

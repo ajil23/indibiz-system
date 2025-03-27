@@ -17,12 +17,11 @@
                 <div class="card mb-4 h-100">
                     <div class="card-header justify-content-between align-items-center d-flex">
                         <h6 class="card-title m-0">Tabel Pelaporan Kendaraan</h6>
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exportModal">
-                            Export
-                        </button>
-                        {{-- <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahModal">
-                            Tambah Data
-                        </button> --}}
+                        @if (Auth::user()->role == 'admin')
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exportModal">
+                                Export
+                            </button>
+                        @endif
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -85,117 +84,38 @@
             </div>
         </div>
 
-        <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exportModalLabel">Export Data</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form id="exportForm" action="{{ route('pelaporan.exportData') }}" method="POST">
-                        @csrf
-                        <div class="modal-body">
-                            <p>Pilih format untuk mengekspor data:</p>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exportType" id="exportExcel"
-                                    value="excel" checked>
-                                <label class="form-check-label" for="exportExcel">Export as Excel</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exportType" id="exportPDF"
-                                    value="pdf">
-                                <label class="form-check-label" for="exportPDF">Export as PDF</label>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal Tambah Data -->
-        {{-- <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <form action="{{ route('pelaporan.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
+        @if (Auth::user()->role == 'admin')
+            <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="tambahPelaporanLabel">Tambah Pelaporan Kendaraan</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                            <h5 class="modal-title" id="exportModalLabel">Export Data</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <!-- Kolom Kiri -->
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="pengemudi" class="form-label">Nama Pengemudi</label>
-                                        <input type="text" class="form-control" id="pengemudi" name="pengemudi"
-                                            required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="tanggal_penggunaan" class="form-label">Tanggal Penggunaan</label>
-                                        <input type="date" class="form-control" id="tanggal_penggunaan"
-                                            name="tanggal_penggunaan" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="lokasi_tujuan" class="form-label">Lokasi Tujuan</label>
-                                        <input type="text" class="form-control" id="lokasi_tujuan"
-                                            name="lokasi_tujuan" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="jumlah_odo" class="form-label">Jumlah Odometer</label>
-                                        <input type="number" class="form-control" id="jumlah_odo" name="jumlah_odo"
-                                            required>
-                                    </div>
+                        <form id="exportForm" action="{{ route('pelaporan.exportData') }}" method="POST">
+                            @csrf
+                            <div class="modal-body">
+                                <p>Pilih format untuk mengekspor data:</p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exportType" id="exportExcel"
+                                        value="excel" checked>
+                                    <label class="form-check-label" for="exportExcel">Export as Excel</label>
                                 </div>
-
-                                <!-- Kolom Kanan -->
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="waktu_mulai" class="form-label">Waktu Mulai</label>
-                                        <input type="time" class="form-control" id="waktu_mulai" name="waktu_mulai"
-                                            required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="waktu_selesai" class="form-label">Waktu Selesai</label>
-                                        <input type="time" class="form-control" id="waktu_selesai"
-                                            name="waktu_selesai" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="tnkb_id" class="form-label">TNKB</label>
-                                        <select class="form-control" name="tnkb_id" id="tnkb_id" required>
-                                            <option value="">-- Pilih TNKB --</option>
-                                            @foreach ($tnkb as $item)
-                                                <option value="{{ $item->id }}">{{ $item->kendaraan }}
-                                                    ({{ $item->nomor_polisi }} )</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="foto_odo" class="form-label">Foto Odometer</label>
-                                        <input type="file" class="form-control" id="foto_odo" name="foto_odo"
-                                            accept="image/*" required>
-                                    </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exportType" id="exportPDF"
+                                        value="pdf">
+                                    <label class="form-check-label" for="exportPDF">Export as PDF</label>
                                 </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="keterangan" class="form-label">Keterangan</label>
-                                <textarea class="form-control" id="keterangan" name="keterangan" rows="3"></textarea>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
-        </div> --}}
+        @endif
 
         <!-- Footer -->
         @include('admin.component.footer')

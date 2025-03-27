@@ -29,7 +29,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::group(['middleware' => ['loginCheck:admin']], function () {
+    Route::group(['middleware' => ['loginCheck:admin,pimpinan']], function () {
         // Kategori lokasi
         Route::get('/view/kategori-lokasi', [LokasiController::class, 'index'])->name('lokasi.index');
         Route::post('/store/kategori-lokasi', [LokasiController::class, 'store'])->name('lokasi.store');
@@ -84,9 +84,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/user/{id}/user', [UserController::class, 'update'])->name('user.update');
         Route::delete('/user/{id}/user', [UserController::class, 'destroy'])->name('user.destroy');
     });
-    Route::group(['middleware' => ['loginCheck:pimpinan']], function () {
-        Route::resource('pimpinan', PimpinanController::class);
-    });
+    
     Route::group(['middleware' => ['loginCheck:sales']], function () {
         Route::resource('sales', SalesController::class);
 
