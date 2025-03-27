@@ -76,7 +76,7 @@
                             <span class="menu-link">Penjualan Indibiz</span></a>
                         <div class="collapse" id="collapseMenuItemPenjualan">
                             <ul class="submenu">
-                                <li><a href="./user-listing.html">Penjualan</a></li>
+                                <li><a href="{{route('sales_penjualan.index')}}">Penjualan</a></li>
                             </ul>
                         </div>
                     </li>
