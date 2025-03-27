@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\PenjualanController;
 use App\Http\Controllers\Admin\TnkbController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\Sales\PembelianBBMController as SalesPembelianBBMController;
 use App\Http\Controllers\Sales\PenawaranController as SalesPenawaranController;
 use App\Http\Controllers\Sales\PenjualanController as SalesPenjualanController;
 use App\Http\Controllers\Sales\PenolakanController;
@@ -46,27 +47,27 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store/tnkb', [TnkbController::class, 'store'])->name('tnkb.store');
         Route::put('/tnkb/{id}/tnkb', [TnkbController::class, 'update'])->name('tnkb.update');
         Route::delete('/tnkb/{id}/tnkb', [TnkbController::class, 'destroy'])->name('tnkb.destroy');
-        
+
         // Jenis Produk
         Route::get('/view/jenis-produk', [JenisProdukController::class, 'index'])->name('jenis-produk.index');
         Route::post('/store/jenis-produk', [JenisProdukController::class, 'store'])->name('jenis-produk.store');
         Route::put('/jenis-produk/{id}/jenis-produk', [JenisProdukController::class, 'update'])->name('jenis-produk.update');
         Route::delete('/jenis-produk/{id}/jenis-produk', [JenisProdukController::class, 'destroy'])->name('jenis-produk.destroy');
-        
+
         // Penawaran
         Route::get('/view/penawaran', [PenawaranController::class, 'index'])->name('penawaran.index');
         Route::post('/store/penawaran', [PenawaranController::class, 'store'])->name('penawaran.store');
         Route::put('/penawaran/{id}/penawaran', [PenawaranController::class, 'update'])->name('penawaran.update');
         Route::delete('/penawaran/{id}/penawaran', [PenawaranController::class, 'destroy'])->name('penawaran.destroy');
         Route::post('/export/penawaran', [PenawaranController::class, 'exportData'])->name('penawaran.exportData');
-        
+
         // Penjualan
         Route::get('/view/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
         Route::post('/store/penjualan', [PenjualanController::class, 'store'])->name('penjualan.store');
         Route::put('/penjualan/{id}/penjualan', [PenjualanController::class, 'update'])->name('penjualan.update');
         Route::delete('/penjualan/{id}/penjualan', [PenjualanController::class, 'destroy'])->name('penjualan.destroy');
         Route::post('/export/penjualan', [PenjualanController::class, 'exportData'])->name('penjualan.exportData');
-        
+
         // Pelaporan Kendaraan
         Route::get('/view/pelaporan_kendaraan', [PelaporanKendaraanController::class, 'index'])->name('pelaporan.index');
         Route::post('/store/pelaporan_kendaraan', [PelaporanKendaraanController::class, 'store'])->name('pelaporan.store');
@@ -94,7 +95,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store/sales_penawaran', [SalesPenawaranController::class, 'store'])->name('sales_penawaran.store');
         Route::put('/sales_penawaran/{id}/sales_penawaran', [SalesPenawaranController::class, 'update'])->name('sales_penawaran.update');
         Route::delete('/sales_penawaran/{id}/sales_penawaran', [SalesPenawaranController::class, 'destroy'])->name('sales_penawaran.destroy');
-       
+
         // Penolakan
         Route::get('/view/sales_penolakan', [PenolakanController::class, 'index'])->name('sales_penolakan.index');
         Route::post('/store/sales_penolakan', [PenolakanController::class, 'store'])->name('sales_penolakan.store');
@@ -106,5 +107,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store/sales_penjualan', [SalesPenjualanController::class, 'store'])->name('sales_penjualan.store');
         Route::put('/sales_penjualan/{id}/sales_penjualan', [SalesPenjualanController::class, 'update'])->name('sales_penjualan.update');
         Route::delete('/sales_penjualan/{id}/sales_penjualan', [SalesPenjualanController::class, 'destroy'])->name('sales_penjualan.destroy');
+        
+        // Pembelian BBM
+        Route::get('/view/sales_pembelian_bbm', [SalesPembelianBBMController::class, 'index'])->name('sales_pembelian.index');
+        Route::post('/store/sales_pembelian_bbm', [SalesPembelianBBMController::class, 'store'])->name('sales_pembelian.store');
+        Route::put('/sales_pembelian/{id}/sales_pembelian', [SalesPembelianBBMController::class, 'update'])->name('sales_pembelian.update');
+        Route::delete('/sales_pembelian/{id}/sales_pembelian', [SalesPembelianBBMController::class, 'destroy'])->name('sales_pembelian.destroy');
     });
 });
