@@ -81,6 +81,7 @@
                         <div class="collapse" id="collapseMenuItemPenawaran">
                             <ul class="submenu">
                                 <li><a href="{{route('penawaran.index')}}">Penawaran</a></li>
+                                <li><a href="{{route('penolakan.index')}}">Penolakan</a></li>
                             </ul>
                         </div>
                     </li>
