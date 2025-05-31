@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\PelaporanKendaraanController;
 use App\Http\Controllers\Admin\PembelianBBMController;
 use App\Http\Controllers\Admin\PenawaranController;
 use App\Http\Controllers\Admin\PenjualanController;
+use App\Http\Controllers\Admin\PenolakanController as AdminPenolakanController;
 use App\Http\Controllers\Admin\TnkbController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ExportController;
@@ -60,6 +61,13 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/penawaran/{id}/penawaran', [PenawaranController::class, 'update'])->name('penawaran.update');
         Route::delete('/penawaran/{id}/penawaran', [PenawaranController::class, 'destroy'])->name('penawaran.destroy');
         Route::post('/export/penawaran', [PenawaranController::class, 'exportData'])->name('penawaran.exportData');
+
+        // Penolakan
+        Route::get('/view/penolakan', [AdminPenolakanController::class, 'index'])->name('penolakan.index');
+        Route::post('/store/penolakan', [AdminPenolakanController::class, 'store'])->name('penolakan.store');
+        Route::put('/penolakan/{id}/penolakan', [AdminPenolakanController::class, 'update'])->name('penolakan.update');
+        Route::delete('/penolakan/{id}/penolakan', [AdminPenolakanController::class, 'destroy'])->name('penolakan.destroy');
+        Route::post('/export/penolakan', [AdminPenolakanController::class, 'exportData'])->name('penolakan.exportData');
 
         // Penjualan
         Route::get('/view/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');

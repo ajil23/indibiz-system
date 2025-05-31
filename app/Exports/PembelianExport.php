@@ -12,6 +12,8 @@ class PembelianExport implements FromCollection
     */
     public function collection()
     {
-        return PembelianBbm::all();
+        return PembelianBbm::whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->get();
     }
 }

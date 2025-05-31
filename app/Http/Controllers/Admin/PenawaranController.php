@@ -56,8 +56,9 @@ class PenawaranController extends Controller
 
         return back()->with('success', 'Data berhasil disimpan!');
     }
-    
-    public function update(Request $request, $id){
+
+    public function update(Request $request, $id)
+    {
         $request->validate([
             'feedback' => 'required',
         ]);
@@ -72,11 +73,16 @@ class PenawaranController extends Controller
     {
         $exportType = $request->input('exportType');
 
+        // Ambil data bulan ini
+        $data = Penawaran::whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->get();
+
         if ($exportType === 'excel') {
-            return Excel::download(new DataExport, 'data.xlsx');
+            return Excel::download(new DataExport, 'data_bulanan.xlsx');
         } elseif ($exportType === 'pdf') {
-            $pdf = Pdf::loadView('exports.pdf', ['data' => Penawaran::all()]);
-            return $pdf->download('data.pdf');
+            $pdf = Pdf::loadView('exports.pdf', compact('data'));
+            return $pdf->download('data_bulanan.pdf');
         }
 
         return back()->with('error', 'Format tidak valid');
