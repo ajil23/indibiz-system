@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -25,13 +27,38 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        if ($user->role == 'admin') {
-            return view('admin.index');
-        } elseif ($user->role == 'pimpinan') {
-            return view('admin.index');
+        if ($user->role == 'admin' || $user->role == 'pimpinan') {
+            $stats = $this->getMonthlyStats();
+            return view('admin.index', $stats);
         } elseif ($user->role == 'sales') {
-            return view('sales.index');
+            $stats = $this->getMonthlyStats();
+            return view('sales.index', $stats);
         }
         return redirect()->intended('/');
+    }
+
+    private function getMonthlyStats()
+    {
+        $bulan = Carbon::now()->month;
+        $tahun = Carbon::now()->year;
+
+        return [
+            'totalPenolakan' => DB::table('penolakan')
+                ->whereMonth('created_at', $bulan)
+                ->whereYear('created_at', $tahun)
+                ->count(),
+
+            'totalPenawaran' => DB::table('penawaran')
+                ->whereMonth('created_at', $bulan)
+                ->whereYear('created_at', $tahun)
+                ->count(),
+
+            'totalPenjualan' => DB::table('penjualan')
+                ->whereMonth('created_at', $bulan)
+                ->whereYear('created_at', $tahun)
+                ->count(),
+
+            'totalUser' => DB::table('users')->count(),
+        ];
     }
 }
