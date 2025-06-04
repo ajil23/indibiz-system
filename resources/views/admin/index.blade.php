@@ -29,7 +29,7 @@
                             <div class="col-12 col-md-6">
                                 <p class="fs-3 fw-bold d-flex align-items-center">{{$totalPenjualan}}
                                 </p>
-                            </div
+                            </div>
                         </div>
                     </div>
                 </div>
