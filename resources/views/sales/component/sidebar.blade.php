@@ -95,6 +95,7 @@
                             <span class="menu-link">Pelaporan BBM</span></a>
                         <div class="collapse" id="collapseMenuItemPelaporan">
                             <ul class="submenu">
+                                <li><a href="{{route('sales_pelaporan.index')}}">Pelaporan</a></li>
                                 <li><a href="{{route('sales_pembelian.index')}}">Pembelian BBM</a></li>
                             </ul>
                         </div>
