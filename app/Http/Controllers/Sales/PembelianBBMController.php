@@ -107,11 +107,21 @@ class PembelianBBMController extends Controller
         // Redirect dengan pesan sukses
         return back()->with('success', 'Data berhasil diubah!');
     }
-    
-    public function destroy($id){
-        $pembelian = PembelianBbm::findOrFail($id);
-        $pembelian->delete();
-        return back()->with('success', 'Data berhasil dihapus!');
 
+    public function destroy($id)
+    {
+        // Cari data pembelian BBM
+        $pembelian = PembelianBbm::findOrFail($id);
+
+        // Hapus file foto nota dari storage jika ada
+        if ($pembelian->foto_nota && Storage::disk('public')->exists($pembelian->foto_nota)) {
+            Storage::disk('public')->delete($pembelian->foto_nota);
+        }
+
+        // Hapus data dari database
+        $pembelian->delete();
+
+        // Redirect dengan pesan sukses
+        return back()->with('success', 'Data pembelian BBM berhasil dihapus!');
     }
 }

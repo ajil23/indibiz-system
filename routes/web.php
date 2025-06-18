@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\PenolakanController as AdminPenolakanController;
 use App\Http\Controllers\Admin\TnkbController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\Sales\PelaporanKendaraanController as SalesPelaporanKendaraanController;
 use App\Http\Controllers\Sales\PembelianBBMController as SalesPembelianBBMController;
 use App\Http\Controllers\Sales\PenawaranController as SalesPenawaranController;
 use App\Http\Controllers\Sales\PenjualanController as SalesPenjualanController;
@@ -78,7 +79,6 @@ Route::group(['middleware' => ['auth']], function () {
 
         // Pelaporan Kendaraan
         Route::get('/view/pelaporan_kendaraan', [PelaporanKendaraanController::class, 'index'])->name('pelaporan.index');
-        Route::post('/store/pelaporan_kendaraan', [PelaporanKendaraanController::class, 'store'])->name('pelaporan.store');
         Route::post('/export/pelaporan_kendaraan', [PelaporanKendaraanController::class, 'exportData'])->name('pelaporan.exportData');
 
         // Pembelian BBM
@@ -119,5 +119,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store/sales_pembelian_bbm', [SalesPembelianBBMController::class, 'store'])->name('sales_pembelian.store');
         Route::put('/sales_pembelian/{id}/sales_pembelian', [SalesPembelianBBMController::class, 'update'])->name('sales_pembelian.update');
         Route::delete('/sales_pembelian/{id}/sales_pembelian', [SalesPembelianBBMController::class, 'destroy'])->name('sales_pembelian.destroy');
+        
+        // Pelaporan Kendaraan
+        Route::get('/view/sales_pelaporan_kendaraan', [SalesPelaporanKendaraanController::class, 'index'])->name('sales_pelaporan.index');
+        Route::post('/store/sales_pelaporan_kendaraan', [SalesPelaporanKendaraanController::class, 'store'])->name('sales_pelaporan.store');
+        Route::put('/sales_pelaporan_kendaraan/{id}/sales_pelaporan_kendaraan', [SalesPelaporanKendaraanController::class, 'update'])->name('sales_pelaporan.update');
+        Route::delete('/sales_pelaporan_kendaraan/{id}/sales_pelaporan_kendaraan', [SalesPelaporanKendaraanController::class, 'destroy'])->name('sales_pelaporan.destroy');
+        
     });
 });
