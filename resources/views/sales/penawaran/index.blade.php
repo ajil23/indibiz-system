@@ -49,7 +49,8 @@
                                                 @if ($item->feedback == null)
                                                     <button class="btn btn-outline-info btn-sm">Proses</button>
                                                 @elseif($item->feedback != null)
-                                                    <a href="#" class="btn btn-outline-success btn-sm" data-bs-toggle="modal"
+                                                    <a href="#" class="btn btn-outline-success btn-sm"
+                                                        data-bs-toggle="modal"
                                                         data-bs-target="#feedbackModal{{ $item->id }}">
                                                         Selesai
                                                     </a>
@@ -112,15 +113,14 @@
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
                                                         </div>
+
                                                         <div class="modal-body">
                                                             <div class="row">
                                                                 <!-- Kolom Kiri -->
                                                                 <div class="col-md-6">
                                                                     <div class="mb-3">
-                                                                        <label for="sales_id" class="form-label">Nama
-                                                                            Sales</label>
-                                                                        <select class="form-control" name="sales_id"
-                                                                            id="sales_id" disabled>
+                                                                        <label class="form-label">Nama Sales</label>
+                                                                        <select class="form-control" disabled>
                                                                             <option value="{{ $item->user->id }}">
                                                                                 {{ $item->user->name }}</option>
                                                                         </select>
@@ -129,11 +129,24 @@
                                                                         <label for="kategori_id" class="form-label">Kategori
                                                                             Lokasi</label>
                                                                         <select class="form-control" name="kategori_id"
-                                                                            id="kategori_id">
+                                                                            id="kategori_id" required>
                                                                             @foreach ($lokasi as $lok)
                                                                                 <option value="{{ $lok->id }}"
-                                                                                    {{ $item->kategori_lokasi->id == $lok->id ? 'selected' : '' }}>
+                                                                                    {{ $item->kategori_id == $lok->id ? 'selected' : '' }}>
                                                                                     {{ $lok->nama_sektor }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="produk_id" class="form-label">Jenis
+                                                                            Produk</label>
+                                                                        <select class="form-control" name="produk_id"
+                                                                            id="produk_id" required>
+                                                                            @foreach ($produk as $prod)
+                                                                                <option value="{{ $prod->id }}"
+                                                                                    {{ $item->produk_id == $prod->id ? 'selected' : '' }}>
+                                                                                    {{ $prod->nama }}
                                                                                 </option>
                                                                             @endforeach
                                                                         </select>
@@ -142,28 +155,9 @@
                                                                         <label for="tanggal_kunjungan"
                                                                             class="form-label">Tanggal Kunjungan</label>
                                                                         <input type="date" class="form-control"
-                                                                            id="tanggal_kunjungan" name="tanggal_kunjungan"
+                                                                            name="tanggal_kunjungan" id="tanggal_kunjungan"
                                                                             value="{{ $item->tanggal_kunjungan }}"
                                                                             required>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <label for="nomor_hp" class="form-label">Nomor
-                                                                            HP</label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="nomor_hp" name="nomor_hp"
-                                                                            value="{{ $item->nomor_hp }}" required
-                                                                            pattern="[0-9]*" inputmode="numeric"
-                                                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <label for="bukti_kunjungan"
-                                                                            class="form-label">Foto
-                                                                            Bukti Kunjungan</label>
-                                                                        <input type="file" class="form-control"
-                                                                            id="bukti_kunjungan" name="bukti_kunjungan">
-                                                                        <small class="text-muted">Kosongkan jika tidak
-                                                                            ingin
-                                                                            mengganti foto.</small>
                                                                     </div>
                                                                 </div>
 
@@ -173,29 +167,48 @@
                                                                         <label for="nama_lokasi" class="form-label">Nama
                                                                             Lokasi</label>
                                                                         <input type="text" class="form-control"
-                                                                            id="nama_lokasi" name="nama_lokasi"
+                                                                            name="nama_lokasi" id="nama_lokasi"
                                                                             value="{{ $item->nama_lokasi }}" required>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <label for="alamat"
-                                                                            class="form-label">Alamat</label>
+                                                                        <label for="nomor_hp" class="form-label">Nomor
+                                                                            HP</label>
                                                                         <input type="text" class="form-control"
-                                                                            id="alamat" name="alamat"
-                                                                            value="{{ $item->alamat }}" required>
+                                                                            name="nomor_hp" id="nomor_hp"
+                                                                            value="{{ $item->nomor_hp }}" required
+                                                                            pattern="[0-9]*" inputmode="numeric"
+                                                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="pic" class="form-label">Nama
-                                                                            Penanggung Jawab</label>
+                                                                            Penanggung Jawab (PIC)</label>
                                                                         <input type="text" class="form-control"
-                                                                            id="pic" name="pic"
+                                                                            name="pic" id="pic"
                                                                             value="{{ $item->pic }}" required>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <label for="keterangan"
-                                                                            class="form-label">Keterangan Hasil
-                                                                            Visit</label>
-                                                                        <textarea name="keterangan" id="keterangan" class="form-control" rows="5">{{ $item->keterangan }}</textarea>
+                                                                        <label for="bukti_kunjungan"
+                                                                            class="form-label">Foto Bukti Kunjungan</label>
+                                                                        <input type="file" class="form-control"
+                                                                            name="bukti_kunjungan" id="bukti_kunjungan"
+                                                                            accept="image/*">
+                                                                        <small class="text-muted">Kosongkan jika tidak
+                                                                            ingin mengganti foto.</small>
                                                                     </div>
+                                                                </div>
+
+                                                                <!-- Full Row -->
+                                                                <div class="mb-3">
+                                                                    <label for="alamat"
+                                                                        class="form-label">Alamat</label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="alamat" id="alamat"
+                                                                        value="{{ $item->alamat }}" required>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="keterangan" class="form-label">Keterangan
+                                                                        Hasil Visit</label>
+                                                                    <textarea name="keterangan" id="keterangan" class="form-control" rows="4" required>{{ $item->keterangan }}</textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -230,7 +243,7 @@
                     @csrf
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="tambahModalLabel">Tambah Penawaran</h5>
+                            <h5 class="modal-title">Tambah Penawaran</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
@@ -240,34 +253,32 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="sales_id" class="form-label">Nama Sales</label>
-                                        <select class="form-control" name="sales_id" id="sales_id">
+                                        <select class="form-control" name="sales_id" id="sales_id" readonly>
                                             <option value="{{ Auth::user()->id }}">{{ Auth::user()->name }}</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
                                         <label for="kategori_id" class="form-label">Kategori Lokasi</label>
-                                        <select class="form-control" name="kategori_id" id="kategori_id">
-                                            <option> -- Pilih kategori Lokasi --</option>
+                                        <select class="form-control" name="kategori_id" id="kategori_id" required>
+                                            <option value="">-- Pilih kategori Lokasi --</option>
                                             @foreach ($lokasi as $item)
                                                 <option value="{{ $item->id }}">{{ $item->nama_sektor }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="mb-3">
+                                        <label for="produk_id" class="form-label">Jenis Produk</label>
+                                        <select class="form-control" name="produk_id" id="produk_id" required>
+                                            <option value="">-- Pilih Produk --</option>
+                                            @foreach ($produk as $item)
+                                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="tanggal_kunjungan" class="form-label">Tanggal Kunjungan</label>
-                                        <input type="date" class="form-control" id="tanggal_kunjungan"
-                                            name="tanggal_kunjungan" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="nomor_hp" class="form-label">Nomor HP</label>
-                                        <input type="text" class="form-control" id="nomor_hp" name="nomor_hp"
-                                            required pattern="[0-9]*" inputmode="numeric"
-                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="bukti_kunjungan" class="form-label">Foto Bukti Kunjungan</label>
-                                        <input type="file" class="form-control" id="bukti_kunjungan"
-                                            name="bukti_kunjungan" required>
+                                        <input type="date" class="form-control" name="tanggal_kunjungan"
+                                            id="tanggal_kunjungan" required>
                                     </div>
                                 </div>
 
@@ -275,23 +286,34 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="nama_lokasi" class="form-label">Nama Lokasi</label>
-                                        <input type="text" class="form-control" id="nama_lokasi" name="nama_lokasi"
+                                        <input type="text" class="form-control" name="nama_lokasi" id="nama_lokasi"
                                             required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="alamat" class="form-label">Alamat</label>
-                                        <input type="text" class="form-control" id="alamat" name="alamat"
+                                        <label for="nomor_hp" class="form-label">Nomor HP</label>
+                                        <input type="text" class="form-control" name="nomor_hp" id="nomor_hp"
+                                            required pattern="[0-9]*" inputmode="numeric"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="pic" class="form-label">Nama Penanggung Jawab (PIC)</label>
+                                        <input type="text" class="form-control" name="pic" id="pic"
                                             required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="pic" class="form-label">Nama Penanggung Jawab</label>
-                                        <input type="text" class="form-control" id="pic" name="pic"
-                                            required>
+                                        <label for="bukti_kunjungan" class="form-label">Foto Bukti Kunjungan</label>
+                                        <input type="file" class="form-control" name="bukti_kunjungan"
+                                            id="bukti_kunjungan" accept="image/*" required>
+                                            <small class="text-muted">Ukuran foto maksimal 2mb</small>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="keterangan" class="form-label">Keterangan Hasil Visit</label>
-                                        <textarea name="keterangan" id="keterangan" class="form-control" rows="5"></textarea>
-                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="alamat" class="form-label">Alamat</label>
+                                    <input type="text" class="form-control" name="alamat" id="alamat" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="keterangan" class="form-label">Keterangan Hasil Visit</label>
+                                    <textarea name="keterangan" id="keterangan" class="form-control" rows="4" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -302,6 +324,7 @@
                         </div>
                     </div>
                 </form>
+
             </div>
         </div>
 

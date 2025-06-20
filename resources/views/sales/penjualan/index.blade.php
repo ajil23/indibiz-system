@@ -31,7 +31,7 @@
                                         <th>Nama Lokasi Usaha</th>
                                         <th>Jenis Produk</th>
                                         <th>Alamat</th>
-                                        <th>Kordinat Alamat</th>
+                                        <th>Tanggal Pembelian</th>
                                         <th>Status</th>
                                         <th colspan="2">Aksi</th>
                                     </tr>
@@ -44,7 +44,7 @@
                                             <td>{{ $item->lokasi_usaha }}</td>
                                             <td>{{ $item->jenis_produk->nama }}</td>
                                             <td>{{ $item->alamat }}</td>
-                                            <td>{{ $item->koordinat }}</td>
+                                            <td>{{ $item->tanggal_penjualan }}</td>
                                             <td>
                                                 @if ($item->status == 'Disetujui')
                                                     <span class="btn btn-sm btn-outline-success">Disetujui</span>
@@ -104,16 +104,17 @@
                                         <div class="modal fade" id="editModal-{{ $item->id }}" tabindex="-1"
                                             aria-labelledby="editModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-xl">
-                                                <form action="{{ route('sales_penjualan.update', $item->id) }}" method="POST">
+                                                <form action="{{ route('sales_penjualan.update', $item->id) }}"
+                                                    method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="editModalLabel">Detail Penjualan
-                                                            </h5>
+                                                            <h5 class="modal-title" id="editModalLabel">Edit Penjualan</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
                                                         </div>
+
                                                         <div class="modal-body">
                                                             <div class="row">
                                                                 <!-- Kolom Kiri -->
@@ -129,8 +130,8 @@
                                                                         <label for="kategori_id" class="form-label">Kategori
                                                                             Lokasi</label>
                                                                         <select class="form-control" name="kategori_id"
-                                                                            id="kategori_id">
-                                                                            <option> -- Pilih kategori Lokasi --</option>
+                                                                            id="kategori_id" required>
+                                                                            <option>-- Pilih kategori Lokasi --</option>
                                                                             @foreach ($lokasi as $lok)
                                                                                 <option value="{{ $lok->id }}"
                                                                                     {{ $item->kategori_id == $lok->id ? 'selected' : '' }}>
@@ -143,8 +144,8 @@
                                                                         <label for="produk_id" class="form-label">Jenis
                                                                             Produk</label>
                                                                         <select class="form-control" name="produk_id"
-                                                                            id="produk_id">
-                                                                            <option> -- Pilih jenis produk --</option>
+                                                                            id="produk_id" required>
+                                                                            <option>-- Pilih jenis produk --</option>
                                                                             @foreach ($produk as $prod)
                                                                                 <option value="{{ $prod->id }}"
                                                                                     {{ $item->produk_id == $prod->id ? 'selected' : '' }}>
@@ -154,20 +155,22 @@
                                                                         </select>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <label for="koordinat" class="form-label">Koordinat
-                                                                            Alamat</label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="koordinat" name="koordinat"
-                                                                            value="{{ $item->koordinat }}" required>
-                                                                    </div>
-                                                                    <div class="mb-3">
                                                                         <label for="nomor_hp" class="form-label">Nomor
                                                                             HP</label>
                                                                         <input type="text" class="form-control"
-                                                                            id="nomor_hp" name="nomor_hp" required
+                                                                            id="nomor_hp" name="nomor_hp"
+                                                                            value="{{ $item->nomor_hp }}" required
                                                                             pattern="[0-9]*" inputmode="numeric"
-                                                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                                                                            value="{{ $item->nomor_hp }}">
+                                                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="tanggal_penjualan"
+                                                                            class="form-label">Tanggal Penjualan</label>
+                                                                        <input type="date" class="form-control"
+                                                                            id="tanggal_penjualan"
+                                                                            name="tanggal_penjualan"
+                                                                            value="{{ $item->tanggal_penjualan }}"
+                                                                            required>
                                                                     </div>
                                                                 </div>
 
@@ -195,29 +198,18 @@
                                                                             value="{{ $item->email }}" required>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <label for="sales_id" class="form-label">Nama
-                                                                            Sales</label>
-                                                                        <select class="form-control" name="sales_id"
-                                                                            id="sales_id">
-                                                                            <option> -- Pilih Sales --</option>
-                                                                            @foreach ($sales as $sls)
-                                                                                <option value="{{ $sls->id }}"
-                                                                                    {{ $item->sales_id == $sls->id ? 'selected' : '' }}>
-                                                                                    {{ $sls->name }}
-                                                                                </option>
-                                                                            @endforeach
-                                                                        </select>
+                                                                        <label for="foto_ktp" class="form-label">Foto
+                                                                            KTP/Identitas Lain (Opsional)</label>
+                                                                        <input type="file" class="form-control"
+                                                                            id="foto_ktp" name="foto_ktp">
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <label for="kode_partner" class="form-label">Kode
-                                                                            Partner</label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="kode_partner" name="kode_partner"
-                                                                            value="{{ $item->kode_partner }}" required>
+                                                                        <label for="catatan_tambahan"
+                                                                            class="form-label">Catatan Tambahan</label>
+                                                                        <textarea class="form-control" name="catatan_tambahan" id="catatan_tambahan" cols="30" rows="1">{{ $item->catatan_tambahan }}</textarea>
                                                                     </div>
                                                                 </div>
                                                             </div>
-
                                                         </div>
 
                                                         <div class="modal-footer">
@@ -246,7 +238,7 @@
         <!-- Modal Tambah Data -->
         <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
-                <form action="{{ route('sales_penjualan.store') }}" method="POST">
+                <form action="{{ route('sales_penjualan.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-content">
                         <div class="modal-header">
@@ -282,15 +274,15 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="koordinat" class="form-label">Koordinat Alamat</label>
-                                        <input type="text" class="form-control" id="koordinat" name="koordinat"
-                                            required>
-                                    </div>
-                                    <div class="mb-3">
                                         <label for="nomor_hp" class="form-label">Nomor HP</label>
                                         <input type="text" class="form-control" id="nomor_hp" name="nomor_hp"
                                             required pattern="[0-9]*" inputmode="numeric"
                                             oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="tanggal_penjualan" class="form-label">Tanggal Penjualan</label>
+                                        <input type="date" class="form-control" id="tanggal_penjualan"
+                                            name="tanggal_penjualan" required>
                                     </div>
                                 </div>
 
@@ -312,18 +304,13 @@
                                             required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="sales_id" class="form-label">Nama Sales</label>
-                                        <select class="form-control" name="sales_id" id="sales_id">
-                                            <option> -- Pilih Sales --</option>
-                                            @foreach ($sales as $item)
-                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <label for="foto_ktp" class="form-label">Foto KTP/Identitas Lain</label>
+                                        <input type="file" class="form-control" id="foto_ktp" name="foto_ktp"
+                                            required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="kode_partner" class="form-label">Kode Partner</label>
-                                        <input type="text" class="form-control" id="kode_partner" name="kode_partner"
-                                            required>
+                                        <label for="catatan_tambahan" class="form-label">Catatan Tambahan</label>
+                                        <textarea class="form-control" name="catatan_tambahan" id="catatan_tambahan" cols="30" rows="1"></textarea>
                                     </div>
                                 </div>
                             </div>

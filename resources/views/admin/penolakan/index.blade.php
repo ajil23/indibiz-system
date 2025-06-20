@@ -53,42 +53,75 @@
                                                 @elseif($item->catatan_penolakan != null)
                                                     <a href="#" class="btn btn-outline-success btn-sm"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#feedbackModal{{ $item->id }}">
+                                                        data-bs-target="#viewModal{{ $item->id }}">
                                                         Selesai
                                                     </a>
                                                 @endif
                                                 @if (Auth::user()->role == 'admin')
                                             <td>
                                                 <button class="btn btn-info btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#viewModal{{ $item->id }}">
+                                                    data-bs-target="#feedbackModal{{ $item->id }}">
                                                     view
                                                 </button>
                                             </td>
                                         </tr>
-                                        @endif
+                                    @endif
 
-                                        @if (Auth::user()->role == 'admin')
-                                            <!-- Modal view per row -->
-                                            <div class="modal fade" id="viewModal{{ $item->id }}" tabindex="-1"
-                                                aria-labelledby="viewModalLabel{{ $item->id }}" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                   
-                                                        <div class="modal-content">
-                                                            <div class="modal-body">
-                                                                <div class="mb-3">
-                                                                    <label for="nama_sektor"
-                                                                        class="form-label">Catatan</label>
-                                                                    <textarea class="form-control" name="feedback" id="feedback" cols="5" rows="10" readonly>{{$item->catatan_penolakan}}</textarea>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Tutup</button>
+                                    @if (Auth::user()->role == 'admin')
+                                        <!-- Modal Feedback untuk Penolakan -->
+                                        <div class="modal fade" id="feedbackModal{{ $item->id }}" tabindex="-1"
+                                            aria-labelledby="feedbackModalLabel{{ $item->id }}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <form action="{{ route('penolakan.update', $item->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title"
+                                                                id="feedbackModalLabel{{ $item->id }}">Feedback untuk
+                                                                Penolakan</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="mb-3">
+                                                                <label for="feedback" class="form-label">Masukkan
+                                                                    Feedback</label>
+                                                                <textarea name="feedback" id="feedback" class="form-control" rows="6">{{ old('feedback', $item->feedback) }}</textarea>
                                                             </div>
                                                         </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Batal</button>
+                                                            <button type="submit" class="btn btn-primary">Simpan
+                                                                Feedback</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <!-- Modal view per row -->
+                                        <div class="modal fade" id="viewModal{{ $item->id }}" tabindex="-1"
+                                            aria-labelledby="viewModalLabel{{ $item->id }}" aria-hidden="true">
+                                            <div class="modal-dialog">
+
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <div class="mb-3">
+                                                            <label for="nama_sektor" class="form-label">Catatan</label>
+                                                            <textarea class="form-control" name="feedback" id="feedback" cols="5" rows="10" readonly>{{ $item->catatan_penolakan }}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Tutup</button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        @endif
+                                        </div>
+                                    @endif
                                     @endforeach
                                 </tbody>
                             </table>

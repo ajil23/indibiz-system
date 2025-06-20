@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('pelaporan_kendaraan', function (Blueprint $table) {
             $table->id();
-            $table->string('pengemudi');
             $table->string('tanggal_penggunaan');
             $table->string('lokasi_tujuan');
             $table->string('waktu_mulai');
@@ -21,6 +20,8 @@ return new class extends Migration
             $table->string('jumlah_odo');
             $table->string('foto_odo');
             $table->text('keterangan')->nullable();
+            $table->unsignedBigInteger('sales_id');
+            $table->foreign('sales_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('tnkb_id');
             $table->foreign('tnkb_id')->references('id')->on('tnkb')->onDelete('cascade');
             $table->timestamps();

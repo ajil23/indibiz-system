@@ -40,7 +40,7 @@
                                     @foreach ($pembelian as $item)
                                         <tr>
                                             <td><span class="fw-bolder">{{ $loop->iteration }}</span></td>
-                                            <td>{{ $item->pengemudi }}</td>
+                                            <td>{{ $item->user->name }}</td>
                                             <td>{{ $item->lokasi_tujuan }}</td>
                                             <td>{{ $item->bbm->nama_bbm }}</td>
                                             <td>{{ $item->tanggal_pembelian }}</td>
@@ -58,7 +58,7 @@
                                                 </button>
 
                                                 <!-- Tombol Hapus -->
-                                                <form action="{{ route('sales_penjualan.destroy', $item->id) }}"
+                                                <form action="{{ route('sales_pembelian.destroy', $item->id) }}"
                                                     method="POST" class="d-inline delete-form">
                                                     @csrf
                                                     @method('DELETE')
@@ -105,8 +105,10 @@
                                                                 <!-- Kolom Kiri -->
                                                                 <div class="col-md-6">
                                                                     <div class="mb-3">
-                                                                        <label for="pengemudi" class="form-label">Nama Pengemudi</label>
-                                                                        <input type="text" class="form-control" id="pengemudi" name="pengemudi" value="{{ $item->pengemudi }}" required>
+                                                                        <label for="sales_id" class="form-label">Nama Pengemudi</label>
+                                                                        <select name="sales_id" id="sales_id" class="form-select">
+                                                                            <option value="{{$item->sales_id}}">{{$item->user->name}}</option>
+                                                                        </select>
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="tanggal_pembelian" class="form-label">Tanggal Pembelian</label>
@@ -151,11 +153,15 @@
                                                                         </select>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <label for="foto_nota" class="form-label">Foto Nota</label>
-                                                                        <input type="file" class="form-control" id="foto_nota" name="foto_nota" accept="image/*">
-                                                                        <small class="text-muted">Kosongkan jika tidak ingin mengubah foto.</small>
+                                                                        <label for="total_pembelian" class="form-label">Total Pembelian</label>
+                                                                        <input type="number" class="form-control" id="total_pembelian" name="total_pembelian" value="{{ $item->total_pembelian }}" required>
                                                                     </div>
                                                                 </div>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="foto_nota" class="form-label">Foto Nota</label>
+                                                                <input type="file" class="form-control" id="foto_nota" name="foto_nota" accept="image/*">
+                                                                <small class="text-muted">Kosongkan jika tidak ingin mengubah foto.</small>
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="keterangan" class="form-label">Keterangan</label>
@@ -200,9 +206,10 @@
                                 <!-- Kolom Kiri -->
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="pengemudi" class="form-label">Nama Pengemudi</label>
-                                        <input type="text" class="form-control" id="pengemudi" name="pengemudi"
-                                            required>
+                                        <label for="sales_id" class="form-label">Nama Pengemudi</label>
+                                        <select name="sales_id" id="sales_id" class="form-select">
+                                            <option value="{{Auth::user()->id}}">{{Auth::user()->name}}</option>
+                                        </select>
                                     </div>
                                     <div class="mb-3">
                                         <label for="tanggal_pembelian" class="form-label">Tanggal Pembelian</label>
@@ -248,11 +255,15 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="foto_nota" class="form-label">Foto Nota</label>
-                                        <input type="file" class="form-control" id="foto_nota" name="foto_nota"
-                                            accept="image/*" required>
+                                        <label for="total_pembelian" class="form-label">Total Pembelian</label>
+                                        <input type="number" class="form-control" id="total_pembelian" name="total_pembelian" required>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="foto_nota" class="form-label">Foto Nota</label>
+                                <input type="file" class="form-control" id="foto_nota" name="foto_nota"
+                                    accept="image/*" required>
                             </div>
                             <div class="mb-3">
                                 <label for="keterangan" class="form-label">Keterangan</label>

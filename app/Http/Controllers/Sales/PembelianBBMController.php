@@ -7,13 +7,14 @@ use App\Models\BahanBakar;
 use App\Models\PembelianBbm;
 use App\Models\Tnkb;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class PembelianBBMController extends Controller
 {
     public function index()
     {
-        $pembelian = PembelianBbm::paginate();
+        $pembelian = PembelianBbm::where('sales_id', Auth::user()->id)->latest()->paginate(10);
         $tnkb = Tnkb::all();
         $bbm = BahanBakar::all();
         return view('sales.pembelianBBM.index', compact('pembelian', 'tnkb', 'bbm'));
@@ -23,10 +24,11 @@ class PembelianBBMController extends Controller
     {
         // Validasi input
         $request->validate([
-            'pengemudi' => 'required|string|max:255',
+            'sales_id' => 'required',
             'tanggal_pembelian' => 'required|date',
             'lokasi_tujuan' => 'required|string|max:255',
             'harga' => 'required|numeric|min:0',
+            'total_pembelian' => 'required|numeric|min:0',
             'lokasi_pembelian' => 'required|string|max:255',
             'tnkb_id' => 'required|exists:tnkb,id',
             'bbm_id' => 'required|exists:bbm,id',
@@ -43,10 +45,11 @@ class PembelianBBMController extends Controller
 
         // Simpan data ke database
         PembelianBbm::create([
-            'pengemudi' => $request->pengemudi,
+            'sales_id' => $request->sales_id,
             'tanggal_pembelian' => $request->tanggal_pembelian,
             'lokasi_tujuan' => $request->lokasi_tujuan,
             'harga' => $request->harga,
+            'total_pembelian' => $request->total_pembelian,
             'lokasi_pembelian' => $request->lokasi_pembelian,
             'tnkb_id' => $request->tnkb_id,
             'bbm_id' => $request->bbm_id,
@@ -62,10 +65,11 @@ class PembelianBBMController extends Controller
     {
         // Validasi input
         $request->validate([
-            'pengemudi' => 'required|string|max:255',
+            'sales_id' => 'required',
             'tanggal_pembelian' => 'required|date',
             'lokasi_tujuan' => 'required|string|max:255',
             'harga' => 'required|numeric|min:0',
+            'total_pembelian' => 'required|numeric|min:0',
             'lokasi_pembelian' => 'required|string|max:255',
             'tnkb_id' => 'required|exists:tnkb,id',
             'bbm_id' => 'required|exists:bbm,id',
@@ -93,10 +97,11 @@ class PembelianBBMController extends Controller
 
         // Update data di database
         $pembelian->update([
-            'pengemudi' => $request->pengemudi,
+            'sales_id' => $request->sales_id,
             'tanggal_pembelian' => $request->tanggal_pembelian,
             'lokasi_tujuan' => $request->lokasi_tujuan,
             'harga' => $request->harga,
+            'total_pembelian' => $request->total_pembelian,
             'lokasi_pembelian' => $request->lokasi_pembelian,
             'tnkb_id' => $request->tnkb_id,
             'bbm_id' => $request->bbm_id,

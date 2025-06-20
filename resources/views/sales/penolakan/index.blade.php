@@ -103,7 +103,7 @@
                                             aria-labelledby="editModalLabel{{ $item->id }}" aria-hidden="true">
                                             <div class="modal-dialog modal-xl">
                                                 <form action="{{ route('sales_penolakan.update', $item->id) }}"
-                                                    method="POST">
+                                                    method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="modal-content">
@@ -141,13 +141,6 @@
                                                                             id="nama_lokasi" name="nama_lokasi"
                                                                             value="{{ $item->nama_lokasi }}" required>
                                                                     </div>
-                                                                    <div class="mb-3">
-                                                                        <label for="alamat"
-                                                                            class="form-label">Alamat</label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="alamat" name="alamat"
-                                                                            value="{{ $item->alamat }}" required>
-                                                                    </div>
                                                                 </div>
 
                                                                 <!-- Kolom Kanan -->
@@ -157,6 +150,7 @@
                                                                             Produk</label>
                                                                         <select class="form-control" name="produk_id"
                                                                             id="produk_id" required>
+                                                                            <option value="">Pilih Produk</option>
                                                                             @foreach ($produk as $produkItem)
                                                                                 <option value="{{ $produkItem->id }}"
                                                                                     {{ $item->produk_id == $produkItem->id ? 'selected' : '' }}>
@@ -166,9 +160,42 @@
                                                                         </select>
                                                                     </div>
                                                                     <div class="mb-3">
+                                                                        <label for="kategori_id"
+                                                                            class="form-label">Kategori Lokasi</label>
+                                                                        <select class="form-control" name="kategori_id"
+                                                                            id="kategori_id" required>
+                                                                            <option value="">Pilih Kategori</option>
+                                                                            @foreach ($kategori as $kategoriItem)
+                                                                                <option value="{{ $kategoriItem->id }}"
+                                                                                    {{ $item->kategori_id == $kategoriItem->id ? 'selected' : '' }}>
+                                                                                    {{ $kategoriItem->nama_sektor }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="bukti_kunjungan"
+                                                                            class="form-label">Bukti Kunjungan (Foto Baru -
+                                                                            Opsional)</label>
+                                                                        <input type="file" class="form-control"
+                                                                            id="bukti_kunjungan" name="bukti_kunjungan"
+                                                                            accept="image/*">
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Full Width -->
+                                                                <div class="col-md-12">
+                                                                    <div class="mb-3">
+                                                                        <label for="alamat"
+                                                                            class="form-label">Alamat</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="alamat" name="alamat"
+                                                                            value="{{ $item->alamat }}" required>
+                                                                    </div>
+                                                                    <div class="mb-3">
                                                                         <label for="catatan_penolakan"
                                                                             class="form-label">Catatan Penolakan</label>
-                                                                        <textarea name="catatan_penolakan" id="catatan_penolakan" class="form-control" rows="5" required>{{ $item->catatan_penolakan }}</textarea>
+                                                                        <textarea name="catatan_penolakan" id="catatan_penolakan" class="form-control" rows="3" required>{{ $item->catatan_penolakan }}</textarea>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -200,7 +227,7 @@
         <!-- Modal Tambah Data -->
         <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
-                <form action="{{ route('sales_penolakan.store') }}" method="POST">
+                <form action="{{ route('sales_penolakan.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-content">
                         <div class="modal-header">
@@ -228,11 +255,6 @@
                                         <input type="text" class="form-control" id="nama_lokasi" name="nama_lokasi"
                                             required>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="alamat" class="form-label">Alamat</label>
-                                        <input type="text" class="form-control" id="alamat" name="alamat"
-                                            required>
-                                    </div>
                                 </div>
 
                                 <!-- Kolom Kanan -->
@@ -247,9 +269,27 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="catatan_penolakan" class="form-label">Catatan Penolakan</label>
-                                        <textarea name="catatan_penolakan" id="catatan_penolakan" class="form-control" rows="5" required></textarea>
+                                        <label for="kategori_id" class="form-label">Kategori Lokasi</label>
+                                        <select class="form-control" name="kategori_id" id="kategori_id" required>
+                                            <option value="">Pilih Kategori</option>
+                                            @foreach ($kategori as $item)
+                                                <option value="{{ $item->id }}">{{ $item->nama_sektor }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="bukti_kunjungan" class="form-label">Bukti Kunjungan (Foto)</label>
+                                        <input type="file" class="form-control" id="bukti_kunjungan"
+                                            name="bukti_kunjungan" accept="image/*" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="alamat" class="form-label">Alamat</label>
+                                    <input type="text" class="form-control" id="alamat" name="alamat" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="catatan_penolakan" class="form-label">Catatan Penolakan</label>
+                                    <textarea name="catatan_penolakan" id="catatan_penolakan" class="form-control" rows="3" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -262,6 +302,7 @@
                 </form>
             </div>
         </div>
+
 
         <!-- Footer -->
         @include('admin.component.footer')

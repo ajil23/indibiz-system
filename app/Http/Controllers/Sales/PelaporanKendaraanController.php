@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PelaporanKendaraan;
 use App\Models\Tnkb;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class PelaporanKendaraanController extends Controller
@@ -13,7 +14,7 @@ class PelaporanKendaraanController extends Controller
     public function index()
     {
         $tnkb = Tnkb::all();
-        $pelaporan = PelaporanKendaraan::paginate(10);
+        $pelaporan = PelaporanKendaraan::where('sales_id', Auth::user()->id)->latest()->paginate(10);
         return view('sales.pelaporan.index', compact('tnkb', 'pelaporan'));
     }
 
@@ -21,7 +22,7 @@ class PelaporanKendaraanController extends Controller
     {
         // Validasi data input
         $request->validate([
-            'pengemudi' => 'required|string|max:255',
+            'sales_id' => 'required',
             'tanggal_penggunaan' => 'required|date',
             'lokasi_tujuan' => 'required|string|max:255',
             'waktu_mulai' => 'required|date_format:H:i',
@@ -41,7 +42,7 @@ class PelaporanKendaraanController extends Controller
 
         // Simpan data ke database
         PelaporanKendaraan::create([
-            'pengemudi' => $request->pengemudi,
+            'sales_id' => $request->sales_id,
             'tanggal_penggunaan' => $request->tanggal_penggunaan,
             'lokasi_tujuan' => $request->lokasi_tujuan,
             'waktu_mulai' => $request->waktu_mulai,
@@ -63,7 +64,7 @@ class PelaporanKendaraanController extends Controller
 
         // Validasi data input
         $request->validate([
-            'pengemudi' => 'required|string|max:255',
+            'sales_id' => 'required',
             'tanggal_penggunaan' => 'required|date',
             'lokasi_tujuan' => 'required|string|max:255',
             'waktu_mulai' => 'required|date_format:H:i',
@@ -89,7 +90,7 @@ class PelaporanKendaraanController extends Controller
 
         // Update data ke database
         $pelaporan->update([
-            'pengemudi' => $request->pengemudi,
+            'sales_id' => $request->sales_id,
             'tanggal_penggunaan' => $request->tanggal_penggunaan,
             'lokasi_tujuan' => $request->lokasi_tujuan,
             'waktu_mulai' => $request->waktu_mulai,
