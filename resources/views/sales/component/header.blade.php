@@ -11,7 +11,7 @@
                         d="M0,182H29.76a21.3,21.3,0,0,0,18.56-10.33,63.27,63.27,0,0,1,106.94,0A21.3,21.3,0,0,0,173.82,182h29.76c-22.66-50.84-49.5-80.34-101.79-80.34S22.66,131.16,0,182Z"
                         fill="currentColor" fill-rule="evenodd" />
                 </svg>
-                <span class="fw-black text-uppercase tracking-wide fs-6 lh-1">Apollo</span>
+                <span class="fw-black text-uppercase tracking-wide fs-6 lh-1">Indibiz</span>
             </div>
         </a>
         <div class="d-flex justify-content-between align-items-center flex-grow-1 navbar-actions">

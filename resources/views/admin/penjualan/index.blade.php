@@ -17,11 +17,9 @@
                 <div class="card mb-4 h-100">
                     <div class="card-header justify-content-between align-items-center d-flex">
                         <h6 class="card-title m-0">Tabel penjualan</h6>
-                        @if (Auth::user()->role == 'admin')
-                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exportModal">
-                                Export
-                            </button>
-                        @endif
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exportModal">
+                            Export
+                        </button>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
