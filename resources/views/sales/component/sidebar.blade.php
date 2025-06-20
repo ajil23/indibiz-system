@@ -28,7 +28,7 @@
 
                     <!-- Dashboard Menu Section-->
                     <li class="menu-section mt-2">Menu</li>
-                    <li class="menu-item"><a class="d-flex align-items-center" href="./index.html">
+                    <li class="menu-item"><a class="d-flex align-items-center" href="{{'home'}}">
                             <span class="menu-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18"
                                     height="18" fill="currentColor">
