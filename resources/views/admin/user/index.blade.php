@@ -7,7 +7,7 @@
     <section class="container-fluid">
 
         <!-- Page Title-->
-        <h2 class="fs-3 fw-bold mb-2">Jenis Produk</h2>
+        <h2 class="fs-3 fw-bold mb-2">Sales</h2>
         <!-- / Page Title-->
 
         <!-- Top Row Widgets-->
@@ -16,7 +16,7 @@
             <div class="col-12">
                 <div class="card mb-4 h-100">
                     <div class="card-header justify-content-between align-items-center d-flex">
-                        <h6 class="card-title m-0">Tabel Jenis Produk</h6>
+                        <h6 class="card-title m-0">Tabel Sales</h6>
                         @if (Auth::user()->role == 'admin')
                             <!-- Tombol Tambah -->
                             <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahModal">

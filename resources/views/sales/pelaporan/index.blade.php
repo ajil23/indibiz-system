@@ -40,7 +40,7 @@
                                     @foreach ($pelaporan as $item)
                                         <tr>
                                             <td><span class="fw-bolder">{{ $loop->iteration }}</span></td>
-                                            <td>{{ $item->pengemudi }}</td>
+                                            <td>{{ $item->user->name }}</td>
                                             <td>{{ $item->tnkb->nomor_polisi }}</td>
                                             <td>{{ $item->tanggal_penggunaan }}</td>
                                             <td>{{ $item->lokasi_tujuan }}</td>
@@ -110,11 +110,13 @@
                                                                 <!-- Kolom Kiri -->
                                                                 <div class="col-md-6">
                                                                     <div class="mb-3">
-                                                                        <label for="pengemudi" class="form-label">Nama
+                                                                        <label for="sales_id" class="form-label">Nama
                                                                             Pengemudi</label>
-                                                                        <input type="text" class="form-control"
-                                                                            name="pengemudi" value="{{ $item->pengemudi }}"
-                                                                            required>
+                                                                        <select name="sales_id" id="sales_id"
+                                                                            class="form-select">
+                                                                            <option value="{{ $item->sales_id }}">
+                                                                                {{ $item->user->name }}</option>
+                                                                        </select>
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="tanggal_penggunaan"
@@ -228,9 +230,10 @@
                                 <!-- Kolom Kiri -->
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="pengemudi" class="form-label">Nama Pengemudi</label>
-                                        <input type="text" class="form-control" id="pengemudi" name="pengemudi"
-                                            required>
+                                        <label for="sales_id" class="form-label">Nama Pengemudi</label>
+                                        <select name="sales_id" id="sales_id" class="form-select">
+                                            <option value="{{ Auth::user()->id }}">{{ Auth::user()->name }}</option>
+                                        </select>
                                     </div>
                                     <div class="mb-3">
                                         <label for="tanggal_penggunaan" class="form-label">Tanggal Penggunaan</label>

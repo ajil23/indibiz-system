@@ -23,8 +23,10 @@ return new class extends Migration
             $table->text('feedback')->nullable();
             $table->unsignedBigInteger('sales_id');
             $table->unsignedBigInteger('kategori_id');
+            $table->unsignedBigInteger('produk_id');
             $table->foreign('sales_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('kategori_id')->references('id')->on('lokasi')->onDelete('cascade');
+            $table->foreign('produk_id')->references('id')->on('jenis_produk')->onDelete('cascade');
 
             $table->timestamps();
         });

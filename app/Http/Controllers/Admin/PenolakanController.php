@@ -22,6 +22,18 @@ class PenolakanController extends Controller
         return view('admin.penolakan.index', compact('sales', 'lokasi', 'penolakan'));
     }
 
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'feedback' => 'required',
+        ]);
+        $penolakan = Penolakan::findOrFail($id);
+        $penolakan->update([
+            'feedback' => $request->feedback,
+        ]);
+        return back()->with('success', 'Feedback berhasil disimpan!');
+    }
+    
     public function exportData(Request $request)
     {
         $exportType = $request->input('exportType');

@@ -8,9 +8,13 @@ class PelaporanKendaraan extends Model
 {
     protected $table = 'pelaporan_kendaraan';
     protected $primaryKey = 'id';
-    protected $fillable = ['pengemudi', 'tanggal_penggunaan', 'lokasi_tujuan', 'waktu_mulai', 'waktu_selesai', 'jumlah_odo', 'keterangan', 'foto_odo', 'tnkb_id'];
+    protected $fillable = ['pengemudi', 'tanggal_penggunaan', 'lokasi_tujuan', 'waktu_mulai', 'waktu_selesai', 'jumlah_odo', 'keterangan', 'foto_odo', 'tnkb_id', 'sales_id'];
 
     public function tnkb(){
         return $this->belongsTo(Tnkb::class,'tnkb_id','id');
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class,'sales_id','id');
     }
 }
