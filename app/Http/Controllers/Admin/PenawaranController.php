@@ -59,14 +59,22 @@ class PenawaranController extends Controller
 
     public function update(Request $request, $id)
     {
+        // Validasi input
         $request->validate([
-            'feedback' => 'required',
+            'feedback' => 'required|string',
+            'status' => 'required|in:Disetujui,Ditolak',
         ]);
+
+        // Temukan data penawaran
         $penawaran = Penawaran::findOrFail($id);
+
+        // Update data
         $penawaran->update([
             'feedback' => $request->feedback,
+            'status' => $request->status,
         ]);
-        return back()->with('success', 'Feedback berhasil disimpan!');
+
+        return back()->with('success', 'Feedback dan status penawaran berhasil diperbarui!');
     }
 
     public function exportData(Request $request)

@@ -47,6 +47,7 @@ class PenawaranController extends Controller
             'nomor_hp' => $request->nomor_hp,
             'bukti_kunjungan' => $buktiPath,
             'keterangan' => $request->keterangan,
+            'status' => 'Proses',
             'feedback' => null,
             'sales_id' => $request->sales_id,
             'kategori_id' => $request->kategori_id,

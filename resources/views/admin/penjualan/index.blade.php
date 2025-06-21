@@ -7,7 +7,7 @@
     <section class="container-fluid">
 
         <!-- Page Title-->
-        <h2 class="fs-3 fw-bold mb-2">penjualan</h2>
+        <h2 class="fs-3 fw-bold mb-2">Penjualan</h2>
         <!-- / Page Title-->
 
         <!-- Top Row Widgets-->
@@ -31,7 +31,6 @@
                                         <th>Nama Lokasi Usaha</th>
                                         <th>Jenis Produk</th>
                                         <th>Alamat</th>
-                                        <th>Kordinat Alamat</th>
                                         <th>Status</th>
                                         @if (Auth::user()->role == 'admin')
                                             <th>Aksi</th>
@@ -46,7 +45,6 @@
                                             <td>{{ $item->lokasi_usaha }}</td>
                                             <td>{{ $item->jenis_produk->nama }}</td>
                                             <td>{{ $item->alamat }}</td>
-                                            <td>{{ $item->koordinat }}</td>
                                             <td>
                                                 @if ($item->status == 'Disetujui')
                                                     <span class="btn btn-sm btn-outline-success">Disetujui</span>
