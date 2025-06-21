@@ -99,9 +99,8 @@
                                                                                 class="form-label">Kategori
                                                                                 Lokasi</label>
                                                                             <select class="form-control" name="kategori_id"
-                                                                                id="kategori_id">
-                                                                                <option> -- Pilih kategori Lokasi --
-                                                                                </option>
+                                                                                id="kategori_id" required>
+                                                                                <option>-- Pilih kategori Lokasi --</option>
                                                                                 @foreach ($lokasi as $lok)
                                                                                     <option value="{{ $lok->id }}"
                                                                                         {{ $item->kategori_id == $lok->id ? 'selected' : '' }}>
@@ -114,8 +113,8 @@
                                                                             <label for="produk_id" class="form-label">Jenis
                                                                                 Produk</label>
                                                                             <select class="form-control" name="produk_id"
-                                                                                id="produk_id">
-                                                                                <option> -- Pilih jenis produk --</option>
+                                                                                id="produk_id" required>
+                                                                                <option>-- Pilih jenis produk --</option>
                                                                                 @foreach ($produk as $prod)
                                                                                     <option value="{{ $prod->id }}"
                                                                                         {{ $item->produk_id == $prod->id ? 'selected' : '' }}>
@@ -125,21 +124,22 @@
                                                                             </select>
                                                                         </div>
                                                                         <div class="mb-3">
-                                                                            <label for="koordinat"
-                                                                                class="form-label">Koordinat
-                                                                                Alamat</label>
-                                                                            <input type="text" class="form-control"
-                                                                                id="koordinat" name="koordinat"
-                                                                                value="{{ $item->koordinat }}" required>
-                                                                        </div>
-                                                                        <div class="mb-3">
                                                                             <label for="nomor_hp" class="form-label">Nomor
                                                                                 HP</label>
                                                                             <input type="text" class="form-control"
-                                                                                id="nomor_hp" name="nomor_hp" required
+                                                                                id="nomor_hp" name="nomor_hp"
+                                                                                value="{{ $item->nomor_hp }}" required
                                                                                 pattern="[0-9]*" inputmode="numeric"
-                                                                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                                                                                value="{{ $item->nomor_hp }}">
+                                                                                oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label for="tanggal_penjualan"
+                                                                                class="form-label">Tanggal Penjualan</label>
+                                                                            <input type="date" class="form-control"
+                                                                                id="tanggal_penjualan"
+                                                                                name="tanggal_penjualan"
+                                                                                value="{{ $item->tanggal_penjualan }}"
+                                                                                required>
                                                                         </div>
                                                                     </div>
 
@@ -168,31 +168,57 @@
                                                                                 value="{{ $item->email }}" required>
                                                                         </div>
                                                                         <div class="mb-3">
-                                                                            <label for="sales_id" class="form-label">Nama
-                                                                                Sales</label>
-                                                                            <select class="form-control" name="sales_id"
-                                                                                id="sales_id">
-                                                                                <option> -- Pilih Sales --</option>
-                                                                                @foreach ($sales as $sls)
-                                                                                    <option value="{{ $sls->id }}"
-                                                                                        {{ $item->sales_id == $sls->id ? 'selected' : '' }}>
-                                                                                        {{ $sls->name }}
-                                                                                    </option>
-                                                                                @endforeach
-                                                                            </select>
+                                                                            <label for="foto_ktp" class="form-label">Foto
+                                                                                KTP/Identitas Lain (Opsional)</label>
+
+                                                                            @if ($item->foto_ktp)
+                                                                                <!-- Teks sebagai trigger modal -->
+                                                                                <p>
+                                                                                    <a href="#"
+                                                                                        data-bs-toggle="modal"
+                                                                                        data-bs-target="#ktpModal">Lihat
+                                                                                        Foto KTP</a>
+                                                                                </p>
+
+                                                                                <!-- Modal Bootstrap -->
+                                                                                <div class="modal fade" id="ktpModal"
+                                                                                    tabindex="-1"
+                                                                                    aria-labelledby="ktpModalLabel"
+                                                                                    aria-hidden="true">
+                                                                                    <div
+                                                                                        class="modal-dialog modal-dialog-centered modal-lg">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header">
+                                                                                                <h5 class="modal-title"
+                                                                                                    id="ktpModalLabel">Foto
+                                                                                                    KTP</h5>
+                                                                                                <button type="button"
+                                                                                                    class="btn-close"
+                                                                                                    data-bs-dismiss="modal"
+                                                                                                    aria-label="Close"></button>
+                                                                                            </div>
+                                                                                            <div
+                                                                                                class="modal-body text-center">
+                                                                                                <img src="{{ asset('storage/' . $item->foto_ktp) }}"
+                                                                                                    alt="Foto KTP"
+                                                                                                    style="max-width: 100%; height: auto;">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            @else
+                                                                                <p>Tidak ada foto KTP</p>
+                                                                            @endif
                                                                         </div>
+
+
                                                                         <div class="mb-3">
-                                                                            <label for="kode_partner"
-                                                                                class="form-label">Kode
-                                                                                Partner</label>
-                                                                            <input type="text" class="form-control"
-                                                                                id="kode_partner" name="kode_partner"
-                                                                                value="{{ $item->kode_partner }}"
-                                                                                required>
+                                                                            <label for="catatan_tambahan"
+                                                                                class="form-label">Catatan Tambahan</label>
+                                                                            <textarea class="form-control" name="catatan_tambahan" id="catatan_tambahan" cols="30" rows="1">{{ $item->catatan_tambahan }}</textarea>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
                                                             </div>
 
                                                             <div class="modal-footer">

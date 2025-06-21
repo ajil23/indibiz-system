@@ -46,9 +46,9 @@
                                             <td>{{ $item->alamat }}</td>
                                             <td>{{ $item->tanggal_kunjungan }}</td>
                                             <td>
-                                                @if ($item->catatan_penolakan == null)
+                                                @if ($item->feedback == null)
                                                     <button class="btn btn-outline-info btn-sm">Proses</button>
-                                                @elseif($item->catatan_penolakan != null)
+                                                @elseif($item->feedback != null)
                                                     <a href="#" class="btn btn-outline-success btn-sm"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#feedbackModal{{ $item->id }}">
@@ -82,13 +82,13 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="feedbackModalLabel{{ $item->id }}">
-                                                            Detail Catatan
+                                                            Feedback
                                                         </h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>{{ $item->catatan_penolakan }}</p>
+                                                        <p>{{ $item->feedback }}</p>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"

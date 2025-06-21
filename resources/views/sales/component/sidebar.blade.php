@@ -7,16 +7,9 @@
                 <div class="d-flex d-xl-none justify-content-between align-items-center border-bottom aside-header">
                     <a class="navbar-brand lh-1 border-0 m-0 d-flex align-items-center" href="./index.html">
                         <div class="d-flex align-items-center">
-                            <svg class="f-w-5 me-2 text-primary d-flex align-self-center lh-1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 203.58 182">
-                                <path
-                                    d="M101.66,41.34C94.54,58.53,88.89,72.13,84,83.78A21.2,21.2,0,0,1,69.76,96.41,94.86,94.86,0,0,0,26.61,122.3L81.12,0h41.6l55.07,123.15c-12-12.59-26.38-21.88-44.25-26.81a21.22,21.22,0,0,1-14.35-12.69c-4.71-11.35-10.3-24.86-17.53-42.31Z"
-                                    fill="currentColor" fill-rule="evenodd" fill-opacity="0.5" />
-                                <path
-                                    d="M0,182H29.76a21.3,21.3,0,0,0,18.56-10.33,63.27,63.27,0,0,1,106.94,0A21.3,21.3,0,0,0,173.82,182h29.76c-22.66-50.84-49.5-80.34-101.79-80.34S22.66,131.16,0,182Z"
-                                    fill="currentColor" fill-rule="evenodd" />
-                            </svg>
-                            <span class="fw-black text-uppercase tracking-wide fs-6 lh-1">Apollo</span>
+                            <img src="{{ asset('assets/images/logo.jpg') }}" alt="logo"
+                                style="height: 30px; width: 30px;">
+                            <span class="fw-black text-uppercase tracking-wide fs-6 lh-1">Indibiz</span>
                         </div>
                     </a>
                     <i
@@ -28,7 +21,7 @@
 
                     <!-- Dashboard Menu Section-->
                     <li class="menu-section mt-2">Menu</li>
-                    <li class="menu-item"><a class="d-flex align-items-center" href="{{'home'}}">
+                    <li class="menu-item"><a class="d-flex align-items-center" href="{{ 'home' }}">
                             <span class="menu-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18"
                                     height="18" fill="currentColor">
@@ -57,8 +50,8 @@
                             <span class="menu-link">Penawaran Indibiz</span></a>
                         <div class="collapse" id="collapseMenuItemPenawaran">
                             <ul class="submenu">
-                                <li><a href="{{route('sales_penawaran.index')}}">Penawaran</a></li>
-                                <li><a href="{{route('sales_penolakan.index')}}">Penolakan</a></li>
+                                <li><a href="{{ route('sales_penawaran.index') }}">Penawaran</a></li>
+                                <li><a href="{{ route('sales_penolakan.index') }}">Penolakan</a></li>
                             </ul>
                         </div>
                     </li>
@@ -76,7 +69,7 @@
                             <span class="menu-link">Penjualan Indibiz</span></a>
                         <div class="collapse" id="collapseMenuItemPenjualan">
                             <ul class="submenu">
-                                <li><a href="{{route('sales_penjualan.index')}}">Penjualan</a></li>
+                                <li><a href="{{ route('sales_penjualan.index') }}">Penjualan</a></li>
                             </ul>
                         </div>
                     </li>
@@ -95,8 +88,8 @@
                             <span class="menu-link">Pelaporan BBM</span></a>
                         <div class="collapse" id="collapseMenuItemPelaporan">
                             <ul class="submenu">
-                                <li><a href="{{route('sales_pelaporan.index')}}">Pelaporan</a></li>
-                                <li><a href="{{route('sales_pembelian.index')}}">Pembelian BBM</a></li>
+                                <li><a href="{{ route('sales_pelaporan.index') }}">Pelaporan</a></li>
+                                <li><a href="{{ route('sales_pembelian.index') }}">Pembelian BBM</a></li>
                             </ul>
                         </div>
                     </li>
