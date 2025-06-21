@@ -57,68 +57,111 @@
                                                         Selesai
                                                     </a>
                                                 @endif
-                                                @if (Auth::user()->role == 'admin')
+                                                @if (Auth::user()->role == 'admin' && is_null($item->feedback))
                                             <td>
-                                                <button class="btn btn-info btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#feedbackModal{{ $item->id }}">
-                                                    view
+                                                <button type="button" class="btn btn-outline-primary btn-sm"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#viewPenolakanModal-{{ $item->id }}">
+                                                    Review Penolakan
                                                 </button>
                                             </td>
                                         </tr>
                                     @endif
 
-                                    @if (Auth::user()->role == 'admin')
-                                        <!-- Modal Feedback untuk Penolakan -->
-                                        <div class="modal fade" id="feedbackModal{{ $item->id }}" tabindex="-1"
-                                            aria-labelledby="feedbackModalLabel{{ $item->id }}" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <form action="{{ route('penolakan.update', $item->id) }}"
-                                                    method="POST">
+                                    @if (Auth::user()->role == 'admin' && is_null($item->feedback))
+                                        <div class="modal fade" id="viewPenolakanModal-{{ $item->id }}" tabindex="-1"
+                                            aria-labelledby="viewPenolakanLabel-{{ $item->id }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl">
+                                                <form action="{{ route('penolakan.update', $item->id) }}" method="POST"
+                                                    enctype="multipart/form-data">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title"
-                                                                id="feedbackModalLabel{{ $item->id }}">Feedback untuk
-                                                                Penolakan</h5>
+                                                            <h5 class="modal-title">Detail Penolakan</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
                                                         </div>
+
                                                         <div class="modal-body">
+                                                            <div class="row">
+                                                                <!-- Kolom Kiri -->
+                                                                <div class="col-md-6">
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Nama Lokasi</label>
+                                                                        <input type="text" class="form-control"
+                                                                            name="nama_lokasi"
+                                                                            value="{{ $item->nama_lokasi }}" required>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Tanggal Kunjungan</label>
+                                                                        <input type="date" class="form-control"
+                                                                            name="tanggal_kunjungan"
+                                                                            value="{{ $item->tanggal_kunjungan }}"
+                                                                            required>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Alamat</label>
+                                                                        <input type="text" class="form-control"
+                                                                            name="alamat" value="{{ $item->alamat }}"
+                                                                            required>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Catatan Penolakan</label>
+                                                                        <textarea class="form-control" name="catatan_penolakan" rows="3" required>{{ $item->catatan_penolakan }}</textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Kolom Kanan -->
+                                                                <div class="col-md-6">
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Nama Sales</label>
+                                                                        <input type="text" class="form-control"
+                                                                            value="{{ $item->user->name ?? '-' }}"
+                                                                            disabled>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Kategori Lokasi</label>
+                                                                        <input type="text" class="form-control"
+                                                                            value="{{ $item->kategori->nama_sektor ?? '-' }}"
+                                                                            disabled>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Jenis Produk</label>
+                                                                        <input type="text" class="form-control"
+                                                                            value="{{ $item->jenis_produk->nama ?? '-' }}"
+                                                                            disabled>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Bukti Kunjungan
+                                                                        </label>
+                                                                        @if ($item->bukti_kunjungan)
+                                                                            <small class="d-block mt-1">
+                                                                                <a href="{{ asset('storage/' . $item->bukti_kunjungan) }}"
+                                                                                    target="_blank">
+                                                                                    Lihat Foto
+                                                                                </a>
+                                                                            </small>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Feedback -->
                                                             <div class="mb-3">
-                                                                <label for="feedback" class="form-label">Masukkan
-                                                                    Feedback</label>
-                                                                <textarea name="feedback" id="feedback" class="form-control" rows="6">{{ old('feedback', $item->feedback) }}</textarea>
+                                                                <label class="form-label">Feedback / Umpan Balik</label>
+                                                                <textarea class="form-control" name="feedback" rows="4" required>{{ old('feedback', $item->feedback) }}</textarea>
                                                             </div>
                                                         </div>
+
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Batal</button>
-                                                            <button type="submit" class="btn btn-primary">Simpan
-                                                                Feedback</button>
+                                                            <button type="submit" name="status" value="Ditolak"
+                                                                class="btn btn-danger">Tolak</button>
+                                                            <button type="submit" name="status" value="Disetujui"
+                                                                class="btn btn-success">Setujui</button>
                                                         </div>
                                                     </div>
                                                 </form>
-                                            </div>
-                                        </div>
-
-                                        <!-- Modal view per row -->
-                                        <div class="modal fade" id="viewModal{{ $item->id }}" tabindex="-1"
-                                            aria-labelledby="viewModalLabel{{ $item->id }}" aria-hidden="true">
-                                            <div class="modal-dialog">
-
-                                                <div class="modal-content">
-                                                    <div class="modal-body">
-                                                        <div class="mb-3">
-                                                            <label for="nama_sektor" class="form-label">Catatan</label>
-                                                            <textarea class="form-control" name="feedback" id="feedback" cols="5" rows="10" readonly>{{ $item->catatan_penolakan }}</textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Tutup</button>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     @endif
@@ -136,12 +179,14 @@
         </div>
 
         @if (Auth::user()->role == 'admin')
-            <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
+            <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exportModalLabel">Export Data</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <form id="exportForm" action="{{ route('penolakan.exportData') }}" method="POST">
                             @csrf

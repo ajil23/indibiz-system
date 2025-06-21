@@ -47,6 +47,7 @@ class PenolakanController extends Controller
             'kategori_id' => $request->kategori_id,
             'produk_id' => $request->produk_id,
             'bukti_kunjungan' => $buktiPath,
+            'status' => 'Proses',
             'feedback' => null
         ]);
 

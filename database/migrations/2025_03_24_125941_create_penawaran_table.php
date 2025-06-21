@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('nomor_hp');
             $table->string('bukti_kunjungan');
             $table->text('keterangan');
+            $table->string('status')->nullable();
             $table->text('feedback')->nullable();
             $table->unsignedBigInteger('sales_id');
             $table->unsignedBigInteger('kategori_id');
