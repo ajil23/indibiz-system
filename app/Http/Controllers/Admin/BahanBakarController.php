@@ -20,9 +20,10 @@ class BahanBakarController extends Controller
             'deskripsi' => 'required'
         ]);
         
+        $hargaBersih = preg_replace('/[^0-9]/', '', $request->harga);
         BahanBakar::create([
             'nama_bbm' => $request->nama_bbm,
-            'harga' => $request->harga,
+            'harga' => $hargaBersih,
             'deskripsi' => $request->deskripsi,
         ]);
 
@@ -37,9 +38,10 @@ class BahanBakarController extends Controller
         ]);
         
         $bbm = BahanBakar::findOrFail($id);
+        $hargaBersih = preg_replace('/[^0-9]/', '', $request->harga);
         $bbm->update([
             'nama_bbm' => $request->nama_bbm,
-            'harga' => $request->harga,
+            'harga' => $hargaBersih,
             'deskripsi' => $request->deskripsi,
         ]);
 
