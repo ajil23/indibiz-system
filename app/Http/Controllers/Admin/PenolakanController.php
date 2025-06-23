@@ -46,7 +46,7 @@ class PenolakanController extends Controller
     public function exportData(Request $request)
     {
         $exportType = $request->input('exportType');
-        $data = Penawaran::whereMonth('created_at', now()->month)
+        $data = Penolakan::whereMonth('created_at', now()->month)
             ->whereYear('created_at', now()->year)
             ->get();
         if ($exportType === 'excel') {

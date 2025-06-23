@@ -7,7 +7,7 @@
                 <div class="d-flex d-xl-none justify-content-between align-items-center border-bottom aside-header">
                     <a class="navbar-brand lh-1 border-0 m-0 d-flex align-items-center" href="#">
                         <div class="d-flex align-items-center">
-                            <img src="{{asset('assets/images/logo.jpg')}}" alt="">
+                            <img src="{{ asset('assets/images/logo.jpg') }}" alt="">
                             <span class="fw-black text-uppercase tracking-wide fs-6 lh-1">Indibiz</span>
                         </div>
                     </a>
@@ -20,7 +20,7 @@
 
                     <!-- Dashboard Menu Section-->
                     <li class="menu-section mt-2">Menu</li>
-                    <li class="menu-item "><a class="d-flex align-items-center" href="{{route('home')}}">
+                    <li class="menu-item "><a class="d-flex align-items-center" href="{{ route('home') }}">
                             <span class="menu-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18"
                                     height="18" fill="currentColor">
@@ -35,6 +35,7 @@
                     <!-- / Dashboard Menu Section-->
 
                     <!-- Pages Menu Section-->
+                    @if (Auth::user()->role == 'admin')
                     <li class="menu-item">
                         <a class="d-flex align-items-center collapsed" href="#" data-bs-toggle="collapse"
                             data-bs-target="#collapseMenuItemSetting" aria-expanded="false"
@@ -52,11 +53,12 @@
                             <ul class="submenu">
                                 <li><a href="{{ route('lokasi.index') }}">Kategori Lokasi</a></li>
                                 <li><a href="{{ route('bbm.index') }}">Jenis BBM</a></li>
-                                <li><a href="{{route('tnkb.index')}}">TNKB</a></li>
-                                <li><a href="{{route('jenis-produk.index')}}">Jenis Produk</a></li>
+                                <li><a href="{{ route('tnkb.index') }}">TNKB</a></li>
+                                <li><a href="{{ route('jenis-produk.index') }}">Jenis Produk</a></li>
                             </ul>
                         </div>
                     </li>
+                    @endif
                     <!-- / Pages Menu Section-->
                     <li class="menu-item"><a class="d-flex align-items-center collapsed" href="#"
                             data-bs-toggle="collapse" data-bs-target="#collapseMenuItemPenawaran" aria-expanded="false"
@@ -72,8 +74,8 @@
                             <span class="menu-link">Penawaran Indibiz</span></a>
                         <div class="collapse" id="collapseMenuItemPenawaran">
                             <ul class="submenu">
-                                <li><a href="{{route('penawaran.index')}}">Penawaran</a></li>
-                                <li><a href="{{route('penolakan.index')}}">Penolakan</a></li>
+                                <li><a href="{{ route('penawaran.index') }}">Penawaran</a></li>
+                                <li><a href="{{ route('penolakan.index') }}">Penolakan</a></li>
                             </ul>
                         </div>
                     </li>
@@ -90,7 +92,7 @@
                             <span class="menu-link">Penjualan Indibiz</span></a>
                         <div class="collapse" id="collapseMenuItemPenjualan">
                             <ul class="submenu">
-                                <li><a href="{{route('penjualan.index')}}">Penjualan</a></li>
+                                <li><a href="{{ route('penjualan.index') }}">Penjualan</a></li>
                             </ul>
                         </div>
                     </li>
@@ -109,8 +111,8 @@
                             <span class="menu-link">Pelaporan BBM</span></a>
                         <div class="collapse" id="collapseMenuItemPelaporan">
                             <ul class="submenu">
-                                <li><a href="{{route('pelaporan.index')}}">Pelaporan</a></li>
-                                <li><a href="{{route('pembelian.index')}}">Pembelian BBM</a></li>
+                                <li><a href="{{ route('pelaporan.index') }}">Pelaporan</a></li>
+                                <li><a href="{{ route('pembelian.index') }}">Pembelian BBM</a></li>
                             </ul>
                         </div>
                     </li>
@@ -129,7 +131,7 @@
                             <span class="menu-link">User Management</span></a>
                         <div class="collapse" id="collapseMenuItemManagement">
                             <ul class="submenu">
-                                <li><a href="{{route('user.index')}}">Sales Indibiz</a></li>
+                                <li><a href="{{ route('user.index') }}">Sales Indibiz</a></li>
                             </ul>
                         </div>
                     </li>
