@@ -17,7 +17,9 @@ class PenjualanController extends Controller
 {
     public function index()
     {
-        $penjualan = Penjualan::paginate(10);
+        $loginUser = Auth::user()->id;
+        $sales = User::where('id', $loginUser)->first();
+        $penjualan = Penjualan::where('sales_id', $sales->id)->paginate(10);
         $produk = JenisProduk::all();
         $lokasi = Lokasi::all();
         return view('sales.penjualan.index', compact('penjualan', 'produk', 'lokasi'));

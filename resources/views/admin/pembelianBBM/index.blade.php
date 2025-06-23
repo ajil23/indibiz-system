@@ -38,7 +38,7 @@
                                     @foreach ($pembelian as $item)
                                         <tr>
                                             <td><span class="fw-bolder">{{ $loop->iteration }}</span></td>
-                                            <td>{{ $item->pengemudi }}</td>
+                                            <td>{{ $item->user->name }}</td>
                                             <td>{{ $item->lokasi_tujuan }}</td>
                                             <td>{{ $item->bbm->nama_bbm }}</td>
                                             <td>{{ $item->tanggal_pembelian }}</td>

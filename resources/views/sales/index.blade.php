@@ -10,8 +10,6 @@
 
         <!-- Page Title-->
         <h2 class="fs-3 fw-bold mb-2">Welcome back, {{ Auth::user()->name }} 👋</h2>
-        <p class="text-muted mb-5">Get a quick overview of your company's current status below, or click into one of the
-            sections for a more detailed breakdown.</p>
         <!-- / Page Title-->
 
         <div class="row g-4">
@@ -76,13 +74,32 @@
             <div class="col-12 col-sm-6 col-xxl-3">
                 <div class="card h-100">
                     <div class="card-header justify-content-between align-items-center d-flex border-0 pb-0">
-                        <h6 class="card-title m-0 text-muted fs-xs text-uppercase fw-bolder tracking-wide">User
+                        <h6 class="card-title m-0 text-muted fs-xs text-uppercase fw-bolder tracking-wide">Pelaporan Kendaraan
                         </h6>
                     </div>
                     <div class="card-body">
                         <div class="row gx-4 mb-3 mb-md-1">
                             <div class="col-12 col-md-6">
-                                <p class="fs-3 fw-bold d-flex align-items-center">{{ $totalUser }}
+                                <p class="fs-3 fw-bold d-flex align-items-center">{{ $totalPelaporanKendaraan }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- / Number Refunds Widget-->
+
+            <!-- Number Refunds Widget-->
+            <div class="col-12 col-xxl-3">
+                <div class="card h-100">
+                    <div class="card-header justify-content-between align-items-center d-flex border-0 pb-0">
+                        <h6 class="card-title m-0 text-muted fs-xs text-uppercase fw-bolder tracking-wide">Pelaporan BBM
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row gx-4 mb-3 mb-md-1">
+                            <div class="col-12 col-md-6">
+                                <p class="fs-3 fw-bold d-flex align-items-center">{{ $totalPembelianBBM }}
                                 </p>
                             </div>
                         </div>
@@ -91,7 +108,7 @@
             </div>
             <!-- / Number Refunds Widget-->
         </div>
-
+        <br>
         <!-- Footer -->
         @include('admin.component.footer')
 

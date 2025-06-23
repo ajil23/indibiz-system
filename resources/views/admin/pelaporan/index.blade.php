@@ -38,7 +38,7 @@
                                     @foreach ($pelaporan as $item)
                                         <tr>
                                             <td><span class="fw-bolder">{{ $loop->iteration }}</span></td>
-                                            <td>{{ $item->pengemudi }}</td>
+                                            <td>{{ $item->user->name }}</td>
                                             <td>{{ $item->tnkb->nomor_polisi }}</td>
                                             <td>{{ $item->tanggal_penggunaan }}</td>
                                             <td>{{ $item->lokasi_tujuan }}</td>

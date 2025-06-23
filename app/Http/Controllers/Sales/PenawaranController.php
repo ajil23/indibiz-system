@@ -9,15 +9,18 @@ use App\Models\Penawaran;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class PenawaranController extends Controller
 {
     public function index()
     {
-        $sales = User::all();
+        $loginUser = Auth::user()->id;
+        $sales = User::where('id', $loginUser)->first();
         $lokasi = Lokasi::all();
         $produk = JenisProduk::all();
-        $penawaran = Penawaran::paginate(10);
+        $penawaran = Penawaran::where('sales_id', $sales->id)->paginate(10);
+        
         return view('sales.penawaran.index', compact('penawaran', 'sales', 'lokasi', 'produk'));
     }
 
