@@ -44,7 +44,7 @@
                                             <td><span class="fw-bolder">{{ $loop->iteration }}</span></td>
                                             <td>{{ $item->nama_bbm }}</td>
                                             <td>{{ $item->deskripsi }}</td>
-                                            <td>{{ $item->harga }}</td>
+                                            <td>Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
                                             @if (Auth::user()->role == 'admin')
                                                 <td>
                                                     <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
@@ -88,7 +88,7 @@
                                                                 <div class="mb-3">
                                                                     <label for="harga{{ $item->id }}"
                                                                         class="form-label">Harga</label>
-                                                                    <input type="text" class="form-control"
+                                                                    <input type="text" class="form-control currency-input"
                                                                         id="harga{{ $item->id }}" name="harga"
                                                                         value="{{ $item->harga }}" required>
                                                                 </div>
@@ -142,7 +142,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="harga" class="form-label">Harga</label>
-                                    <input type="text" class="form-control" id="harga" name="harga" required>
+                                    <input type="text" class="form-control currency-input" id="harga" name="harga" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="deskripsi" class="form-label">Deskripsi</label>
@@ -211,4 +211,67 @@
             });
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function formatNumber(value) {
+                // Format angka ke 1.000 format
+                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            }
+    
+            function cleanNumber(value) {
+                // Ambil hanya angka (tanpa titik atau huruf)
+                return value.replace(/[^\d]/g, '');
+            }
+    
+            function setupCurrencyInput(input) {
+                // Format awal (misalnya saat modal edit dibuka)
+                const rawInit = cleanNumber(input.value);
+                if (rawInit) {
+                    input.value = formatNumber(rawInit);
+                    input.setAttribute('data-value', rawInit);
+                }
+    
+                input.addEventListener('input', function (e) {
+                    const raw = cleanNumber(e.target.value);
+                    input.setAttribute('data-value', raw); // Pastikan data-value selalu up to date
+                    input.value = formatNumber(raw);
+                });
+    
+                input.addEventListener('focus', function (e) {
+                    const raw = cleanNumber(e.target.value);
+                    e.target.value = raw;
+                });
+    
+                input.addEventListener('blur', function (e) {
+                    const raw = cleanNumber(e.target.value);
+                    if (raw) {
+                        e.target.value = formatNumber(raw);
+                        input.setAttribute('data-value', raw);
+                    } else {
+                        e.target.value = '';
+                        input.setAttribute('data-value', '');
+                    }
+                });
+            }
+    
+            // Setup saat halaman load
+            document.querySelectorAll('.currency-input').forEach(setupCurrencyInput);
+    
+            // Setup saat modal ditampilkan
+            document.addEventListener('shown.bs.modal', function (e) {
+                const inputs = e.target.querySelectorAll('.currency-input');
+                inputs.forEach(setupCurrencyInput);
+            });
+    
+            // Submit: Bersihkan semua format dan kirim angka bersih
+            document.addEventListener('submit', function (e) {
+                const inputs = e.target.querySelectorAll('.currency-input');
+                inputs.forEach(function (input) {
+                    const clean = cleanNumber(input.value);
+                    input.value = clean;
+                });
+            });
+        });
+    </script>
+    
 @endsection
