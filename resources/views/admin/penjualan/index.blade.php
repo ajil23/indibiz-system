@@ -28,6 +28,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Nama Pelanggan</th>
+                                        <th>Nama Sales</th>
                                         <th>Nama Lokasi Usaha</th>
                                         <th>Jenis Produk</th>
                                         <th>Alamat</th>
@@ -42,6 +43,7 @@
                                         <tr>
                                             <td><span class="fw-bolder">{{ $loop->iteration }}</span></td>
                                             <td>{{ $item->nama_pelanggan }}</td>
+                                            <td>{{ $item->user->name }}</td>
                                             <td>{{ $item->lokasi_usaha }}</td>
                                             <td>{{ $item->jenis_produk->nama }}</td>
                                             <td>{{ $item->alamat }}</td>

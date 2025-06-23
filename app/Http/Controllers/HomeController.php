@@ -38,27 +38,41 @@ class HomeController extends Controller
     }
 
     private function getMonthlyStats()
-    {
-        $bulan = Carbon::now()->month;
-        $tahun = Carbon::now()->year;
+{
+    $bulan = Carbon::now()->month;
+    $tahun = Carbon::now()->year;
+    $userId = Auth::user()->id;
 
-        return [
-            'totalPenolakan' => DB::table('penolakan')
-                ->whereMonth('created_at', $bulan)
-                ->whereYear('created_at', $tahun)
-                ->count(),
+    return [
+        'totalPenolakan' => DB::table('penolakan')
+            ->whereMonth('created_at', $bulan)
+            ->whereYear('created_at', $tahun)
+            ->count(),
 
-            'totalPenawaran' => DB::table('penawaran')
-                ->whereMonth('created_at', $bulan)
-                ->whereYear('created_at', $tahun)
-                ->count(),
+        'totalPenawaran' => DB::table('penawaran')
+            ->whereMonth('created_at', $bulan)
+            ->whereYear('created_at', $tahun)
+            ->count(),
 
-            'totalPenjualan' => DB::table('penjualan')
-                ->whereMonth('created_at', $bulan)
-                ->whereYear('created_at', $tahun)
-                ->count(),
+        'totalPenjualan' => DB::table('penjualan')
+            ->whereMonth('created_at', $bulan)
+            ->whereYear('created_at', $tahun)
+            ->count(),
 
-            'totalUser' => DB::table('users')->count(),
-        ];
-    }
+        'totalUser' => DB::table('users')->count(),
+
+        'totalPembelianBBM' => DB::table('pembelian_bbm')
+            ->where('sales_id', $userId)
+            ->whereMonth('created_at', $bulan)
+            ->whereYear('created_at', $tahun)
+            ->count(),
+
+        'totalPelaporanKendaraan' => DB::table('pelaporan_kendaraan')
+            ->where('sales_id', $userId)
+            ->whereMonth('created_at', $bulan)
+            ->whereYear('created_at', $tahun)
+            ->count(),
+    ];
+}
+
 }

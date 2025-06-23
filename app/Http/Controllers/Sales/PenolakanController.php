@@ -9,14 +9,18 @@ use App\Models\Penolakan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+
 
 class PenolakanController extends Controller
 {
     public function index()
     {
+        $loginUser = Auth::user()->id;
+        $sales = User::where('id', $loginUser)->first();
         $produk = JenisProduk::all();
         $kategori = Lokasi::all();
-        $penolakan = Penolakan::paginate(10);
+        $penolakan = Penolakan::where('sales_id', $sales->id)->paginate(10);
         return view('sales.penolakan.index', compact('produk', 'kategori', 'penolakan'));
     }
 

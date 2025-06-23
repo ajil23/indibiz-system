@@ -119,8 +119,8 @@
                                                                         <input type="text" class="form-control" id="lokasi_tujuan" name="lokasi_tujuan" value="{{ $item->lokasi_tujuan }}" required>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <label for="harga" class="form-label">Harga BBM</label>
-                                                                        <input type="number" class="form-control" id="harga" name="harga" value="{{ $item->harga }}" required>
+                                                                        <label for="total_pembelian" class="form-label">Total Pembelian</label>
+                                                                        <input type="text" class="form-control" id="total_pembelian" name="total_pembelian" value="{{ $item->total_pembelian }}" required>
                                                                     </div>
                                                                 </div>
                                         
@@ -153,8 +153,8 @@
                                                                         </select>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <label for="total_pembelian" class="form-label">Total Pembelian</label>
-                                                                        <input type="number" class="form-control" id="total_pembelian" name="total_pembelian" value="{{ $item->total_pembelian }}" required>
+                                                                        <label for="harga" class="form-label">Harga BBM</label>
+                                                                        <input type="text" class="form-control" id="harga" name="harga" value="{{ $item->harga }}" required>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -222,9 +222,8 @@
                                             name="lokasi_tujuan" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="harga" class="form-label">Harga BBM</label>
-                                        <input type="number" class="form-control" id="harga" name="harga"
-                                            required>
+                                        <label for="total_pembelian" class="form-label">Total Pembelian</label>
+                                        <input type="text" class="form-control" id="total_pembelian" name="total_pembelian" required>
                                     </div>
                                 </div>
 
@@ -255,8 +254,9 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="total_pembelian" class="form-label">Total Pembelian</label>
-                                        <input type="number" class="form-control" id="total_pembelian" name="total_pembelian" required>
+                                        <label for="harga" class="form-label">Harga BBM</label>
+                                        <input type="text" class="form-control" id="harga" name="harga"
+                                            required>
                                     </div>
                                 </div>
                             </div>
