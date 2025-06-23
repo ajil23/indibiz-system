@@ -60,7 +60,7 @@
             @foreach ($data as $index => $item)
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td class="text-left">{{ $item->pengemudi }}</td>
+                    <td class="text-left">{{ $item->user->name ?? '-'}}</td>
                     <td>{{ $item->tnkb->nomor_polisi ?? '-' }}</td>
                     <td>{{ $item->tanggal_penggunaan }}</td>
                     <td class="text-left">{{ $item->lokasi_tujuan }}</td>

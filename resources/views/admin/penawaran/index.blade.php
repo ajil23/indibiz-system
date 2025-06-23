@@ -188,40 +188,38 @@
             </div>
         </div>
 
-        @if (Auth::user()->role == 'admin')
-            <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exportModalLabel">Export Data</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <form id="exportForm" action="{{ route('penawaran.exportData') }}" method="POST">
-                            @csrf
-                            <div class="modal-body">
-                                <p>Pilih format untuk mengekspor data:</p>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exportType" id="exportExcel"
-                                        value="excel" checked>
-                                    <label class="form-check-label" for="exportExcel">Export as Excel</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exportType" id="exportPDF"
-                                        value="pdf">
-                                    <label class="form-check-label" for="exportPDF">Export as PDF</label>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save</button>
-                            </div>
-                        </form>
+        <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exportModalLabel">Export Data</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
+                    <form id="exportForm" action="{{ route('penawaran.exportData') }}" method="POST">
+                        @csrf
+                        <div class="modal-body">
+                            <p>Pilih format untuk mengekspor data:</p>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exportType" id="exportExcel"
+                                    value="excel" checked>
+                                <label class="form-check-label" for="exportExcel">Export as Excel</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exportType" id="exportPDF"
+                                    value="pdf">
+                                <label class="form-check-label" for="exportPDF">Export as PDF</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-        @endif
+        </div>
 
         <!-- Footer -->
         @include('admin.component.footer')

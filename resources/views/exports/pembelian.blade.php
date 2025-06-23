@@ -57,7 +57,7 @@
             @foreach ($data as $index => $item)
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ $item->pengemudi }}</td>
+                    <td>{{ $item->user->name }}</td>
                     <td>{{ \Carbon\Carbon::parse($item->tanggal_pembelian)->format('d-m-Y') }}</td>
                     <td>{{ $item->lokasi_tujuan }}</td>
                     <td>Rp{{ number_format($item->harga, 0, ',', '.') }}</td>
