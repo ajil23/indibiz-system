@@ -71,7 +71,7 @@
                                             <td>
                                                 <button class="btn btn-info btn-sm" data-bs-toggle="modal"
                                                     data-bs-target="#viewModal{{ $item->id }}">
-                                                    View
+                                                    Detail
                                                 </button>
                                             </td>
                                         </tr>

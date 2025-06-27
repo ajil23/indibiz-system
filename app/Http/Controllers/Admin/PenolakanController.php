@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\PenolakanExport;
 use App\Http\Controllers\Controller;
+use App\Models\JenisProduk;
 use App\Models\Lokasi;
 use App\Models\Penawaran;
 use App\Models\Penolakan;
@@ -19,7 +20,9 @@ class PenolakanController extends Controller
         $sales = User::all();
         $lokasi = Lokasi::all();
         $penolakan = Penolakan::paginate(10);
-        return view('admin.penolakan.index', compact('sales', 'lokasi', 'penolakan'));
+        $produk = JenisProduk::all();
+        $kategori = Lokasi::all();
+        return view('admin.penolakan.index', compact('sales', 'lokasi', 'penolakan', 'produk', 'kategori'));
     }
     public function update(Request $request, $id)
     {

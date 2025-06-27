@@ -33,9 +33,7 @@
                                         <th>Alamat</th>
                                         <th>Tanggal Kunjungan</th>
                                         <th>Catatan</th>
-                                        @if (Auth::user()->role == 'admin')
-                                            <th>Aksi</th>
-                                        @endif
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -65,8 +63,14 @@
                                                     Review Penolakan
                                                 </button>
                                             </td>
-                                        </tr>
                                     @endif
+                                    <td>
+                                        <button class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#viewModal{{ $item->id }}">
+                                            Detail
+                                        </button>
+                                    </td>
+                                    </tr>
 
                                     @if (Auth::user()->role == 'admin' && is_null($item->feedback))
                                         <div class="modal fade" id="viewPenolakanModal-{{ $item->id }}" tabindex="-1"
@@ -165,6 +169,112 @@
                                             </div>
                                         </div>
                                     @endif
+
+                                    <div class="modal fade" id="viewModal{{ $item->id }}" tabindex="-1"
+                                        aria-labelledby="viewModalLabel{{ $item->id }}" aria-hidden="true">
+                                        <div class="modal-dialog modal-xl">
+                                            <form action="{{ route('sales_penolakan.update', $item->id) }}"
+                                                method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="viewModalLabel{{ $item->id }}">
+                                                            View Penolakan</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <!-- Kolom Kiri -->
+                                                            <div class="col-md-6">
+                                                                <div class="mb-3">
+                                                                    <label for="sales_id" class="form-label">Nama
+                                                                        Sales</label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="sales_id" id="sales_id"
+                                                                        value="{{ $item->user->name }}" disabled>
+                                                                    <input type="hidden" class="form-control"
+                                                                        name="sales_id" id="sales_id"
+                                                                        value="{{ $item->user->id }}">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="tanggal_kunjungan"
+                                                                        class="form-label">Tanggal Kunjungan</label>
+                                                                    <input type="date" class="form-control"
+                                                                        id="tanggal_kunjungan" name="tanggal_kunjungan"
+                                                                        value="{{ $item->tanggal_kunjungan }}" disabled>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="nama_lokasi" class="form-label">Nama
+                                                                        Lokasi</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="nama_lokasi" name="nama_lokasi"
+                                                                        value="{{ $item->nama_lokasi }}" disabled>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Kolom Kanan -->
+                                                            <div class="col-md-6">
+                                                                <div class="mb-3">
+                                                                    <label for="produk_id" class="form-label">Jenis
+                                                                        Produk</label>
+                                                                    <select class="form-control" name="produk_id"
+                                                                        id="produk_id" disabled>
+                                                                        <option value="">Pilih Produk</option>
+                                                                        @foreach ($produk as $produkItem)
+                                                                            <option value="{{ $produkItem->id }}"
+                                                                                {{ $item->produk_id == $produkItem->id ? 'selected' : '' }}>
+                                                                                {{ $produkItem->nama }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="kategori_id" class="form-label">Kategori
+                                                                        Lokasi</label>
+                                                                    <select class="form-control" name="kategori_id"
+                                                                        id="kategori_id" disabled>
+                                                                        <option value="">Pilih Kategori</option>
+                                                                        @foreach ($kategori as $kategoriItem)
+                                                                            <option value="{{ $kategoriItem->id }}"
+                                                                                {{ $item->kategori_id == $kategoriItem->id ? 'selected' : '' }}>
+                                                                                {{ $kategoriItem->nama_sektor }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="bukti_kunjungan" class="form-label">Bukti
+                                                                        Kunjungan (Foto Baru -
+                                                                        Opsional)</label>
+                                                                    <input type="file" class="form-control"
+                                                                        id="bukti_kunjungan" name="bukti_kunjungan"
+                                                                        accept="image/*" disabled>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Full Width -->
+                                                            <div class="col-md-12">
+                                                                <div class="mb-3">
+                                                                    <label for="alamat"
+                                                                        class="form-label">Alamat</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="alamat" name="alamat"
+                                                                        value="{{ $item->alamat }}" disabled>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="catatan_penolakan"
+                                                                        class="form-label">Catatan Penolakan</label>
+                                                                    <textarea name="catatan_penolakan" id="catatan_penolakan" class="form-control" rows="3" readonly>{{ $item->catatan_penolakan }}</textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -178,14 +288,12 @@
             </div>
         </div>
 
-        <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exportModalLabel">Export Data</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form id="exportForm" action="{{ route('penolakan.exportData') }}" method="POST">
                         @csrf
