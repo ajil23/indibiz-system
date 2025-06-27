@@ -56,17 +56,10 @@
                                                     data-bs-target="#editModal{{ $item->id }}">
                                                     Edit
                                                 </button>
-
-                                                <!-- Tombol Hapus -->
-                                                <form action="{{ route('sales_pembelian.destroy', $item->id) }}"
-                                                    method="POST" class="d-inline delete-form">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="button" class="btn btn-danger btn-sm btn-delete"
-                                                        data-id="{{ $item->id }}">
-                                                        Delete
-                                                    </button>
-                                                </form>
+                                                <button class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#viewModal{{ $item->id }}">
+                                                    View
+                                                </button>
                                             </td>
                                         </tr>
 
@@ -111,11 +104,8 @@
                                                                     <div class="mb-3">
                                                                         <label for="sales_id" class="form-label">Nama
                                                                             Pengemudi</label>
-                                                                        <select name="sales_id" id="sales_id"
-                                                                            class="form-select">
-                                                                            <option value="{{ $item->sales_id }}">
-                                                                                {{ $item->user->name }}</option>
-                                                                        </select>
+                                                                        <input type="text" class="form-control" name="sales_id" id="sales_id"
+                                                                            value="{{ $item->user->name }}" disabled>
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="tanggal_pembelian"
@@ -123,21 +113,23 @@
                                                                         <input type="date" class="form-control"
                                                                             id="tanggal_pembelian" name="tanggal_pembelian"
                                                                             value="{{ $item->tanggal_pembelian }}"
-                                                                            required>
+                                                                            disabled>
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="lokasi_tujuan" class="form-label">Lokasi
                                                                             Tujuan</label>
                                                                         <input type="text" class="form-control"
                                                                             id="lokasi_tujuan" name="lokasi_tujuan"
-                                                                            value="{{ $item->lokasi_tujuan }}" required>
+                                                                            value="{{ $item->lokasi_tujuan }}" disabled>
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="total_pembelian"
                                                                             class="form-label">Total Pembelian</label>
-                                                                            <input type="text" class="form-control total-pembelian" name="total_pembelian"
-                                                                            value="{{ $item->total_pembelian }}" required>
-                                                                        
+                                                                        <input type="text"
+                                                                            class="form-control total-pembelian"
+                                                                            name="total_pembelian"
+                                                                            value="{{ $item->total_pembelian }}" disabled>
+
                                                                     </div>
                                                                 </div>
 
@@ -149,13 +141,13 @@
                                                                         <input type="text" class="form-control"
                                                                             id="lokasi_pembelian" name="lokasi_pembelian"
                                                                             value="{{ $item->lokasi_pembelian }}"
-                                                                            required>
+                                                                            disabled>
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="tnkb_id"
                                                                             class="form-label">TNKB</label>
                                                                         <select class="form-control" name="tnkb_id"
-                                                                            id="tnkb_id" required>
+                                                                            id="tnkb_id" disabled>
                                                                             <option value="">-- Pilih TNKB --
                                                                             </option>
                                                                             @foreach ($tnkb as $tnkbItem)
@@ -170,24 +162,28 @@
                                                                     <div class="mb-3">
                                                                         <label for="bbm_id" class="form-label">Jenis
                                                                             BBM</label>
-                                                                            <select class="form-control bbm-select" name="bbm_id" required>
-                                                                                <option value="">-- Pilih Jenis BBM --</option>
-                                                                                @foreach ($bbm as $bbmItem)
-                                                                                    <option value="{{ $bbmItem->id }}"
-                                                                                        data-harga="{{ $bbmItem->harga }}"
-                                                                                        {{ $bbmItem->id == $item->bbm_id ? 'selected' : '' }}>
-                                                                                        {{ $bbmItem->nama_bbm }}
-                                                                                    </option>
-                                                                                @endforeach
-                                                                            </select>
-                                                                            
+                                                                        <select class="form-control bbm-select"
+                                                                            name="bbm_id" disabled>
+                                                                            <option value="">-- Pilih Jenis BBM --
+                                                                            </option>
+                                                                            @foreach ($bbm as $bbmItem)
+                                                                                <option value="{{ $bbmItem->id }}"
+                                                                                    data-harga="{{ $bbmItem->harga }}"
+                                                                                    {{ $bbmItem->id == $item->bbm_id ? 'selected' : '' }}>
+                                                                                    {{ $bbmItem->nama_bbm }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="harga" class="form-label">Harga
                                                                             BBM</label>
-                                                                            <input type="text" class="form-control harga-bbm" name="harga"
-                                                                            value="{{ number_format($item->harga, 0, ',', '.') }}" readonly required>
-                                                                        
+                                                                        <input type="text"
+                                                                            class="form-control harga-bbm" name="harga"
+                                                                            value="{{ number_format($item->harga, 0, ',', '.') }}"
+                                                                            readonly disabled>
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -195,7 +191,7 @@
                                                                 <label for="foto_nota" class="form-label">Foto
                                                                     Nota</label>
                                                                 <input type="file" class="form-control" id="foto_nota"
-                                                                    name="foto_nota" accept="image/*">
+                                                                    name="foto_nota" accept="image/*" disabled>
                                                                 <small class="text-muted">Kosongkan jika tidak ingin
                                                                     mengubah foto.</small>
                                                             </div>
@@ -211,6 +207,135 @@
                                                                 data-bs-dismiss="modal">Batal</button>
                                                             <button type="submit" class="btn btn-primary">Simpan
                                                                 Perubahan</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        {{-- Modal view data --}}
+                                        <div class="modal fade" id="viewModal{{ $item->id }}" tabindex="-1"
+                                            aria-labelledby="viewModalLabel{{ $item->id }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl">
+                                                <form action="{{ route('sales_pembelian.update', $item->id) }}"
+                                                    method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="viewModalLabel{{ $item->id }}">
+                                                                View Pembelian BBM</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <!-- Kolom Kiri -->
+                                                                <div class="col-md-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="sales_id" class="form-label">Nama
+                                                                            Pengemudi</label>
+                                                                        <input type="text" class="form-control" name="sales_id" id="sales_id"
+                                                                            value="{{ $item->user->name }}" disabled>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="tanggal_pembelian"
+                                                                            class="form-label">Tanggal Pembelian</label>
+                                                                        <input type="date" class="form-control"
+                                                                            id="tanggal_pembelian" name="tanggal_pembelian"
+                                                                            value="{{ $item->tanggal_pembelian }}"
+                                                                            disabled>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="lokasi_tujuan" class="form-label">Lokasi
+                                                                            Tujuan</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="lokasi_tujuan" name="lokasi_tujuan"
+                                                                            value="{{ $item->lokasi_tujuan }}" disabled>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="total_pembelian"
+                                                                            class="form-label">Total Pembelian</label>
+                                                                        <input type="text"
+                                                                            class="form-control total-pembelian"
+                                                                            name="total_pembelian"
+                                                                            value="{{ $item->total_pembelian }}" disabled>
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Kolom Kanan -->
+                                                                <div class="col-md-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="lokasi_pembelian"
+                                                                            class="form-label">Lokasi Pembelian</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="lokasi_pembelian" name="lokasi_pembelian"
+                                                                            value="{{ $item->lokasi_pembelian }}"
+                                                                            disabled>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="tnkb_id"
+                                                                            class="form-label">TNKB</label>
+                                                                        <select class="form-control" name="tnkb_id"
+                                                                            id="tnkb_id" disabled>
+                                                                            <option value="">-- Pilih TNKB --
+                                                                            </option>
+                                                                            @foreach ($tnkb as $tnkbItem)
+                                                                                <option value="{{ $tnkbItem->id }}"
+                                                                                    {{ $tnkbItem->id == $item->tnkb_id ? 'selected' : '' }}>
+                                                                                    {{ $tnkbItem->kendaraan }}
+                                                                                    ({{ $tnkbItem->nomor_polisi }})
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="bbm_id" class="form-label">Jenis
+                                                                            BBM</label>
+                                                                        <select class="form-control bbm-select"
+                                                                            name="bbm_id" disabled>
+                                                                            <option value="">-- Pilih Jenis BBM --
+                                                                            </option>
+                                                                            @foreach ($bbm as $bbmItem)
+                                                                                <option value="{{ $bbmItem->id }}"
+                                                                                    data-harga="{{ $bbmItem->harga }}"
+                                                                                    {{ $bbmItem->id == $item->bbm_id ? 'selected' : '' }}>
+                                                                                    {{ $bbmItem->nama_bbm }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="harga" class="form-label">Harga
+                                                                            BBM</label>
+                                                                        <input type="text"
+                                                                            class="form-control harga-bbm" name="harga"
+                                                                            value="{{ number_format($item->harga, 0, ',', '.') }}"
+                                                                            readonly disabled>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="foto_nota" class="form-label">Foto
+                                                                    Nota</label>
+                                                                <input type="file" class="form-control" id="foto_nota"
+                                                                    name="foto_nota" accept="image/*" disabled>
+                                                                <small class="text-muted">Kosongkan jika tidak ingin
+                                                                    mengubah foto.</small>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="keterangan"
+                                                                    class="form-label">Keterangan</label>
+                                                                <textarea class="form-control" id="keterangan" name="keterangan" readonly rows="3">{{ $item->keterangan }}</textarea>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Batal</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -246,9 +371,9 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="sales_id" class="form-label">Nama Pengemudi</label>
-                                        <select name="sales_id" id="sales_id" class="form-select">
-                                            <option value="{{ Auth::user()->id }}">{{ Auth::user()->name }}</option>
-                                        </select>
+                                        <input type="text" class="form-control" value="{{ Auth::user()->name }}">
+                                        <input type="hidden" class="form-control" name="sales_id" id="sales_id"
+                                            value="{{ Auth::user()->id }}">
                                     </div>
                                     <div class="mb-3">
                                         <label for="tanggal_pembelian" class="form-label">Tanggal Pembelian</label>
@@ -375,69 +500,68 @@
         });
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-    function formatRupiah(angka) {
-        return angka.toLocaleString('id-ID', {
-            style: 'currency',
-            currency: 'IDR'
+        document.addEventListener('DOMContentLoaded', function() {
+            function formatRupiah(angka) {
+                return angka.toLocaleString('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR'
+                });
+            }
+
+            function hitungTotalHarga(selectElem, totalInputElem, hargaInputElem) {
+                const selectedOption = selectElem.options[selectElem.selectedIndex];
+                const hargaPerLiter = parseInt(selectedOption.getAttribute('data-harga')) || 0;
+                const totalPembelian = parseFloat(totalInputElem.value.replace(',', '.')) || 0;
+
+                const totalHarga = hargaPerLiter * totalPembelian;
+
+                if (totalHarga > 0) {
+                    // Tampilkan format rupiah untuk user
+                    hargaInputElem.value = formatRupiah(totalHarga);
+
+                    // Simpan nilai asli (angka bulat) ke atribut data-value untuk database
+                    hargaInputElem.setAttribute('data-value', totalHarga);
+                } else {
+                    hargaInputElem.value = '';
+                    hargaInputElem.setAttribute('data-value', 0);
+                }
+            }
+
+            const bbmSelects = document.querySelectorAll('.bbm-select');
+            const totalPembelians = document.querySelectorAll('.total-pembelian');
+            const hargaInputs = document.querySelectorAll('.harga-bbm');
+
+            bbmSelects.forEach((selectElem, index) => {
+                const totalInputElem = totalPembelians[index];
+                const hargaInputElem = hargaInputs[index];
+
+                // Hitung ulang saat modal dibuka (khusus modal edit)
+                if (selectElem && totalInputElem && hargaInputElem) {
+                    hitungTotalHarga(selectElem, totalInputElem, hargaInputElem);
+                }
+
+                selectElem.addEventListener('change', function() {
+                    hitungTotalHarga(selectElem, totalInputElem, hargaInputElem);
+                });
+
+                totalInputElem.addEventListener('input', function() {
+                    hitungTotalHarga(selectElem, totalInputElem, hargaInputElem);
+                });
+            });
+
+            // Fungsi untuk mengambil nilai mentah (angka bulat) sebelum submit ke database
+            window.getCleanPrice = function(inputElement) {
+                return parseInt(inputElement.getAttribute('data-value')) || 0;
+            };
+
+            // Event listener untuk form submit - otomatis mengubah nilai sebelum dikirim
+            document.addEventListener('submit', function(e) {
+                const hargaInputs = document.querySelectorAll('.harga-bbm');
+                hargaInputs.forEach(function(input) {
+                    const cleanValue = input.getAttribute('data-value') || 0;
+                    input.value = cleanValue; // Ganti dengan angka bulat sebelum submit
+                });
+            });
         });
-    }
-
-    function hitungTotalHarga(selectElem, totalInputElem, hargaInputElem) {
-        const selectedOption = selectElem.options[selectElem.selectedIndex];
-        const hargaPerLiter = parseInt(selectedOption.getAttribute('data-harga')) || 0;
-        const totalPembelian = parseFloat(totalInputElem.value.replace(',', '.')) || 0;
-
-        const totalHarga = hargaPerLiter * totalPembelian;
-
-        if (totalHarga > 0) {
-            // Tampilkan format rupiah untuk user
-            hargaInputElem.value = formatRupiah(totalHarga);
-            
-            // Simpan nilai asli (angka bulat) ke atribut data-value untuk database
-            hargaInputElem.setAttribute('data-value', totalHarga);
-        } else {
-            hargaInputElem.value = '';
-            hargaInputElem.setAttribute('data-value', 0);
-        }
-    }
-
-    const bbmSelects = document.querySelectorAll('.bbm-select');
-    const totalPembelians = document.querySelectorAll('.total-pembelian');
-    const hargaInputs = document.querySelectorAll('.harga-bbm');
-
-    bbmSelects.forEach((selectElem, index) => {
-        const totalInputElem = totalPembelians[index];
-        const hargaInputElem = hargaInputs[index];
-
-        // Hitung ulang saat modal dibuka (khusus modal edit)
-        if (selectElem && totalInputElem && hargaInputElem) {
-            hitungTotalHarga(selectElem, totalInputElem, hargaInputElem);
-        }
-
-        selectElem.addEventListener('change', function () {
-            hitungTotalHarga(selectElem, totalInputElem, hargaInputElem);
-        });
-
-        totalInputElem.addEventListener('input', function () {
-            hitungTotalHarga(selectElem, totalInputElem, hargaInputElem);
-        });
-    });
-
-    // Fungsi untuk mengambil nilai mentah (angka bulat) sebelum submit ke database
-    window.getCleanPrice = function(inputElement) {
-        return parseInt(inputElement.getAttribute('data-value')) || 0;
-    };
-
-    // Event listener untuk form submit - otomatis mengubah nilai sebelum dikirim
-    document.addEventListener('submit', function(e) {
-        const hargaInputs = document.querySelectorAll('.harga-bbm');
-        hargaInputs.forEach(function(input) {
-            const cleanValue = input.getAttribute('data-value') || 0;
-            input.value = cleanValue; // Ganti dengan angka bulat sebelum submit
-        });
-    });
-});
     </script>
-    
 @endsection

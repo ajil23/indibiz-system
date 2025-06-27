@@ -100,31 +100,26 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/view/sales_penawaran', [SalesPenawaranController::class, 'index'])->name('sales_penawaran.index');
         Route::post('/store/sales_penawaran', [SalesPenawaranController::class, 'store'])->name('sales_penawaran.store');
         Route::put('/sales_penawaran/{id}/sales_penawaran', [SalesPenawaranController::class, 'update'])->name('sales_penawaran.update');
-        Route::delete('/sales_penawaran/{id}/sales_penawaran', [SalesPenawaranController::class, 'destroy'])->name('sales_penawaran.destroy');
 
         // Penolakan
         Route::get('/view/sales_penolakan', [PenolakanController::class, 'index'])->name('sales_penolakan.index');
         Route::post('/store/sales_penolakan', [PenolakanController::class, 'store'])->name('sales_penolakan.store');
         Route::put('/sales_penolakan/{id}/sales_penolakan', [PenolakanController::class, 'update'])->name('sales_penolakan.update');
-        Route::delete('/sales_penolakan/{id}/sales_penolakan', [PenolakanController::class, 'destroy'])->name('sales_penolakan.destroy');
         
         // Penjualan
         Route::get('/view/sales_penjualan', [SalesPenjualanController::class, 'index'])->name('sales_penjualan.index');
         Route::post('/store/sales_penjualan', [SalesPenjualanController::class, 'store'])->name('sales_penjualan.store');
         Route::put('/sales_penjualan/{id}/sales_penjualan', [SalesPenjualanController::class, 'update'])->name('sales_penjualan.update');
-        Route::delete('/sales_penjualan/{id}/sales_penjualan', [SalesPenjualanController::class, 'destroy'])->name('sales_penjualan.destroy');
         
         // Pembelian BBM
         Route::get('/view/sales_pembelian_bbm', [SalesPembelianBBMController::class, 'index'])->name('sales_pembelian.index');
         Route::post('/store/sales_pembelian_bbm', [SalesPembelianBBMController::class, 'store'])->name('sales_pembelian.store');
         Route::put('/sales_pembelian/{id}/sales_pembelian', [SalesPembelianBBMController::class, 'update'])->name('sales_pembelian.update');
-        Route::delete('/sales_pembelian/{id}/sales_pembelian', [SalesPembelianBBMController::class, 'destroy'])->name('sales_pembelian.destroy');
         
         // Pelaporan Kendaraan
         Route::get('/view/sales_pelaporan_kendaraan', [SalesPelaporanKendaraanController::class, 'index'])->name('sales_pelaporan.index');
         Route::post('/store/sales_pelaporan_kendaraan', [SalesPelaporanKendaraanController::class, 'store'])->name('sales_pelaporan.store');
         Route::put('/sales_pelaporan_kendaraan/{id}/sales_pelaporan_kendaraan', [SalesPelaporanKendaraanController::class, 'update'])->name('sales_pelaporan.update');
-        Route::delete('/sales_pelaporan_kendaraan/{id}/sales_pelaporan_kendaraan', [SalesPelaporanKendaraanController::class, 'destroy'])->name('sales_pelaporan.destroy');
         
     });
 });

@@ -61,17 +61,10 @@
                                                     data-bs-target="#editModal{{ $item->id }}">
                                                     Edit
                                                 </button>
-
-                                                <!-- Tombol Hapus -->
-                                                <form action="{{ route('sales_penolakan.destroy', $item->id) }}"
-                                                    method="POST" class="d-inline delete-form">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="button" class="btn btn-danger btn-sm btn-delete"
-                                                        data-id="{{ $item->id }}">
-                                                        Delete
-                                                    </button>
-                                                </form>
+                                                <button class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#viewModal{{ $item->id }}">
+                                                    View
+                                                </button>
                                             </td>
                                         </tr>
 
@@ -82,13 +75,13 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="feedbackModalLabel{{ $item->id }}">
-                                                            Feedback
+                                                            Catatan Penolakan
                                                         </h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>{{ $item->feedback }}</p>
+                                                        <p>{{ $item->catatan_penolakan }}</p>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
@@ -120,11 +113,12 @@
                                                                     <div class="mb-3">
                                                                         <label for="sales_id" class="form-label">Nama
                                                                             Sales</label>
-                                                                        <select class="form-control" name="sales_id"
-                                                                            id="sales_id" disabled>
-                                                                            <option value="{{ $item->user->id }}">
-                                                                                {{ $item->user->name }}</option>
-                                                                        </select>
+                                                                        <input type="text" class="form-control"
+                                                                            name="sales_id" id="sales_id"
+                                                                            value="{{ $item->user->name }}" disabled>
+                                                                        <input type="hidden" class="form-control"
+                                                                            name="sales_id" id="sales_id"
+                                                                            value="{{ $item->user->id }}">
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="tanggal_kunjungan"
@@ -132,14 +126,14 @@
                                                                         <input type="date" class="form-control"
                                                                             id="tanggal_kunjungan" name="tanggal_kunjungan"
                                                                             value="{{ $item->tanggal_kunjungan }}"
-                                                                            required>
+                                                                            disabled>
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="nama_lokasi" class="form-label">Nama
                                                                             Lokasi</label>
                                                                         <input type="text" class="form-control"
                                                                             id="nama_lokasi" name="nama_lokasi"
-                                                                            value="{{ $item->nama_lokasi }}" required>
+                                                                            value="{{ $item->nama_lokasi }}" disabled>
                                                                     </div>
                                                                 </div>
 
@@ -149,7 +143,7 @@
                                                                         <label for="produk_id" class="form-label">Jenis
                                                                             Produk</label>
                                                                         <select class="form-control" name="produk_id"
-                                                                            id="produk_id" required>
+                                                                            id="produk_id" disabled>
                                                                             <option value="">Pilih Produk</option>
                                                                             @foreach ($produk as $produkItem)
                                                                                 <option value="{{ $produkItem->id }}"
@@ -163,7 +157,7 @@
                                                                         <label for="kategori_id"
                                                                             class="form-label">Kategori Lokasi</label>
                                                                         <select class="form-control" name="kategori_id"
-                                                                            id="kategori_id" required>
+                                                                            id="kategori_id" disabled>
                                                                             <option value="">Pilih Kategori</option>
                                                                             @foreach ($kategori as $kategoriItem)
                                                                                 <option value="{{ $kategoriItem->id }}"
@@ -179,7 +173,7 @@
                                                                             Opsional)</label>
                                                                         <input type="file" class="form-control"
                                                                             id="bukti_kunjungan" name="bukti_kunjungan"
-                                                                            accept="image/*">
+                                                                            accept="image/*" disabled>
                                                                     </div>
                                                                 </div>
 
@@ -190,7 +184,7 @@
                                                                             class="form-label">Alamat</label>
                                                                         <input type="text" class="form-control"
                                                                             id="alamat" name="alamat"
-                                                                            value="{{ $item->alamat }}" required>
+                                                                            value="{{ $item->alamat }}" disabled>
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="catatan_penolakan"
@@ -206,6 +200,114 @@
                                                                 data-bs-dismiss="modal">Batal</button>
                                                             <button type="submit" class="btn btn-primary">Simpan
                                                                 Perubahan</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <!-- Modal view per row -->
+                                        <div class="modal fade" id="viewModal{{ $item->id }}" tabindex="-1"
+                                            aria-labelledby="viewModalLabel{{ $item->id }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl">
+                                                <form action="{{ route('sales_penolakan.update', $item->id) }}"
+                                                    method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="viewModalLabel{{ $item->id }}">
+                                                                View Penolakan</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <!-- Kolom Kiri -->
+                                                                <div class="col-md-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="sales_id" class="form-label">Nama
+                                                                            Sales</label>
+                                                                        <input type="text" class="form-control"
+                                                                            name="sales_id" id="sales_id"
+                                                                            value="{{ $item->user->name }}" disabled>
+                                                                        <input type="hidden" class="form-control"
+                                                                            name="sales_id" id="sales_id"
+                                                                            value="{{ $item->user->id }}">
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="tanggal_kunjungan"
+                                                                            class="form-label">Tanggal Kunjungan</label>
+                                                                        <input type="date" class="form-control"
+                                                                            id="tanggal_kunjungan" name="tanggal_kunjungan"
+                                                                            value="{{ $item->tanggal_kunjungan }}"
+                                                                            disabled>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="nama_lokasi" class="form-label">Nama
+                                                                            Lokasi</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="nama_lokasi" name="nama_lokasi"
+                                                                            value="{{ $item->nama_lokasi }}" disabled>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Kolom Kanan -->
+                                                                <div class="col-md-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="produk_id" class="form-label">Jenis
+                                                                            Produk</label>
+                                                                        <select class="form-control" name="produk_id"
+                                                                            id="produk_id" disabled>
+                                                                            <option value="">Pilih Produk</option>
+                                                                            @foreach ($produk as $produkItem)
+                                                                                <option value="{{ $produkItem->id }}"
+                                                                                    {{ $item->produk_id == $produkItem->id ? 'selected' : '' }}>
+                                                                                    {{ $produkItem->nama }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="kategori_id"
+                                                                            class="form-label">Kategori Lokasi</label>
+                                                                        <select class="form-control" name="kategori_id"
+                                                                            id="kategori_id" disabled>
+                                                                            <option value="">Pilih Kategori</option>
+                                                                            @foreach ($kategori as $kategoriItem)
+                                                                                <option value="{{ $kategoriItem->id }}"
+                                                                                    {{ $item->kategori_id == $kategoriItem->id ? 'selected' : '' }}>
+                                                                                    {{ $kategoriItem->nama_sektor }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="bukti_kunjungan"
+                                                                            class="form-label">Bukti Kunjungan (Foto Baru -
+                                                                            Opsional)</label>
+                                                                        <input type="file" class="form-control"
+                                                                            id="bukti_kunjungan" name="bukti_kunjungan"
+                                                                            accept="image/*" disabled>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Full Width -->
+                                                                <div class="col-md-12">
+                                                                    <div class="mb-3">
+                                                                        <label for="alamat"
+                                                                            class="form-label">Alamat</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="alamat" name="alamat"
+                                                                            value="{{ $item->alamat }}" disabled>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="catatan_penolakan"
+                                                                            class="form-label">Catatan Penolakan</label>
+                                                                        <textarea name="catatan_penolakan" id="catatan_penolakan" class="form-control" rows="3" readonly>{{ $item->catatan_penolakan }}</textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -241,9 +343,8 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="sales_id" class="form-label">Nama Sales</label>
-                                        <select class="form-control" name="sales_id" id="sales_id">
-                                            <option value="{{ Auth::user()->id }}">{{ Auth::user()->name }}</option>
-                                        </select>
+                                        <input type="text" class="form-control" value="{{ Auth::user()->name }}" disabled>
+                                        <input type="hidden" class="form-control" name="sales_id" id="sales_id" value="{{ Auth::user()->id }}">
                                     </div>
                                     <div class="mb-3">
                                         <label for="tanggal_kunjungan" class="form-label">Tanggal Kunjungan</label>

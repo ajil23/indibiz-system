@@ -63,55 +63,16 @@ class PenolakanController extends Controller
     {
         // Validasi input
         $request->validate([
-            'nama_lokasi' => 'required|string|max:255',
-            'alamat' => 'required|string|max:255',
-            'tanggal_kunjungan' => 'required|date',
             'catatan_penolakan' => 'required|string',
-            'produk_id' => 'required|exists:jenis_produk,id',
-            'kategori_id' => 'required|exists:lokasi,id',
-            'bukti_kunjungan' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $penolakan = Penolakan::findOrFail($id);
-
-        // Handle upload bukti kunjungan baru jika ada
-        if ($request->hasFile('bukti_kunjungan')) {
-            // Hapus file lama jika ada
-            if ($penolakan->bukti_kunjungan && Storage::disk('public')->exists($penolakan->bukti_kunjungan)) {
-                Storage::disk('public')->delete($penolakan->bukti_kunjungan);
-            }
-
-            // Simpan file baru
-            $buktiPath = $request->file('bukti_kunjungan')->store('bukti_kunjungan', 'public');
-            $penolakan->bukti_kunjungan = $buktiPath;
-        }
 
         // Update data lainnya
         $penolakan->update([
-            'nama_lokasi' => $request->nama_lokasi,
-            'alamat' => $request->alamat,
-            'tanggal_kunjungan' => $request->tanggal_kunjungan,
             'catatan_penolakan' => $request->catatan_penolakan,
-            'produk_id' => $request->produk_id,
-            'kategori_id' => $request->kategori_id,
         ]);
 
         return redirect()->back()->with('success', 'Data berhasil diubah.');
-    }
-
-
-    public function destroy($id)
-    {
-        $penolakan = Penolakan::findOrFail($id);
-
-        // Hapus file bukti kunjungan jika ada
-        if ($penolakan->bukti_kunjungan && Storage::disk('public')->exists($penolakan->bukti_kunjungan)) {
-            Storage::disk('public')->delete($penolakan->bukti_kunjungan);
-        }
-
-        // Hapus data dari database
-        $penolakan->delete();
-
-        return redirect()->back()->with('success', 'Data berhasil dihapus.');
     }
 }

@@ -61,17 +61,10 @@
                                                     data-bs-target="#editModal{{ $item->id }}">
                                                     Edit
                                                 </button>
-
-                                                <!-- Tombol Hapus -->
-                                                <form action="{{ route('sales_penawaran.destroy', $item->id) }}"
-                                                    method="POST" class="d-inline delete-form">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="button" class="btn btn-danger btn-sm btn-delete"
-                                                        data-id="{{ $item->id }}">
-                                                        Delete
-                                                    </button>
-                                                </form>
+                                                <button class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#viewModal{{ $item->id }}">
+                                                    VIew
+                                                </button>
                                             </td>
                                         </tr>
 
@@ -129,7 +122,7 @@
                                                                         <label for="kategori_id" class="form-label">Kategori
                                                                             Lokasi</label>
                                                                         <select class="form-control" name="kategori_id"
-                                                                            id="kategori_id" required>
+                                                                            id="kategori_id" disabled>
                                                                             @foreach ($lokasi as $lok)
                                                                                 <option value="{{ $lok->id }}"
                                                                                     {{ $item->kategori_id == $lok->id ? 'selected' : '' }}>
@@ -142,7 +135,7 @@
                                                                         <label for="produk_id" class="form-label">Jenis
                                                                             Produk</label>
                                                                         <select class="form-control" name="produk_id"
-                                                                            id="produk_id" required>
+                                                                            id="produk_id" disabled>
                                                                             @foreach ($produk as $prod)
                                                                                 <option value="{{ $prod->id }}"
                                                                                     {{ $item->produk_id == $prod->id ? 'selected' : '' }}>
@@ -157,7 +150,7 @@
                                                                         <input type="date" class="form-control"
                                                                             name="tanggal_kunjungan" id="tanggal_kunjungan"
                                                                             value="{{ $item->tanggal_kunjungan }}"
-                                                                            required>
+                                                                            disabled>
                                                                     </div>
                                                                 </div>
 
@@ -168,14 +161,14 @@
                                                                             Lokasi</label>
                                                                         <input type="text" class="form-control"
                                                                             name="nama_lokasi" id="nama_lokasi"
-                                                                            value="{{ $item->nama_lokasi }}" required>
+                                                                            value="{{ $item->nama_lokasi }}" disabled>
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="nomor_hp" class="form-label">Nomor
                                                                             HP</label>
                                                                         <input type="text" class="form-control"
                                                                             name="nomor_hp" id="nomor_hp"
-                                                                            value="{{ $item->nomor_hp }}" required
+                                                                            value="{{ $item->nomor_hp }}" disabled
                                                                             pattern="[0-9]*" inputmode="numeric"
                                                                             oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                                                     </div>
@@ -184,14 +177,14 @@
                                                                             Penanggung Jawab (PIC)</label>
                                                                         <input type="text" class="form-control"
                                                                             name="pic" id="pic"
-                                                                            value="{{ $item->pic }}" required>
+                                                                            value="{{ $item->pic }}" disabled>
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="bukti_kunjungan"
                                                                             class="form-label">Foto Bukti Kunjungan</label>
                                                                         <input type="file" class="form-control"
                                                                             name="bukti_kunjungan" id="bukti_kunjungan"
-                                                                            accept="image/*">
+                                                                            accept="image/*" disabled>
                                                                         <small class="text-muted">Kosongkan jika tidak
                                                                             ingin mengganti foto.</small>
                                                                     </div>
@@ -203,12 +196,138 @@
                                                                         class="form-label">Alamat</label>
                                                                     <input type="text" class="form-control"
                                                                         name="alamat" id="alamat"
-                                                                        value="{{ $item->alamat }}" required>
+                                                                        value="{{ $item->alamat }}" disabled>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="keterangan" class="form-label">Keterangan
                                                                         Hasil Visit</label>
-                                                                    <textarea name="keterangan" id="keterangan" class="form-control" rows="4" required>{{ $item->keterangan }}</textarea>
+                                                                    <textarea name="keterangan" id="keterangan" class="form-control" rows="4" >{{ $item->keterangan }}</textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Batal</button>
+                                                            <button type="submit" class="btn btn-primary">Simpan
+                                                                Perubahan</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <!-- Modal view per row -->
+                                        <div class="modal fade" id="viewModal{{ $item->id }}" tabindex="-1"
+                                            aria-labelledby="viewModalLabel{{ $item->id }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl">
+                                                <form action="{{ route('sales_penawaran.update', $item->id) }}"
+                                                    method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="viewModalLabel{{ $item->id }}">
+                                                                Edit Penawaran</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <!-- Kolom Kiri -->
+                                                                <div class="col-md-6">
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Nama Sales</label>
+                                                                        <select class="form-control" disabled>
+                                                                            <option value="{{ $item->user->id }}">
+                                                                                {{ $item->user->name }}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="kategori_id" class="form-label">Kategori
+                                                                            Lokasi</label>
+                                                                        <select class="form-control" name="kategori_id"
+                                                                            id="kategori_id" disabled>
+                                                                            @foreach ($lokasi as $lok)
+                                                                                <option value="{{ $lok->id }}"
+                                                                                    {{ $item->kategori_id == $lok->id ? 'selected' : '' }}>
+                                                                                    {{ $lok->nama_sektor }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="produk_id" class="form-label">Jenis
+                                                                            Produk</label>
+                                                                        <select class="form-control" name="produk_id"
+                                                                            id="produk_id" disabled>
+                                                                            @foreach ($produk as $prod)
+                                                                                <option value="{{ $prod->id }}"
+                                                                                    {{ $item->produk_id == $prod->id ? 'selected' : '' }}>
+                                                                                    {{ $prod->nama }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="tanggal_kunjungan"
+                                                                            class="form-label">Tanggal Kunjungan</label>
+                                                                        <input type="date" class="form-control"
+                                                                            name="tanggal_kunjungan" id="tanggal_kunjungan"
+                                                                            value="{{ $item->tanggal_kunjungan }}"
+                                                                            disabled>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Kolom Kanan -->
+                                                                <div class="col-md-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="nama_lokasi" class="form-label">Nama
+                                                                            Lokasi</label>
+                                                                        <input type="text" class="form-control"
+                                                                            name="nama_lokasi" id="nama_lokasi"
+                                                                            value="{{ $item->nama_lokasi }}" disabled>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="nomor_hp" class="form-label">Nomor
+                                                                            HP</label>
+                                                                        <input type="text" class="form-control"
+                                                                            name="nomor_hp" id="nomor_hp"
+                                                                            value="{{ $item->nomor_hp }}" disabled
+                                                                            pattern="[0-9]*" inputmode="numeric"
+                                                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="pic" class="form-label">Nama
+                                                                            Penanggung Jawab (PIC)</label>
+                                                                        <input type="text" class="form-control"
+                                                                            name="pic" id="pic"
+                                                                            value="{{ $item->pic }}" disabled>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="bukti_kunjungan"
+                                                                            class="form-label">Foto Bukti Kunjungan</label>
+                                                                        <input type="file" class="form-control"
+                                                                            name="bukti_kunjungan" id="bukti_kunjungan"
+                                                                            accept="image/*" disabled>
+                                                                        <small class="text-muted">Kosongkan jika tidak
+                                                                            ingin mengganti foto.</small>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Full Row -->
+                                                                <div class="mb-3">
+                                                                    <label for="alamat"
+                                                                        class="form-label">Alamat</label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="alamat" id="alamat"
+                                                                        value="{{ $item->alamat }}" disabled>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="keterangan" class="form-label">Keterangan
+                                                                        Hasil Visit</label>
+                                                                    <textarea name="keterangan" id="keterangan" class="form-control" rows="4" disabled>{{ $item->keterangan }}</textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
