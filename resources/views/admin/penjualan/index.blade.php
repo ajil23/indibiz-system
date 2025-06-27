@@ -60,7 +60,7 @@
                                                 <td>
                                                     <button class="btn btn-info btn-sm" data-bs-toggle="modal"
                                                         data-bs-target="#viewModal-{{ $item->id }}">
-                                                        View
+                                                        Detail
                                                     </button>
                                                 </td>
                                             @endif
@@ -92,14 +92,14 @@
                                                                             <input type="text" class="form-control"
                                                                                 id="nama_pelanggan" name="nama_pelanggan"
                                                                                 value="{{ $item->nama_pelanggan }}"
-                                                                                required>
+                                                                                disabled>
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label for="kategori_id"
                                                                                 class="form-label">Kategori
                                                                                 Lokasi</label>
                                                                             <select class="form-control" name="kategori_id"
-                                                                                id="kategori_id" required>
+                                                                                id="kategori_id" disabled>
                                                                                 <option>-- Pilih kategori Lokasi --</option>
                                                                                 @foreach ($lokasi as $lok)
                                                                                     <option value="{{ $lok->id }}"
@@ -113,7 +113,7 @@
                                                                             <label for="produk_id" class="form-label">Jenis
                                                                                 Produk</label>
                                                                             <select class="form-control" name="produk_id"
-                                                                                id="produk_id" required>
+                                                                                id="produk_id" disabled>
                                                                                 <option>-- Pilih jenis produk --</option>
                                                                                 @foreach ($produk as $prod)
                                                                                     <option value="{{ $prod->id }}"
@@ -128,7 +128,7 @@
                                                                                 HP</label>
                                                                             <input type="text" class="form-control"
                                                                                 id="nomor_hp" name="nomor_hp"
-                                                                                value="{{ $item->nomor_hp }}" required
+                                                                                value="{{ $item->nomor_hp }}" readonly
                                                                                 pattern="[0-9]*" inputmode="numeric"
                                                                                 oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                                                         </div>
@@ -139,7 +139,7 @@
                                                                                 id="tanggal_penjualan"
                                                                                 name="tanggal_penjualan"
                                                                                 value="{{ $item->tanggal_penjualan }}"
-                                                                                required>
+                                                                                readonly>
                                                                         </div>
                                                                     </div>
 
@@ -151,21 +151,21 @@
                                                                                 Lokasi Usaha</label>
                                                                             <input type="text" class="form-control"
                                                                                 id="lokasi_usaha" name="lokasi_usaha"
-                                                                                value="{{ $item->lokasi_usaha }}" required>
+                                                                                value="{{ $item->lokasi_usaha }}" readonly>
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label for="alamat" class="form-label">Alamat
                                                                                 Instalasi</label>
                                                                             <input type="text" class="form-control"
                                                                                 id="alamat" name="alamat"
-                                                                                value="{{ $item->alamat }}" required>
+                                                                                value="{{ $item->alamat }}" readonly>
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label for="email"
                                                                                 class="form-label">Email</label>
                                                                             <input type="email" class="form-control"
                                                                                 id="email" name="email"
-                                                                                value="{{ $item->email }}" required>
+                                                                                value="{{ $item->email }}" readonly>
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label for="foto_ktp" class="form-label">Foto
@@ -215,19 +215,21 @@
                                                                         <div class="mb-3">
                                                                             <label for="catatan_tambahan"
                                                                                 class="form-label">Catatan Tambahan</label>
-                                                                            <textarea class="form-control" name="catatan_tambahan" id="catatan_tambahan" cols="30" rows="1">{{ $item->catatan_tambahan }}</textarea>
+                                                                            <textarea class="form-control" name="catatan_tambahan" id="catatan_tambahan" cols="30" rows="1" readonly>{{ $item->catatan_tambahan }}</textarea>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
 
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-danger"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#rejectModal-{{ $item->id }}">Tolak</button>
-                                                                <button type="submit" class="btn btn-success"
-                                                                    name="status" value="Disetujui">Setujui</button>
-                                                            </div>
+                                                            @if (!in_array($item->status, ['Disetujui', 'Ditolak']))
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-danger"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#rejectModal-{{ $item->id }}">Tolak</button>
+                                                                    <button type="submit" class="btn btn-success"
+                                                                        name="status" value="Disetujui">Setujui</button>
+                                                                </div>
+                                                            @endif
                                                         </div>
                                                     </form>
                                                 </div>
@@ -279,14 +281,12 @@
             </div>
         </div>
 
-        <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exportModalLabel">Export Data</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form id="exportForm" action="{{ route('penjualan.exportData') }}" method="POST">
                         @csrf

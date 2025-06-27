@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DataExport;
+use App\Models\JenisProduk;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class PenawaranController extends Controller
@@ -17,8 +18,9 @@ class PenawaranController extends Controller
     {
         $sales = User::all();
         $lokasi = Lokasi::all();
+        $produk = JenisProduk::all();
         $penawaran = Penawaran::paginate(10);
-        return view('admin.penawaran.index', compact('sales', 'lokasi', 'penawaran'));
+        return view('admin.penawaran.index', compact('sales', 'lokasi', 'penawaran', 'produk'));
     }
 
     public function store(Request $request)
