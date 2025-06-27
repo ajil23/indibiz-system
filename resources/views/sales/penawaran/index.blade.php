@@ -63,7 +63,7 @@
                                                 </button>
                                                 <button class="btn btn-info btn-sm" data-bs-toggle="modal"
                                                     data-bs-target="#viewModal{{ $item->id }}">
-                                                    VIew
+                                                    View
                                                 </button>
                                             </td>
                                         </tr>
@@ -228,7 +228,7 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="viewModalLabel{{ $item->id }}">
-                                                                Edit Penawaran</h5>
+                                                                View Penawaran</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
                                                         </div>
@@ -330,13 +330,6 @@
                                                                     <textarea name="keterangan" id="keterangan" class="form-control" rows="4" disabled>{{ $item->keterangan }}</textarea>
                                                                 </div>
                                                             </div>
-                                                        </div>
-
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Batal</button>
-                                                            <button type="submit" class="btn btn-primary">Simpan
-                                                                Perubahan</button>
                                                         </div>
                                                     </div>
                                                 </form>
