@@ -64,43 +64,13 @@ class PenawaranController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'kategori_id' => 'required|exists:lokasi,id',
-            'produk_id' => 'required|exists:jenis_produk,id',
-            'tanggal_kunjungan' => 'required|date',
-            'nomor_hp' => 'required|numeric',
-            'nama_lokasi' => 'required|string|max:255',
-            'alamat' => 'required|string|max:255',
-            'pic' => 'required|string|max:255',
             'keterangan' => 'nullable|string',
-            'bukti_kunjungan' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $penawaran = Penawaran::findOrFail($id);
 
-        // Hapus file lama jika ada file baru diunggah
-        if ($request->hasFile('bukti_kunjungan')) {
-            // Hapus file lama jika ada
-            if ($penawaran->bukti_kunjungan && Storage::disk('public')->exists($penawaran->bukti_kunjungan)) {
-                Storage::disk('public')->delete($penawaran->bukti_kunjungan);
-            }
-
-            // Upload file baru
-            $file = $request->file('bukti_kunjungan');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $path = $file->storeAs('bukti_kunjungan', $filename, 'public');
-
-            $penawaran->bukti_kunjungan = $path;
-        }
-
         // Update kolom lainnya
         $penawaran->update([
-            'kategori_id' => $request->kategori_id,
-            'produk_id' => $request->produk_id,
-            'tanggal_kunjungan' => $request->tanggal_kunjungan,
-            'nomor_hp' => $request->nomor_hp,
-            'nama_lokasi' => $request->nama_lokasi,
-            'alamat' => $request->alamat,
-            'pic' => $request->pic,
             'keterangan' => $request->keterangan,
         ]);
 
