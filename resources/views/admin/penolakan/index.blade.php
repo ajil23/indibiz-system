@@ -246,11 +246,12 @@
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="bukti_kunjungan" class="form-label">Bukti
-                                                                        Kunjungan (Foto Baru -
-                                                                        Opsional)</label>
-                                                                    <input type="file" class="form-control"
-                                                                        id="bukti_kunjungan" name="bukti_kunjungan"
-                                                                        accept="image/*" disabled>
+                                                                        Kunjungan</label>
+                                                                        <br>
+                                                                    <a href="{{ asset('storage/' . $item->bukti_kunjungan) }}"
+                                                                        target="_blank">
+                                                                        Lihat foto
+                                                                    </a>
                                                                 </div>
                                                             </div>
 

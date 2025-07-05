@@ -321,11 +321,13 @@
                                                             <div class="mb-3">
                                                                 <label for="foto_nota" class="form-label">Foto
                                                                     Nota</label>
-                                                                <input type="file" class="form-control" id="foto_nota"
-                                                                    name="foto_nota" accept="image/*" disabled>
-                                                                <small class="text-muted">Kosongkan jika tidak ingin
-                                                                    mengubah foto.</small>
+                                                                <br>
+                                                                <a href="{{ asset('storage/' . $item->foto_nota) }}"
+                                                                    target="_blank">
+                                                                    Lihat foto
+                                                                </a>
                                                             </div>
+                                                            <br>
                                                             <div class="mb-3">
                                                                 <label for="keterangan"
                                                                     class="form-label">Keterangan</label>

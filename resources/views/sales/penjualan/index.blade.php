@@ -226,9 +226,10 @@
                                                     @method('PUT')
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="viewModalLabel">Edit Penjualan</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
+                                                            <h5 class="modal-title" id="viewModalLabel">Edit Penjualan
+                                                            </h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
 
                                                         <div class="modal-body">
@@ -236,14 +237,16 @@
                                                                 <!-- Kolom Kiri -->
                                                                 <div class="col-md-6">
                                                                     <div class="mb-3">
-                                                                        <label for="nama_pelanggan" class="form-label">Nama
+                                                                        <label for="nama_pelanggan"
+                                                                            class="form-label">Nama
                                                                             Pelanggan</label>
                                                                         <input type="text" class="form-control"
                                                                             id="nama_pelanggan" name="nama_pelanggan"
                                                                             value="{{ $item->nama_pelanggan }}" disabled>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <label for="kategori_id" class="form-label">Kategori
+                                                                        <label for="kategori_id"
+                                                                            class="form-label">Kategori
                                                                             Lokasi</label>
                                                                         <select class="form-control" name="kategori_id"
                                                                             id="kategori_id" disabled>
@@ -315,14 +318,19 @@
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="foto_ktp" class="form-label">Foto
-                                                                            KTP/Identitas Lain (Opsional)</label>
-                                                                        <input type="file" class="form-control"
-                                                                            id="foto_ktp" name="foto_ktp" disabled>
+                                                                            KTP/Identitas Lain</label>
+                                                                        <br>
+                                                                        <a href="{{ asset('storage/' . $item->foto_ktp) }}"
+                                                                            target="_blank">
+                                                                            Lihat foto
+                                                                        </a>
                                                                     </div>
+                                                                    <br>
                                                                     <div class="mb-3">
                                                                         <label for="catatan_tambahan"
                                                                             class="form-label">Catatan Tambahan</label>
-                                                                        <textarea class="form-control" name="catatan_tambahan" readonly id="catatan_tambahan" cols="30" rows="1">{{ $item->catatan_tambahan }}</textarea>
+                                                                        <textarea class="form-control" name="catatan_tambahan" readonly id="catatan_tambahan" cols="30"
+                                                                            rows="1">{{ $item->catatan_tambahan }}</textarea>
                                                                     </div>
                                                                 </div>
                                                             </div>

@@ -86,7 +86,8 @@
                                                     @method('PUT')
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="detailModalLabel{{ $item->id }}">
+                                                            <h5 class="modal-title"
+                                                                id="detailModalLabel{{ $item->id }}">
                                                                 View Pelaporan Kendaraan</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
@@ -99,7 +100,8 @@
                                                                     <div class="mb-3">
                                                                         <label for="sales_id" class="form-label">Nama
                                                                             Pengemudi</label>
-                                                                        <input type="text" class="form-control" value="{{ $item->user->name }}" disabled>
+                                                                        <input type="text" class="form-control"
+                                                                            value="{{ $item->user->name }}" disabled>
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="tanggal_penggunaan"
@@ -128,8 +130,8 @@
                                                                 <!-- Kolom Kanan -->
                                                                 <div class="col-md-6">
                                                                     <div class="mb-3">
-                                                                        <label for="waktu_selesai"
-                                                                            class="form-label">Waktu Selesai</label>
+                                                                        <label for="waktu_selesai" class="form-label">Waktu
+                                                                            Selesai</label>
                                                                         <input type="time" class="form-control"
                                                                             name="waktu_selesai"
                                                                             value="{{ $item->waktu_selesai }}" disabled>
@@ -144,9 +146,13 @@
                                                                     <div class="mb-3">
                                                                         <label for="foto_odo" class="form-label">Foto
                                                                             Odometer</label>
-                                                                        <input type="file" class="form-control"
-                                                                            name="foto_odo" accept="image/*" disabled>
+                                                                        <br>
+                                                                        <a href="{{ asset('storage/' . $item->foto_odo) }}"
+                                                                            target="_blank">
+                                                                            Lihat foto
+                                                                        </a>
                                                                     </div>
+                                                                    <br>
                                                                     <div class="mb-3">
                                                                         <label for="tnkb_id"
                                                                             class="form-label">TNKB</label>
