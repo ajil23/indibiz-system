@@ -201,7 +201,7 @@
                                                                 <div class="mb-3">
                                                                     <label for="keterangan" class="form-label">Keterangan
                                                                         Hasil Visit</label>
-                                                                    <textarea name="keterangan" id="keterangan" class="form-control" rows="4" >{{ $item->keterangan }}</textarea>
+                                                                    <textarea name="keterangan" id="keterangan" class="form-control" rows="4">{{ $item->keterangan }}</textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -227,10 +227,11 @@
                                                     @method('PUT')
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="viewModalLabel{{ $item->id }}">
+                                                            <h5 class="modal-title"
+                                                                id="viewModalLabel{{ $item->id }}">
                                                                 View Penawaran</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
 
                                                         <div class="modal-body">
@@ -245,7 +246,8 @@
                                                                         </select>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <label for="kategori_id" class="form-label">Kategori
+                                                                        <label for="kategori_id"
+                                                                            class="form-label">Kategori
                                                                             Lokasi</label>
                                                                         <select class="form-control" name="kategori_id"
                                                                             id="kategori_id" disabled>
@@ -274,7 +276,8 @@
                                                                         <label for="tanggal_kunjungan"
                                                                             class="form-label">Tanggal Kunjungan</label>
                                                                         <input type="date" class="form-control"
-                                                                            name="tanggal_kunjungan" id="tanggal_kunjungan"
+                                                                            name="tanggal_kunjungan"
+                                                                            id="tanggal_kunjungan"
                                                                             value="{{ $item->tanggal_kunjungan }}"
                                                                             disabled>
                                                                     </div>
@@ -308,11 +311,11 @@
                                                                     <div class="mb-3">
                                                                         <label for="bukti_kunjungan"
                                                                             class="form-label">Foto Bukti Kunjungan</label>
-                                                                        <input type="file" class="form-control"
-                                                                            name="bukti_kunjungan" id="bukti_kunjungan"
-                                                                            accept="image/*" disabled>
-                                                                        <small class="text-muted">Kosongkan jika tidak
-                                                                            ingin mengganti foto.</small>
+                                                                            <br>
+                                                                        <a href="{{ asset('storage/' . $item->bukti_kunjungan) }}"
+                                                                            target="_blank">
+                                                                            Lihat foto
+                                                                        </a>
                                                                     </div>
                                                                 </div>
 
@@ -416,7 +419,7 @@
                                         <label for="bukti_kunjungan" class="form-label">Foto Bukti Kunjungan</label>
                                         <input type="file" class="form-control" name="bukti_kunjungan"
                                             id="bukti_kunjungan" accept="image/*" required>
-                                            <small class="text-muted">Ukuran foto maksimal 2mb</small>
+                                        <small class="text-muted">Ukuran foto maksimal 2mb</small>
                                     </div>
                                 </div>
                                 <div class="mb-3">
