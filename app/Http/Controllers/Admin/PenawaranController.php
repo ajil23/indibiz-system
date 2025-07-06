@@ -64,7 +64,6 @@ class PenawaranController extends Controller
         // Validasi input
         $request->validate([
             'feedback' => 'required|string',
-            'status' => 'required|in:Disetujui,Ditolak',
         ]);
 
         // Temukan data penawaran
@@ -73,7 +72,6 @@ class PenawaranController extends Controller
         // Update data
         $penawaran->update([
             'feedback' => $request->feedback,
-            'status' => $request->status,
         ]);
 
         return back()->with('success', 'Feedback dan status penawaran berhasil diperbarui!');
@@ -82,17 +80,21 @@ class PenawaranController extends Controller
     public function exportData(Request $request)
     {
         $exportType = $request->input('exportType');
+        $month = $request->input('month', now()->month);  // Default ke bulan sekarang jika tidak ada input
+        $year = $request->input('year', now()->year);  // Default ke tahun sekarang jika tidak ada input
 
-        // Ambil data bulan ini
-        $data = Penawaran::whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
-            ->get();
+        // Ambil data berdasarkan bulan dan tahun yang dipilih
+        $data = Penawaran::whereMonth('created_at', $month)
+                        ->whereYear('created_at', $year)
+                        ->get();
 
         if ($exportType === 'excel') {
-            return Excel::download(new DataExport, 'data_bulanan.xlsx');
+            return Excel::download(new DataExport($data), 'data_bulanan_'.$year.'_'.$month.'.xlsx');
         } elseif ($exportType === 'pdf') {
-            $pdf = Pdf::loadView('exports.pdf', compact('data'));
-            return $pdf->download('data_bulanan.pdf');
+            $pdf = Pdf::loadView('exports.pdf', compact('data'))
+                    ->setPaper('A4', 'landscape'); // Atur orientasi ke landscape
+
+            return $pdf->download('data_bulanan_'.$year.'_'.$month.'.pdf');
         }
 
         return back()->with('error', 'Format tidak valid');

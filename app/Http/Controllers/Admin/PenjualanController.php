@@ -77,18 +77,28 @@ class PenjualanController extends Controller
     public function exportData(Request $request)
     {
         $exportType = $request->input('exportType');
-
-        // Ambil data dengan relasi agar lebih optimal
-        $penjualan = Penjualan::with(['user', 'kategori_lokasi', 'jenis_produk'])->get();
-
+        $month = $request->input('month', now()->month);  // Default ke bulan sekarang jika tidak ada input
+        $year = $request->input('year', now()->year);  // Default ke tahun sekarang jika tidak ada input
+    
+        // Ambil data dengan relasi agar lebih optimal, berdasarkan bulan dan tahun yang dipilih
+        $penjualan = Penjualan::with(['user', 'kategori_lokasi', 'jenis_produk'])
+            ->whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
+            ->get();
+    
+        // Export ke Excel
         if ($exportType === 'excel') {
-            return Excel::download(new PenjualanExport, 'penjualan.xlsx');
-        } elseif ($exportType === 'pdf') {
+            return Excel::download(new PenjualanExport($penjualan), 'penjualan_'.$year.'_'.$month.'.xlsx');
+        }
+    
+        // Export ke PDF
+        elseif ($exportType === 'pdf') {
             $pdf = Pdf::loadView('exports.penjualan', compact('penjualan'))
                 ->setPaper('a4', 'landscape'); // Format kertas landscape agar tabel lebih luas
-            return $pdf->download('penjualan.pdf');
+            return $pdf->download('penjualan_'.$year.'_'.$month.'.pdf');
         }
-
+    
+        // Jika format tidak valid
         return back()->with('error', 'Format export tidak valid.');
     }
 }

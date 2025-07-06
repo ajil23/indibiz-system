@@ -49,14 +49,22 @@ class PenolakanController extends Controller
     public function exportData(Request $request)
     {
         $exportType = $request->input('exportType');
-        $data = Penolakan::whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
-            ->get();
+        $month = $request->input('month', now()->month);  // Default ke bulan sekarang jika tidak ada input
+        $year = $request->input('year', now()->year);  // Default ke tahun sekarang jika tidak ada input
+
+        // Ambil data berdasarkan bulan dan tahun yang dipilih
+        $data = Penolakan::whereMonth('created_at', $month)
+                        ->whereYear('created_at', $year)
+                        ->get();
+
         if ($exportType === 'excel') {
-            return Excel::download(new PenolakanExport, 'data.xlsx');
+            return Excel::download(new PenolakanExport($data), 'data_'.$year.'_'.$month.'.xlsx');
         } elseif ($exportType === 'pdf') {
-            $pdf = Pdf::loadView('exports.penolakan', compact('data'));
-            return $pdf->download('data.pdf');
+            // Set orientasi kertas untuk PDF (optional)
+            $pdf = Pdf::loadView('exports.penolakan', compact('data'))
+                    ->setPaper('A4', 'landscape');  // Bisa diganti menjadi 'portrait' sesuai kebutuhan
+
+            return $pdf->download('data_'.$year.'_'.$month.'.pdf');
         }
 
         return back()->with('error', 'Format tidak valid');

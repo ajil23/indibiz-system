@@ -46,9 +46,9 @@
                                             <td>{{ $item->alamat }}</td>
                                             <td>{{ $item->tanggal_kunjungan }}</td>
                                             <td>
-                                                @if ($item->feedback == null)
+                                                @if ($item->catatan_penolakan == null)
                                                     <button class="btn btn-outline-info btn-sm">Proses</button>
-                                                @elseif($item->feedback != null)
+                                                @elseif($item->catatan_penolakan != null)
                                                     <a href="#" class="btn btn-outline-success btn-sm"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#feedbackModal{{ $item->id }}">

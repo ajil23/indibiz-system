@@ -51,7 +51,8 @@
                                                 @if ($item->status == 'Disetujui')
                                                     <span class="btn btn-sm btn-outline-success">Disetujui</span>
                                                 @elseif($item->status == 'Ditolak')
-                                                    <span class="btn btn-sm btn-outline-danger">Ditolak</span>
+                                                    <span class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#feedbackModal{{ $item->id }}">Ditolak</span>
                                                 @else
                                                     <span class="btn btn-sm btn-outline-secondary">Diproses</span>
                                                 @endif
@@ -231,6 +232,60 @@
                                                 </form>
                                             </div>
                                         </div>
+
+                                        <!-- Modal Feedback -->
+                                        <div class="modal fade" id="feedbackModal{{ $item->id }}" tabindex="-1"
+                                            aria-labelledby="feedbackModalLabel{{ $item->id }}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="feedbackModalLabel{{ $item->id }}">
+                                                            Catatan Penolakan
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>{{ $item->keterangan }}</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Tutup</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- tolak --}}
+                                        <div class="modal fade" id="rejectModal-{{ $item->id }}" tabindex="-1"
+                                            aria-labelledby="rejectModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <form action="{{ route('penjualan.update', $item->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="rejectModalLabel">Alasan Penolakan
+                                                            </h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Alasan</label>
+                                                                <textarea class="form-control" name="keterangan" rows="3" required></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Batal</button>
+                                                            <button type="submit" class="btn btn-danger" name="status"
+                                                                value="Ditolak">Simpan</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -256,16 +311,38 @@
                         <div class="modal-body">
                             <p>Pilih format untuk mengekspor data:</p>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exportType" id="exportExcel"
-                                    value="excel" checked>
+                                <input class="form-check-input" type="radio" name="exportType" id="exportExcel" value="excel" checked>
                                 <label class="form-check-label" for="exportExcel">Export as Excel</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exportType" id="exportPDF"
-                                    value="pdf">
+                                <input class="form-check-input" type="radio" name="exportType" id="exportPDF" value="pdf">
                                 <label class="form-check-label" for="exportPDF">Export as PDF</label>
                             </div>
+        
+                            <!-- Pilihan Bulan dan Tahun -->
+                            <div class="mt-3">
+                                <label for="month">Pilih Bulan</label>
+                                <select class="form-select" name="month" id="month">
+                                    @foreach(range(1, 12) as $month)
+                                        <option value="{{ $month }}" {{ $month == now()->month ? 'selected' : '' }}>
+                                            {{ \Carbon\Carbon::create()->month($month)->format('F') }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+        
+                            <div class="mt-3">
+                                <label for="year">Pilih Tahun</label>
+                                <select class="form-select" name="year" id="year">
+                                    @foreach(range(now()->year, now()->year - 5) as $year)
+                                        <option value="{{ $year }}" {{ $year == now()->year ? 'selected' : '' }}>
+                                            {{ $year }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
+        
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Save</button>

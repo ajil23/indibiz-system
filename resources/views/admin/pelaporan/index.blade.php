@@ -202,14 +202,39 @@
                             <p>Pilih format untuk mengekspor data:</p>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="exportType" id="exportExcel"
-                                    value="excel" checked>
+                                       value="excel" checked>
                                 <label class="form-check-label" for="exportExcel">Export as Excel</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="exportType" id="exportPDF"
-                                    value="pdf">
+                                       value="pdf">
                                 <label class="form-check-label" for="exportPDF">Export as PDF</label>
                             </div>
+        
+                            <!-- Pilihan Bulan -->
+                            <div class="mt-3">
+                                <label for="month">Pilih Bulan</label>
+                                <select class="form-select" name="month" id="month">
+                                    @foreach(range(1, 12) as $month)
+                                        <option value="{{ $month }}" {{ $month == now()->month ? 'selected' : '' }}>
+                                            {{ \Carbon\Carbon::create()->month($month)->format('F') }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+        
+                            <!-- Pilihan Tahun -->
+                            <div class="mt-3">
+                                <label for="year">Pilih Tahun</label>
+                                <select class="form-select" name="year" id="year">
+                                    @foreach(range(now()->year, now()->year - 5) as $year)
+                                        <option value="{{ $year }}" {{ $year == now()->year ? 'selected' : '' }}>
+                                            {{ $year }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+        
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
