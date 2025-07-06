@@ -32,7 +32,7 @@ class PenawaranController extends Controller
             'tanggal_kunjungan' => 'required|date',
             'pic' => 'required|string|max:255',
             'nomor_hp' => 'required|regex:/^[0-9]+$/',
-            'bukti_kunjungan' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'bukti_kunjungan' => 'required|image|mimes:jpeg,png,jpg|max:3000',
             'keterangan' => 'required|string',
             'sales_id' => 'required|exists:users,id',
             'kategori_id' => 'required|exists:lokasi,id',

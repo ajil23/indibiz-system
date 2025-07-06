@@ -63,9 +63,8 @@
                                                     <button type="button" class="btn btn-outline-primary btn-sm"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#viewPenawaranModal-{{ $item->id }}">
-                                                        Review Penawaran
+                                                        Review
                                                     </button>
-
                                                 </td>
                                             @endif
                                             <td>
@@ -171,10 +170,8 @@
                                                             </div>
 
                                                             <div class="modal-footer">
-                                                                <button type="submit" name="status" value="Ditolak"
-                                                                    class="btn btn-danger">Tolak</button>
-                                                                <button type="submit" name="status" value="Disetujui"
-                                                                    class="btn btn-success">Setujui</button>
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                                <button type="submit" class="btn btn-success">Kirim</button>
                                                             </div>
                                                         </div>
                                                     </form>
@@ -303,6 +300,29 @@
                                                 </form>
                                             </div>
                                         </div>
+
+                                        <!-- Modal Feedback -->
+                                        <div class="modal fade" id="feedbackModal{{ $item->id }}" tabindex="-1"
+                                            aria-labelledby="feedbackModalLabel{{ $item->id }}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="feedbackModalLabel{{ $item->id }}">
+                                                            Catatan Penolakan
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>{{ $item->feedback }}</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Tutup</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -328,16 +348,38 @@
                         <div class="modal-body">
                             <p>Pilih format untuk mengekspor data:</p>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exportType" id="exportExcel"
-                                    value="excel" checked>
+                                <input class="form-check-input" type="radio" name="exportType" id="exportExcel" value="excel" checked>
                                 <label class="form-check-label" for="exportExcel">Export as Excel</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exportType" id="exportPDF"
-                                    value="pdf">
+                                <input class="form-check-input" type="radio" name="exportType" id="exportPDF" value="pdf">
                                 <label class="form-check-label" for="exportPDF">Export as PDF</label>
                             </div>
+        
+                            <!-- Pilihan Bulan dan Tahun -->
+                            <div class="mt-3">
+                                <label for="month">Pilih Bulan</label>
+                                <select class="form-select" name="month" id="month">
+                                    @foreach(range(1, 12) as $month)
+                                        <option value="{{ $month }}" {{ $month == now()->month ? 'selected' : '' }}>
+                                            {{ \Carbon\Carbon::create()->month($month)->format('F') }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+        
+                            <div class="mt-3">
+                                <label for="year">Pilih Tahun</label>
+                                <select class="form-select" name="year" id="year">
+                                    @foreach(range(now()->year, now()->year - 5) as $year)
+                                        <option value="{{ $year }}" {{ $year == now()->year ? 'selected' : '' }}>
+                                            {{ $year }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
+        
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Save</button>

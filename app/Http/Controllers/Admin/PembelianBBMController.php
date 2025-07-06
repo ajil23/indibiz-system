@@ -63,14 +63,27 @@ class PembelianBBMController extends Controller
     public function exportData(Request $request)
     {
         $exportType = $request->input('exportType');
-
+        $month = $request->input('month', now()->month);  // Default bulan sekarang
+        $year = $request->input('year', now()->year);  // Default tahun sekarang
+    
+        // Ambil data PembelianBbm berdasarkan bulan dan tahun yang dipilih
+        $pembelian = PembelianBbm::whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
+            ->get();
+    
+        // Export ke Excel
         if ($exportType === 'excel') {
-            return Excel::download(new PembelianExport, 'pembelian.xlsx');
-        } elseif ($exportType === 'pdf') {
-            $pdf = Pdf::loadView('exports.pembelian', ['data' => PembelianBbm::all()]);
-            return $pdf->download('pembelian.pdf');
+            return Excel::download(new PembelianExport($pembelian), 'pembelian_'.$year.'-'.$month.'.xlsx');
         }
-
+    
+        // Export ke PDF
+        elseif ($exportType === 'pdf') {
+            $pdf = Pdf::loadView('exports.pembelian', ['data' => $pembelian])
+                ->setPaper('a4', 'landscape');  // Format kertas landscape
+            return $pdf->download('pembelian_'.$year.'-'.$month.'.pdf');
+        }
+    
+        // Jika format tidak valid
         return back()->with('error', 'Format tidak valid');
     }
 }

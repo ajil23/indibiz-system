@@ -20,16 +20,29 @@ class PelaporanKendaraanController extends Controller
     }
 
     public function exportData(Request $request)
-    {
-        $exportType = $request->input('exportType');
+{
+    $exportType = $request->input('exportType');
+    $month = $request->input('month', now()->month);  // Default bulan sekarang jika tidak ada input
+    $year = $request->input('year', now()->year);  // Default tahun sekarang jika tidak ada input
 
-        if ($exportType === 'excel') {
-            return Excel::download(new PelaporanExport, 'pelaporan-kendaraan.xlsx');
-        } elseif ($exportType === 'pdf') {
-            $pdf = Pdf::loadView('exports.pelaporan', ['data' => PelaporanKendaraan::all()]);
-            return $pdf->download('pelaporan-kendaraan.pdf');
-        }
+    // Ambil data PelaporanKendaraan berdasarkan bulan dan tahun yang dipilih
+    $pelaporan = PelaporanKendaraan::whereMonth('created_at', $month)
+        ->whereYear('created_at', $year)
+        ->get();
 
-        return back()->with('error', 'Format tidak valid');
+    // Export ke Excel
+    if ($exportType === 'excel') {
+        return Excel::download(new PelaporanExport($pelaporan), 'pelaporan-kendaraan_'.$year.'-'.$month.'.xlsx');
     }
+
+    // Export ke PDF
+    elseif ($exportType === 'pdf') {
+        $pdf = Pdf::loadView('exports.pelaporan', ['data' => $pelaporan])
+            ->setPaper('a4', 'landscape');  // Format kertas landscape untuk PDF
+        return $pdf->download('pelaporan-kendaraan_'.$year.'-'.$month.'.pdf');
+    }
+
+    // Jika format tidak valid
+    return back()->with('error', 'Format tidak valid');
+}
 }
