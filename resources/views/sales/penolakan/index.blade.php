@@ -216,10 +216,11 @@
                                                     @method('PUT')
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="viewModalLabel{{ $item->id }}">
+                                                            <h5 class="modal-title"
+                                                                id="viewModalLabel{{ $item->id }}">
                                                                 View Penolakan</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="row">
@@ -239,7 +240,8 @@
                                                                         <label for="tanggal_kunjungan"
                                                                             class="form-label">Tanggal Kunjungan</label>
                                                                         <input type="date" class="form-control"
-                                                                            id="tanggal_kunjungan" name="tanggal_kunjungan"
+                                                                            id="tanggal_kunjungan"
+                                                                            name="tanggal_kunjungan"
                                                                             value="{{ $item->tanggal_kunjungan }}"
                                                                             disabled>
                                                                     </div>
@@ -284,11 +286,12 @@
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="bukti_kunjungan"
-                                                                            class="form-label">Bukti Kunjungan (Foto Baru -
-                                                                            Opsional)</label>
-                                                                        <input type="file" class="form-control"
-                                                                            id="bukti_kunjungan" name="bukti_kunjungan"
-                                                                            accept="image/*" disabled>
+                                                                            class="form-label">Bukti Kunjungan</label>
+                                                                        <br>
+                                                                        <a href="{{ asset('storage/' . $item->bukti_kunjungan) }}"
+                                                                            target="_blank">
+                                                                            Lihat foto
+                                                                        </a>
                                                                     </div>
                                                                 </div>
 
@@ -343,8 +346,10 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="sales_id" class="form-label">Nama Sales</label>
-                                        <input type="text" class="form-control" value="{{ Auth::user()->name }}" disabled>
-                                        <input type="hidden" class="form-control" name="sales_id" id="sales_id" value="{{ Auth::user()->id }}">
+                                        <input type="text" class="form-control" value="{{ Auth::user()->name }}"
+                                            disabled>
+                                        <input type="hidden" class="form-control" name="sales_id" id="sales_id"
+                                            value="{{ Auth::user()->id }}">
                                     </div>
                                     <div class="mb-3">
                                         <label for="tanggal_kunjungan" class="form-label">Tanggal Kunjungan</label>

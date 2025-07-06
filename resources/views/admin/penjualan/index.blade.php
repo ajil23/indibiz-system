@@ -68,33 +68,29 @@
                                         <div class="modal fade" id="viewModal-{{ $item->id }}" tabindex="-1"
                                             aria-labelledby="viewModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-xl">
-                                                <form action="{{ route('penjualan.update', $item->id) }}"
-                                                    method="POST">
+                                                <form action="{{ route('penjualan.update', $item->id) }}" method="POST">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="viewModalLabel">Detail Penjualan
                                                             </h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="row">
                                                                 <!-- Kolom Kiri -->
                                                                 <div class="col-md-6">
                                                                     <div class="mb-3">
-                                                                        <label for="nama_pelanggan"
-                                                                            class="form-label">Nama
+                                                                        <label for="nama_pelanggan" class="form-label">Nama
                                                                             Pelanggan</label>
                                                                         <input type="text" class="form-control"
                                                                             id="nama_pelanggan" name="nama_pelanggan"
-                                                                            value="{{ $item->nama_pelanggan }}"
-                                                                            disabled>
+                                                                            value="{{ $item->nama_pelanggan }}" disabled>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <label for="kategori_id"
-                                                                            class="form-label">Kategori
+                                                                        <label for="kategori_id" class="form-label">Kategori
                                                                             Lokasi</label>
                                                                         <select class="form-control" name="kategori_id"
                                                                             id="kategori_id" disabled>
@@ -134,8 +130,7 @@
                                                                         <label for="tanggal_penjualan"
                                                                             class="form-label">Tanggal Penjualan</label>
                                                                         <input type="date" class="form-control"
-                                                                            id="tanggal_penjualan"
-                                                                            name="tanggal_penjualan"
+                                                                            id="tanggal_penjualan" name="tanggal_penjualan"
                                                                             value="{{ $item->tanggal_penjualan }}"
                                                                             readonly>
                                                                     </div>
@@ -144,8 +139,7 @@
                                                                 <!-- Kolom Kanan -->
                                                                 <div class="col-md-6">
                                                                     <div class="mb-3">
-                                                                        <label for="lokasi_usaha"
-                                                                            class="form-label">Nama
+                                                                        <label for="lokasi_usaha" class="form-label">Nama
                                                                             Lokasi Usaha</label>
                                                                         <input type="text" class="form-control"
                                                                             id="lokasi_usaha" name="lokasi_usaha"
@@ -172,14 +166,19 @@
                                                                         @if ($item->foto_ktp)
                                                                             <!-- Teks sebagai trigger modal -->
                                                                             <p>
-                                                                                <a href="#"
-                                                                                    data-bs-toggle="modal"
+                                                                                {{-- <a href="#" data-bs-toggle="modal"
                                                                                     data-bs-target="#ktpModal">Lihat
-                                                                                    Foto KTP</a>
+                                                                                    Foto KTP</a> --}}
+
+                                                                                <br>
+                                                                                <a href="{{ asset('storage/' . $item->foto_ktp) }}"
+                                                                                    target="_blank">
+                                                                                    Lihat foto
+                                                                                </a>
                                                                             </p>
 
                                                                             <!-- Modal Bootstrap -->
-                                                                            <div class="modal fade" id="ktpModal"
+                                                                            {{-- <div class="modal fade" id="ktpModal"
                                                                                 tabindex="-1"
                                                                                 aria-labelledby="ktpModalLabel"
                                                                                 aria-hidden="true">
@@ -203,7 +202,7 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
+                                                                            </div> --}}
                                                                         @else
                                                                             <p>Tidak ada foto KTP</p>
                                                                         @endif
@@ -213,7 +212,8 @@
                                                                     <div class="mb-3">
                                                                         <label for="catatan_tambahan"
                                                                             class="form-label">Catatan Tambahan</label>
-                                                                        <textarea class="form-control" name="catatan_tambahan" id="catatan_tambahan" cols="30" rows="1" readonly>{{ $item->catatan_tambahan }}</textarea>
+                                                                        <textarea class="form-control" name="catatan_tambahan" id="catatan_tambahan" cols="30" rows="1"
+                                                                            readonly>{{ $item->catatan_tambahan }}</textarea>
                                                                     </div>
                                                                 </div>
                                                             </div>

@@ -273,11 +273,11 @@
                                                                     <div class="mb-3">
                                                                         <label for="bukti_kunjungan"
                                                                             class="form-label">Foto Bukti Kunjungan</label>
-                                                                        <input type="file" class="form-control"
-                                                                            name="bukti_kunjungan" id="bukti_kunjungan"
-                                                                            accept="image/*" disabled>
-                                                                        <small class="text-muted">Kosongkan jika tidak
-                                                                            ingin mengganti foto.</small>
+                                                                            <br>
+                                                                        <a href="{{ asset('storage/' . $item->bukti_kunjungan) }}"
+                                                                            target="_blank">
+                                                                            Lihat foto
+                                                                        </a>
                                                                     </div>
                                                                 </div>
 
