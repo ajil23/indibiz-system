@@ -13,11 +13,33 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class PelaporanKendaraanController extends Controller
 {
-    public function index(){
+    public function index(Request $request)
+    {
+        $search = $request->input('search');
+    
+        $pelaporanQuery = PelaporanKendaraan::with(['tnkb', 'user']);
+    
+        if ($search) {
+            $pelaporanQuery->where(function ($query) use ($search) {
+                $query->Where('tanggal_penggunaan', 'like', '%' . $search . '%')
+                    ->orWhere('lokasi_tujuan', 'like', '%' . $search . '%')
+                    ->orWhere('keterangan', 'like', '%' . $search . '%')
+                    ->orWhere('jumlah_odo', 'like', '%' . $search . '%')
+                    ->orWhereHas('tnkb', function ($q) use ($search) {
+                        $q->where('nomor_polisi', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('user', function ($q) use ($search) {
+                        $q->where('name', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+    
         $tnkb = Tnkb::all();
-        $pelaporan = PelaporanKendaraan::paginate(10);
+        $pelaporan = $pelaporanQuery->paginate(10)->appends(['search' => $search]);
+    
         return view('admin.pelaporan.index', compact('pelaporan', 'tnkb'));
     }
+    
 
     public function exportData(Request $request)
 {

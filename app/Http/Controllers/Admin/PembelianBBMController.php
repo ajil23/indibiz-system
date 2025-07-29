@@ -13,12 +13,44 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class PembelianBBMController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pembelian = PembelianBbm::paginate();
+        $search = $request->input('search');
+
+        $pembelianQuery = PembelianBbm::with(['tnkb', 'bbm', 'user']);
+
+        if ($search) {
+            $pembelianQuery->where(function ($query) use ($search) {
+                $query->where('tanggal_pembelian', 'like', '%' . $search . '%')
+                    ->orWhere('lokasi_tujuan', 'like', '%' . $search . '%')
+                    ->orWhere('lokasi_pembelian', 'like', '%' . $search . '%')
+                    ->orWhere('harga', 'like', '%' . $search . '%')
+                    ->orWhere('total_pembelian', 'like', '%' . $search . '%')
+                    ->orWhere('keterangan', 'like', '%' . $search . '%')
+
+                    // Relasi ke tabel users (nama sales)
+                    ->orWhereHas('user', function ($q) use ($search) {
+                        $q->where('name', 'like', '%' . $search . '%');
+                    })
+
+                    // Relasi ke tabel tnkb (nomor polisi)
+                    ->orWhereHas('tnkb', function ($q) use ($search) {
+                        $q->where('nomor_polisi', 'like', '%' . $search . '%');
+                    })
+
+                    // Relasi ke tabel bbm (jenis bbm)
+                    ->orWhereHas('bbm', function ($q) use ($search) {
+                        $q->where('nama_bbm', 'like', '%' . $search . '%');
+                    });                    
+            });
+        }
+
+        $pembelian = $pembelianQuery->paginate(10)->appends(['search' => $search]);
+
         $tnkb = Tnkb::all();
         $bbm = BahanBakar::all();
-        return view('admin.pembelianBBM.index', compact('pembelian', 'tnkb', 'bbm'));
+
+        return view('admin.pembelianBBM.index', compact('pembelian', 'tnkb', 'bbm', 'search'));
     }
 
     public function store(Request $request)

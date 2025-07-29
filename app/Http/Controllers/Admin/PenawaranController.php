@@ -14,14 +14,40 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class PenawaranController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $sales = User::all();
         $lokasi = Lokasi::all();
         $produk = JenisProduk::all();
-        $penawaran = Penawaran::paginate(10);
+
+        $search = $request->input('search');
+
+        $penawaranQuery = Penawaran::with(['user', 'kategori_lokasi', 'produk']);
+
+        if ($search) {
+            $penawaranQuery->where(function ($query) use ($search) {
+                $query->whereHas('user', function ($q) use ($search) {
+                        $q->where('name', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('kategori_lokasi', function ($q) use ($search) {
+                        $q->where('nama_sektor', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('produk', function ($q) use ($search) {
+                        $q->where('nama', 'like', '%' . $search . '%');
+                    })
+                    
+                    ->orWhere('nama_lokasi', 'like', '%' . $search . '%')
+                    ->orWhere('keterangan', 'like', '%' . $search . '%')
+                    ->orWhere('feedback', 'like', '%' . $search . '%')
+                    ->orWhere('pic', 'like', '%' . $search . '%');
+            });
+        }
+
+        $penawaran = $penawaranQuery->paginate(10)->appends(['search' => $search]);
+
         return view('admin.penawaran.index', compact('sales', 'lokasi', 'penawaran', 'produk'));
     }
+
 
     public function store(Request $request)
     {
