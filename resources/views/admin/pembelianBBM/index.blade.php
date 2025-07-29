@@ -22,6 +22,12 @@
                         </button>
                     </div>
                     <div class="card-body">
+                        <form action="{{ route('pembelian.index') }}" method="GET"
+                            class="mb-3 d-flex justify-content-end">
+                            <input type="text" name="search" class="form-control w-auto me-2" placeholder="Cari..."
+                                value="{{ request('search') }}">
+                            <button type="submit" class="btn btn-sm btn-primary">Cari</button>
+                        </form>
                         <div class="table-responsive">
                             <table class="table m-0 table-striped">
                                 <thead>
@@ -131,7 +137,8 @@
                                                             <!-- Kolom Kanan -->
                                                             <div class="col-md-6">
                                                                 <div class="mb-3">
-                                                                    <label for="lokasi_pembelian" class="form-label">Lokasi
+                                                                    <label for="lokasi_pembelian"
+                                                                        class="form-label">Lokasi
                                                                         Pembelian</label>
                                                                     <input type="text" class="form-control"
                                                                         id="lokasi_pembelian" name="lokasi_pembelian"
@@ -148,7 +155,6 @@
                                                                                 {{ $tnkbItem->id == $item->tnkb_id ? 'selected' : '' }}>
                                                                                 {{ $tnkbItem->kendaraan }}
                                                                                 ({{ $tnkbItem->nomor_polisi }})
-
                                                                             </option>
                                                                         @endforeach
                                                                     </select>
@@ -184,7 +190,7 @@
                                                         <div class="mb-3">
                                                             <label for="foto_nota" class="form-label">Foto
                                                                 Nota</label>
-                                                                <br>
+                                                            <br>
                                                             <a href="{{ asset('storage/' . $item->foto_nota) }}"
                                                                 target="_blank">
                                                                 Lihat foto
@@ -192,16 +198,11 @@
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="keterangan" class="form-label">Keterangan</label>
-                                                            <textarea class="form-control" id="keterangan" name="keterangan" rows="3">{{ $item->keterangan }}</textarea>
+                                                            <textarea class="form-control" id="keterangan" readonly name="keterangan" rows="3">{{ $item->keterangan }}</textarea>
                                                         </div>
                                                     </div>
 
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Batal</button>
-                                                        <button type="submit" class="btn btn-primary">Simpan
-                                                            Perubahan</button>
-                                                    </div>
+
                                                 </div>
                                                 </form>
                                             </div>

@@ -14,12 +14,40 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class PenjualanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $penjualan = Penjualan::paginate(10);
+        $search = $request->input('search');
+
+        $penjualanQuery = Penjualan::with(['user', 'kategori_lokasi', 'jenis_produk']);
+
+        if ($search) {
+            $penjualanQuery->where(function ($query) use ($search) {
+                $query->where('nama_pelanggan', 'like', '%' . $search . '%')
+                    ->orWhere('alamat', 'like', '%' . $search . '%')
+                    ->orWhere('lokasi_usaha', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%')
+                    ->orWhere('nomor_hp', 'like', '%' . $search . '%')
+                    ->orWhere('keterangan', 'like', '%' . $search . '%')
+                    ->orWhere('status', 'like', '%' . $search . '%')
+                    ->orWhere('catatan_tambahan', 'like', '%' . $search . '%')
+                    ->orWhereHas('user', function ($q) use ($search) {
+                        $q->where('name', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('kategori_lokasi', function ($q) use ($search) {
+                        $q->where('nama_sektor', 'like', '%' . $search . '%');
+                    })                    
+                    ->orWhereHas('jenis_produk', function ($q) use ($search) {
+                        $q->where('nama', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+
+        $penjualan = $penjualanQuery->paginate(10)->appends(['search' => $search]);
+
         $sales = User::all();
         $produk = JenisProduk::all();
         $lokasi = Lokasi::all();
+
         return view('admin.penjualan.index', compact('penjualan', 'sales', 'produk', 'lokasi'));
     }
 

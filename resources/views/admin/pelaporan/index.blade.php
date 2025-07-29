@@ -22,6 +22,12 @@
                         </button>
                     </div>
                     <div class="card-body">
+                        <form action="{{ route('pelaporan.index') }}" method="GET"
+                            class="mb-3 d-flex justify-content-end">
+                            <input type="text" name="search" class="form-control w-auto me-2"
+                                placeholder="Cari..." value="{{ request('search') }}">
+                            <button type="submit" class="btn btn-sm btn-primary">Cari</button>
+                        </form>
                         <div class="table-responsive">
                             <table class="table m-0 table-striped">
                                 <thead>

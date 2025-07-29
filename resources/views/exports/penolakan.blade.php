@@ -62,18 +62,28 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($data as $index => $item)
+            @php $no = 1; @endphp
+            @foreach($data as $kategori => $items)
+                {{-- Baris kategori --}}
                 <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $item->nama_lokasi }}</td>
-                    <td>{{ $item->alamat }}</td>
-                    <td>{{ \Carbon\Carbon::parse($item->tanggal_kunjungan)->format('d F Y H:i') }}</td>
-                    <td>{{ $item->catatan_penolakan }}</td>
-                    <td>{{ $item->user->name ?? '-' }}</td>
-                    <td>{{ $item->jenis_produk->nama ?? '-' }}</td>
+                    <td colspan="7"><strong>Kategori: {{ $kategori }}</strong></td>
                 </tr>
+        
+                {{-- Baris data penolakan --}}
+                @foreach($items as $item)
+                    <tr>
+                        <td>{{ $no++ }}</td>
+                        <td>{{ $item->nama_lokasi }}</td>
+                        <td>{{ $item->alamat }}</td>
+                        <td>{{ \Carbon\Carbon::parse($item->tanggal_kunjungan)->format('d F Y H:i') }}</td>
+                        <td>{{ $item->catatan_penolakan }}</td>
+                        <td>{{ $item->user->name ?? '-' }}</td>
+                        <td>{{ $item->jenis_produk->nama ?? '-' }}</td>
+                    </tr>
+                @endforeach
             @endforeach
         </tbody>
+        
     </table>
 
     <div class="footer">
